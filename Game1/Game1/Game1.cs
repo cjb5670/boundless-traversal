@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace Game1
 {
     /// <summary>
+    /// 
     /// This is the main type for your game.
     /// </summary>
     /// 
