@@ -7,14 +7,27 @@ namespace Game1
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
+    /// 
+   
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //Createing basic sprite objects These should be added to each class for the different objects
+        Texture2D Floor; //Background used for each room
+        Texture2D fullWall; //A wall that isnt open 
+        Texture2D doorWall; //The wall with an opening for a door
+        Texture2D sealedDoor; // a door that you cant walk through
+        Texture2D openDoor; //Open door
+        Texture2D Character; //The character's sprite
+        Texture2D Enemy; //The enemy sprite
+        Texture2D logo; //Game's logo
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            
             Content.RootDirectory = "Content";
         }
 
@@ -59,9 +72,15 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Commented out because exiting without a prompt is useless
+             //   Exit();
 
+
+            if (Keyboard.GetState().IsKeyDown(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
+            {
+                graphics.ToggleFullScreen();
+                graphics.ApplyChanges();
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
