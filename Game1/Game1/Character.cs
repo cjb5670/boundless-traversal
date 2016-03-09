@@ -9,5 +9,8 @@ namespace Game1
 {
     class Character : GameObject
     {
+        double healthPoints;
+        double moveSpeed;
+
     }
 }
