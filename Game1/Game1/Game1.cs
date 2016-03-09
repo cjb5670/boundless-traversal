@@ -8,7 +8,7 @@ namespace Game1
     /// This is the main type for your game.
     /// </summary>
     /// 
-   
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -22,6 +22,8 @@ namespace Game1
         Texture2D Character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
+        KeyboardState kbState; //2 Keboard states for toggeling items
+        KeyboardState previousKbState;
         enum GameState
         {
             MainMenu,
@@ -34,7 +36,13 @@ namespace Game1
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            
+            //This changes the size and location of the window dont mess with it
+            graphics.HardwareModeSwitch = false;
+            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(this.Window.Handle);
+            form.Location = new System.Drawing.Point(-9, 0);
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -79,11 +87,12 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Commented out because exiting without a prompt is useless
-             //   Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
+                Exit();
 
-
-            if (Keyboard.GetState().IsKeyDown(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
+            previousKbState = kbState;
+            kbState = Keyboard.GetState();
+            if (SingleKeyPress(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
             {
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
@@ -104,6 +113,15 @@ namespace Game1
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        //prevents a key from being pressed multiple times
+        public bool SingleKeyPress(Keys k)
+        {
+
+            if (kbState.IsKeyDown(k) && previousKbState.IsKeyUp(k))
+            { return true; }
+            return false;
         }
     }
 }
