@@ -22,8 +22,15 @@ namespace Game1
         Texture2D Character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
-
-
+        enum GameState
+        {
+            MainMenu,
+            PauseMenu,
+            ItemMenu,
+            PlayGame,
+            Gameover
+        }
+        GameState state;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -40,7 +47,7 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            state = GameState.MainMenu;
             base.Initialize();
         }
 
