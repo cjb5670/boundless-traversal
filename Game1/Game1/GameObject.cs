@@ -7,9 +7,18 @@ using System.Text;
 
 namespace Game1
 {
-    class GameObject
+    public class GameObject
     {
-        Texture2D sprite;
-        Rectangle hitBox;   
+        //Gameobject Variables
+        private Texture2D sprite;
+        private Rectangle hitBox;   
+
+        //Default Constructor
+        public GameObject()
+        {
+
+        }
+
+
     }
 }
