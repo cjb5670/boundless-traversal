@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -24,24 +25,22 @@ namespace Game1
         Texture2D logo; //Game's logo
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
+        
+        MouseState ms;
         enum GameState
         {
-            MainMenu,
-            PauseMenu,
-            ItemMenu,
-            PlayGame,
-            Gameover
+            MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
         }
+        Character mainChar;
         GameState state;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             //This changes the size and location of the window dont mess with it
             graphics.HardwareModeSwitch = false;
-            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(this.Window.Handle);
-            form.Location = new System.Drawing.Point(-9, 0);
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -56,6 +55,9 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             state = GameState.MainMenu;
+            mainChar = new Character(100, 100, 40);
+            this.IsMouseVisible = true;
+           
             base.Initialize();
         }
 
@@ -67,7 +69,8 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Character = Content.Load<Texture2D>("Character.png");
+            mainChar.SetSprite(Character);
             // TODO: use this.Content to load your game content here
         }
 
@@ -89,6 +92,12 @@ namespace Game1
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
+            ms = Mouse.GetState();
+            
+            float xdist = ms.X - mainChar.loc.Center.X;
+            float ydist = ms.Y - mainChar.loc.Center.Y;
+            double rotate = System.Math.Atan2(xdist, xdist);
+            
 
             previousKbState = kbState;
             kbState = Keyboard.GetState();
@@ -97,7 +106,10 @@ namespace Game1
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
             }
+
+
             // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }
@@ -109,9 +121,10 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, Color.Black);
             // TODO: Add your drawing code here
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
 
