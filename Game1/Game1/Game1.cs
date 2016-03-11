@@ -96,6 +96,22 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            switch (state)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.ItemMenu:
+                    break;
+                case GameState.PlayGame:
+                    break;
+                case GameState.PauseMenu:
+                    break;
+                case GameState.Gameover:
+                    break;
+            }
+
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
 
