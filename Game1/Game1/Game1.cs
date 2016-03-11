@@ -69,6 +69,15 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            Floor = Content.Load<Texture2D>(); //Background used for each room
+            fullWall = Content.Load<Texture2D>(); //A wall that isnt open 
+            doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
+            sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
+            openDoor = Content.Load<Texture2D>(); //Open door
+            Character = Content.Load<Texture2D>(); //The character's sprite
+            Enemy = Content.Load<Texture2D>(); //The enemy sprite
+            logo = Content.Load<Texture2D>(); //Game's logo
         }
 
         /// <summary>
