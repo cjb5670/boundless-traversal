@@ -107,6 +107,10 @@ namespace Game1
                 case GameState.ItemMenu:
                     break;
                 case GameState.PlayGame:
+                    /* 
+                    previousKbState = kbState;
+                    kbState = Keyboard.GetState();
+                    */
                     break;
                 case GameState.PauseMenu:
                     break;
@@ -139,6 +143,43 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
+
+            switch (state)
+            {
+                case GameState.MainMenu:
+                    //menu background texture
+                    //menu filler art
+                    //spriteBatch.Draw(logo, logoPos, Color.White);
+                    //main menu buttons
+                    break;
+                case GameState.ItemMenu:
+                    //menu background texture
+                    //spriteBatch.DrawString(font, "Item Menu:", textPos, Color.White);
+                    break;
+                case GameState.PlayGame:
+                    //walls, doors textures
+                    //floor texture
+                    //health bar, current weapon box
+                    //spriteBatch.Draw(Character, characterPos, Color.White);
+                    //enemies
+                    //collision animations (create a method for this)
+                    break;
+                case GameState.PauseMenu:
+                    //menu background texture
+                    //menu filler art
+                    //spriteBatch.DrawString(font, "Game Paused", textPos, Color.White);
+                    //pause menu buttons
+                    break;
+                case GameState.Gameover:
+                    //game over background texture
+                    //final stats
+                    //buttons, back to main menu
+                    break;
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
