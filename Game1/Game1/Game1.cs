@@ -22,6 +22,8 @@ namespace Game1
         Texture2D Character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
+        //Game Objects
+        Player player;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         enum GameState
@@ -56,6 +58,7 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             state = GameState.MainMenu;
+            player = new Player();
             base.Initialize();
         }
 
@@ -147,6 +150,12 @@ namespace Game1
             if (kbState.IsKeyDown(k) && previousKbState.IsKeyUp(k))
             { return true; }
             return false;
+        }
+
+        //Controls player wasd movement
+        public void CharMovement(Character thing)
+        {
+
         }
     }
 }
