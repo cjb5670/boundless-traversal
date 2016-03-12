@@ -7,32 +7,44 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Character 
+    public class Character : GameObject
     {
-        double healthPoints;
-        double moveSpeed;
-        Texture2D sprite;
-        public Circle loc;
-        
-        
+        //Character variables
+        private double maxHP;//Max character hp
+        private double moveSpeed;//Charcter movement speed modifier
+
+        //Default Constructor
         public Character()
         {
-
-        }
-        public Character(int x, int y, float radius) 
-        {
-            loc = new Circle(new Vector2(x, y), radius);
-        }
-        public void SetSprite(Texture2D text)
-        {
-            sprite = text;
         }
 
-        public Texture2D getSprite()
+        //Main Constructor
+        public Character(int hp, int ms)
         {
-            return sprite;
+            maxHP = hp;
+            moveSpeed = ms;
+        }
+
+        //Properties
+        public double MaxHP
+        {
+            get
+            {
+                return maxHP;
+            }
+        }
+
+        public double MoveSpeed
+        {
+            get
+            {
+                return moveSpeed;
+            }
+
+            set
+            {
+                moveSpeed = value;
+            }
         }
     }
-
 }
-

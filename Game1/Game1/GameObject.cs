@@ -7,29 +7,18 @@ using System.Text;
 
 namespace Game1
 {
-    class GameObject
+    public class GameObject
     {
-        Texture2D sprite;
-        public Rectangle hitBox;  
+        //Gameobject Variables
+        private Texture2D sprite;
+        private Rectangle hitBox;   
+
+        //Default Constructor
         public GameObject()
         {
 
         }
-        public GameObject(int x, int y, int width, int height)
-        {
-            hitBox.X = x;
-            hitBox.Y = y;
-            hitBox.Width = width;
-            hitBox.Height = height;
-        }
-        public void SetSprite(Texture2D text)
-        {
-            sprite = text;
-        }
 
-        public Texture2D getSprite()
-        {
-            return sprite;
-        }
+
     }
 }

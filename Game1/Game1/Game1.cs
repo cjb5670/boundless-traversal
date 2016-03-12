@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -23,24 +22,28 @@ namespace Game1
         Texture2D Character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
+        //Game Objects
+        Player player;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
-        
-        MouseState ms;
         enum GameState
         {
-            MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
+            MainMenu,
+            PauseMenu,
+            ItemMenu,
+            PlayGame,
+            Gameover
         }
-        Character mainChar;
         GameState state;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             //This changes the size and location of the window dont mess with it
             graphics.HardwareModeSwitch = false;
-            
-            graphics.PreferredBackBufferWidth = 1600;
-            graphics.PreferredBackBufferHeight = 900;
+            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(this.Window.Handle);
+            form.Location = new System.Drawing.Point(-9, 0);
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -55,9 +58,7 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             state = GameState.MainMenu;
-            mainChar = new Character(100, 100, 40);
-            this.IsMouseVisible = true;
-           
+            player = new Player();
             base.Initialize();
         }
 
@@ -69,9 +70,17 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Character = Content.Load<Texture2D>("Character.png");
-            mainChar.SetSprite(Character);
+
             // TODO: use this.Content to load your game content here
+            /*
+            Floor = Content.Load<Texture2D>(); //Background used for each room
+            fullWall = Content.Load<Texture2D>(); //A wall that isnt open 
+            doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
+            sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
+            openDoor = Content.Load<Texture2D>(); //Open door
+            Character = Content.Load<Texture2D>(); //The character's sprite
+            Enemy = Content.Load<Texture2D>(); //The enemy sprite
+            logo = Content.Load<Texture2D>(); //Game's logo */
         }
 
         /// <summary>
@@ -90,14 +99,28 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            switch (state)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.ItemMenu:
+                    break;
+                case GameState.PlayGame:
+                    /* 
+                    previousKbState = kbState;
+                    kbState = Keyboard.GetState();
+                    */
+                    break;
+                case GameState.PauseMenu:
+                    break;
+                case GameState.Gameover:
+                    break;
+            }
+
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
-            ms = Mouse.GetState();
-            
-            float xdist = ms.X - mainChar.loc.Center.X;
-            float ydist = ms.Y - mainChar.loc.Center.Y;
-            double rotate = System.Math.Atan2(xdist, xdist);
-            
 
             previousKbState = kbState;
             kbState = Keyboard.GetState();
@@ -106,10 +129,7 @@ namespace Game1
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
             }
-
-
             // TODO: Add your update logic here
-
 
             base.Update(gameTime);
         }
@@ -121,10 +141,46 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, Color.Black);
+
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
+
+            switch (state)
+            {
+                case GameState.MainMenu:
+                    //menu background texture
+                    //menu filler art
+                    //spriteBatch.Draw(logo, logoPos, Color.White);
+                    //main menu buttons
+                    break;
+                case GameState.ItemMenu:
+                    //menu background texture
+                    //spriteBatch.DrawString(font, "Item Menu:", textPos, Color.White);
+                    break;
+                case GameState.PlayGame:
+                    //walls, doors textures
+                    //floor texture
+                    //health bar, current weapon box
+                    //spriteBatch.Draw(Character, characterPos, Color.White);
+                    //enemies
+                    //collision animations (create a method for this)
+                    break;
+                case GameState.PauseMenu:
+                    //menu background texture
+                    //menu filler art
+                    //spriteBatch.DrawString(font, "Game Paused", textPos, Color.White);
+                    //pause menu buttons
+                    break;
+                case GameState.Gameover:
+                    //game over background texture
+                    //final stats
+                    //buttons, back to main menu
+                    break;
+            }
+
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
 
@@ -135,6 +191,12 @@ namespace Game1
             if (kbState.IsKeyDown(k) && previousKbState.IsKeyUp(k))
             { return true; }
             return false;
+        }
+
+        //Controls player wasd movement
+        public void CharMovement(Character thing)
+        {
+
         }
     }
 }
