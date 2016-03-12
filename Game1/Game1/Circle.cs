@@ -10,13 +10,15 @@ namespace Game1
     //Circle http://rbwhitaker.wikidot.com/circle-collision-detection
     public struct Circle
     {
-        public Vector2 Center { get; set; }
-        public float Radius { get; set; }
+        public Vector2 Center;
+        public float Radius;
 
         public Circle(Vector2 center, float radius)
         {
             Center = center;
             Radius = radius;
         }
+
+
     }
 }

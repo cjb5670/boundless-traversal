@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -26,24 +27,22 @@ namespace Game1
         Player player;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
+        float rotate;
+        MouseState ms;
         enum GameState
         {
-            MainMenu,
-            PauseMenu,
-            ItemMenu,
-            PlayGame,
-            Gameover
+            MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
         }
+        Character mainChar;
         GameState state;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             //This changes the size and location of the window dont mess with it
             graphics.HardwareModeSwitch = false;
-            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(this.Window.Handle);
-            form.Location = new System.Drawing.Point(-9, 0);
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
@@ -58,7 +57,11 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             state = GameState.MainMenu;
-            player = new Player();
+
+            mainChar = new Character(500, 500, 34);
+            this.IsMouseVisible = true;
+
+
             base.Initialize();
         }
 
@@ -70,7 +73,8 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Character = Content.Load<Texture2D>("Character.png");
+            mainChar.SetSprite(Character);
             // TODO: use this.Content to load your game content here
             /*
             Floor = Content.Load<Texture2D>(); //Background used for each room
@@ -97,6 +101,7 @@ namespace Game1
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
         protected override void Update(GameTime gameTime)
         {
 
@@ -121,6 +126,12 @@ namespace Game1
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
+            ms = Mouse.GetState();
+            //for some reason this gets more off when you move away from the origin so i put in a function to fix it while not exact, it works
+            float xdist = ms.X - mainChar.loc.Center.X + (float)(.037 * mainChar.loc.Center.X);
+            float ydist = ms.Y - mainChar.loc.Center.Y + (float)(.065 * mainChar.loc.Center.Y);
+            rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
+
 
             previousKbState = kbState;
             kbState = Keyboard.GetState();
@@ -129,7 +140,10 @@ namespace Game1
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
             }
+
+
             // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }
@@ -141,10 +155,13 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin();
+
+
+
 
             switch (state)
             {
@@ -181,6 +198,7 @@ namespace Game1
 
             spriteBatch.End();
 
+
             base.Draw(gameTime);
         }
 
@@ -194,9 +212,9 @@ namespace Game1
         }
 
         //Controls player wasd movement
-        public void CharMovement(Character thing)
-        {
+        //public void CharMovement(Character thing)
+        //  {
 
-        }
+        // }
     }
 }
