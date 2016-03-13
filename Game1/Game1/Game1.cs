@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using System;
 namespace Game1
 {
     /// <summary>
@@ -27,13 +27,21 @@ namespace Game1
         Player player;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
+        Vector2 movement;
         float rotate;
         MouseState ms;
+        //enum for Game State
         enum GameState
         {
             MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
         }
+        //enum for player movement
+        enum PlayerMovement
+        {
+            North,South,East,West,NorthEast,NorthWest,SouthEast,SouthWest,Static
+        }
         Character mainChar;
+        PlayerMovement direction;
         GameState state;
         public Game1()
         {
@@ -57,7 +65,7 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             state = GameState.MainMenu;
-
+            direction = PlayerMovement.Static;
             mainChar = new Character(500, 500, 34);
             this.IsMouseVisible = true;
 
@@ -104,6 +112,8 @@ namespace Game1
 
         protected override void Update(GameTime gameTime)
         {
+            previousKbState = kbState;
+            kbState = Keyboard.GetState();
 
             switch (state)
             {
@@ -112,18 +122,14 @@ namespace Game1
                 case GameState.ItemMenu:
                     break;
                 case GameState.PlayGame:
-                    /* 
-                    previousKbState = kbState;
-                    kbState = Keyboard.GetState();
-                    */
-                    break;
+                     break;
                 case GameState.PauseMenu:
                     break;
                 case GameState.Gameover:
                     break;
             }
 
-
+            CharacterMovement(mainChar);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
             ms = Mouse.GetState();
@@ -132,9 +138,6 @@ namespace Game1
             float ydist = ms.Y - mainChar.loc.Center.Y + (float)(.065 * mainChar.loc.Center.Y);
             rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
-
-            previousKbState = kbState;
-            kbState = Keyboard.GetState();
             if (SingleKeyPress(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
             {
                 graphics.ToggleFullScreen();
@@ -156,7 +159,7 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
             // TODO: Add your drawing code here
 
 
@@ -212,9 +215,75 @@ namespace Game1
         }
 
         //Controls player wasd movement
-        //public void CharMovement(Character thing)
-        //  {
+        public void CharacterMovement(Character mc)
+        {
+            /*Code when we choose to use enums for player movement when we implement animations
+            switch(direction)
+            {
+                case PlayerMovement.North:
+                    break;
+                case PlayerMovement.South:
+                    break;
+                case PlayerMovement.West:
+                    break;
+                case PlayerMovement.East:
+                    break;
+                case PlayerMovement.NorthWest:
+                    break;
+                case PlayerMovement.NorthEast:
+                    break;
+                case PlayerMovement.SouthEast:
+                    break;
+                case PlayerMovement.SouthWest:
+                    break;
+                case PlayerMovement.Static:
+                    break;
+              }
+            */
+            //Basic movement code for testing
+            if (kbState.IsKeyDown(Keys.W))
+            {
+                 if (kbState.IsKeyDown(Keys.A))
+                    movement = new Vector2(-(float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                else if (kbState.IsKeyDown(Keys.D))
+                    movement = new Vector2((float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                else
+                    movement = new Vector2(0, -10);
+            }
+            else if (kbState.IsKeyDown(Keys.S))
+            {
+                if (kbState.IsKeyDown(Keys.A))
+                    movement = new Vector2(-(float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                else if (kbState.IsKeyDown(Keys.D))
+                    movement = new Vector2((float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                else
+                    movement = new Vector2(0, 10);
 
-        // }
+            }
+            else if (kbState.IsKeyDown(Keys.A))
+            {
+                if (kbState.IsKeyDown(Keys.W))
+                    movement = new Vector2(-(float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                else if (kbState.IsKeyDown(Keys.S))
+                    movement = new Vector2(-(float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                else
+                    movement = new Vector2(-10, 0);
+            }
+            else if (kbState.IsKeyDown(Keys.D))
+            {
+                if (kbState.IsKeyDown(Keys.W))
+                    movement = new Vector2((float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                else if (kbState.IsKeyDown(Keys.S))
+                    movement = new Vector2((float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                else
+                    movement = new Vector2(10, 0);
+            }
+            else
+            {
+                movement = new Vector2(0, 0);
+            }
+
+            mc.loc.Center += movement;
+        }
     }
 }

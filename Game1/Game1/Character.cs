@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Game1
 {
 
-    class Character
+     public class Character
     {
         double healthPoints;
         double moveSpeed;
@@ -19,7 +19,6 @@ namespace Game1
 
         public Character()
         {
-
         }
         public Character(int x, int y, float radius)
         {
