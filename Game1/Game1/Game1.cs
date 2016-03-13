@@ -28,6 +28,7 @@ namespace Game1
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
+        int movespeed;
         float rotate;
         MouseState ms;
         //enum for Game State
@@ -68,7 +69,7 @@ namespace Game1
             direction = PlayerMovement.Static;
             mainChar = new Character(500, 500, 34);
             this.IsMouseVisible = true;
-
+            movespeed = 10;
 
             base.Initialize();
         }
@@ -241,21 +242,22 @@ namespace Game1
               }
             */
             //Basic movement code for testing
+            float speedmodifier = (float)(Math.Cos(0.785398) * movespeed);
             if (kbState.IsKeyDown(Keys.W))
             {
                  if (kbState.IsKeyDown(Keys.A))
-                    movement = new Vector2(-(float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                    movement = new Vector2(-speedmodifier, -speedmodifier);
                 else if (kbState.IsKeyDown(Keys.D))
-                    movement = new Vector2((float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                    movement = new Vector2(speedmodifier, -speedmodifier);
                 else
                     movement = new Vector2(0, -10);
             }
             else if (kbState.IsKeyDown(Keys.S))
             {
                 if (kbState.IsKeyDown(Keys.A))
-                    movement = new Vector2(-(float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                    movement = new Vector2(-speedmodifier, speedmodifier);
                 else if (kbState.IsKeyDown(Keys.D))
-                    movement = new Vector2((float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                    movement = new Vector2(speedmodifier, speedmodifier);
                 else
                     movement = new Vector2(0, 10);
 
@@ -263,20 +265,21 @@ namespace Game1
             else if (kbState.IsKeyDown(Keys.A))
             {
                 if (kbState.IsKeyDown(Keys.W))
-                    movement = new Vector2(-(float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                    movement = new Vector2(-speedmodifier, -speedmodifier);
                 else if (kbState.IsKeyDown(Keys.S))
-                    movement = new Vector2(-(float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                    movement = new Vector2(-speedmodifier, speedmodifier);
                 else
                     movement = new Vector2(-10, 0);
             }
             else if (kbState.IsKeyDown(Keys.D))
             {
                 if (kbState.IsKeyDown(Keys.W))
-                    movement = new Vector2((float)Math.Sqrt(10), -(float)Math.Sqrt(10));
+                    movement = new Vector2(speedmodifier, -speedmodifier);
                 else if (kbState.IsKeyDown(Keys.S))
-                    movement = new Vector2((float)Math.Sqrt(10), (float)Math.Sqrt(10));
+                    movement = new Vector2(speedmodifier, speedmodifier);
                 else
                     movement = new Vector2(10, 0);
+                
             }
             else
             {
