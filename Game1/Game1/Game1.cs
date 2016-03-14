@@ -24,12 +24,13 @@ namespace Game1
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
         //Game Objects
-        Player player;
+        Enemy z1;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
         int movespeed;
         float rotate;
+        float rotate2;
         MouseState ms;
         //enum for Game State
         enum GameState
@@ -70,7 +71,7 @@ namespace Game1
             mainChar = new Character(500, 500, 34);
             this.IsMouseVisible = true;
             movespeed = 10;
-
+            z1 = new Enemy(800, 200, 123);
             base.Initialize();
         }
 
@@ -83,7 +84,9 @@ namespace Game1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Character = Content.Load<Texture2D>("Character.png");
+            Enemy = Content.Load<Texture2D>("Enemy.png");
             mainChar.SetSprite(Character);
+            z1.SetSprite(Enemy);
             // TODO: use this.Content to load your game content here
             /*
             Floor = Content.Load<Texture2D>(); //Background used for each room
@@ -131,14 +134,22 @@ namespace Game1
             }
 
             CharacterMovement(mainChar);
+            mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius, 1600-mainChar.loc.Radius);
+            mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius, 900 - mainChar.loc.Radius);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
             ms = Mouse.GetState();
-            //for some reason this gets more off when you move away from the origin so i put in a function to fix it while not exact, it works
+            //rotates the character to the mouse
             float xdist = ms.X - mainChar.loc.Center.X;  
             float ydist = ms.Y - mainChar.loc.Center.Y; 
             rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
-
+            
+            //rotates the enemy to the character
+            xdist = mainChar.loc.Center.X - z1.loc.Center.X;
+            ydist = mainChar.loc.Center.Y - z1.loc.Center.Y;
+            rotate2 = (float)(Math.Atan2(ydist, xdist)+ 1.570);
+            z1.followChar(mainChar);
+            
             if (SingleKeyPress(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
             {
                 graphics.ToggleFullScreen();
@@ -160,9 +171,9 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
+            spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
             // TODO: Add your drawing code here
-
+            spriteBatch.Draw(z1.getSprite(), z1.loc.Center, null, Color.White, rotate2, z1.origin, 1.0f, SpriteEffects.None, 0f);
 
 
 
@@ -243,44 +254,48 @@ namespace Game1
             */
             //Basic movement code for testing
             float speedmodifier = (float)(Math.Cos(0.785398) * movespeed);
+
+            //move north
             if (kbState.IsKeyDown(Keys.W))
             {
-                 if (kbState.IsKeyDown(Keys.A))
+                //move north west
+                if (kbState.IsKeyDown(Keys.A))
+                {
                     movement = new Vector2(-speedmodifier, -speedmodifier);
+                    
+                }
+                //move north east
                 else if (kbState.IsKeyDown(Keys.D))
                     movement = new Vector2(speedmodifier, -speedmodifier);
+
                 else
                     movement = new Vector2(0, -10);
             }
+
             else if (kbState.IsKeyDown(Keys.S))
             {
+
                 if (kbState.IsKeyDown(Keys.A))
                     movement = new Vector2(-speedmodifier, speedmodifier);
+
                 else if (kbState.IsKeyDown(Keys.D))
                     movement = new Vector2(speedmodifier, speedmodifier);
+
                 else
                     movement = new Vector2(0, 10);
 
             }
+
             else if (kbState.IsKeyDown(Keys.A))
             {
-                if (kbState.IsKeyDown(Keys.W))
-                    movement = new Vector2(-speedmodifier, -speedmodifier);
-                else if (kbState.IsKeyDown(Keys.S))
-                    movement = new Vector2(-speedmodifier, speedmodifier);
-                else
                     movement = new Vector2(-10, 0);
             }
+
             else if (kbState.IsKeyDown(Keys.D))
             {
-                if (kbState.IsKeyDown(Keys.W))
-                    movement = new Vector2(speedmodifier, -speedmodifier);
-                else if (kbState.IsKeyDown(Keys.S))
-                    movement = new Vector2(speedmodifier, speedmodifier);
-                else
                     movement = new Vector2(10, 0);
-                
             }
+
             else
             {
                 movement = new Vector2(0, 0);
@@ -288,5 +303,7 @@ namespace Game1
 
             mc.loc.Center += movement;
         }
+
+        
     }
 }

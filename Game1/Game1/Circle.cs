@@ -18,6 +18,7 @@ namespace Game1
             Center = center;
             Radius = radius;
         }
+        
 
 
     }

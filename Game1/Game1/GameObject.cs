@@ -18,7 +18,10 @@ namespace Game1
         {
 
         }
-
+        public Rectangle getHitBox()
+        {
+            return hitBox;
+        }
 
     }
 }
