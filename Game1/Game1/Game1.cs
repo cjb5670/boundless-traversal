@@ -23,6 +23,7 @@ namespace Game1
         Texture2D Character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
+        Texture2D menuBG; //Background for menu screens
         //Game Objects
         Player player;
         KeyboardState kbState; //2 Keboard states for toggeling items
@@ -94,6 +95,7 @@ namespace Game1
             Character = Content.Load<Texture2D>(); //The character's sprite
             Enemy = Content.Load<Texture2D>(); //The enemy sprite
             logo = Content.Load<Texture2D>(); //Game's logo */
+            menuBG = Content.Load<Texture2D>("oldpaper.jpg");
         }
 
         /// <summary>
@@ -170,13 +172,13 @@ namespace Game1
             switch (state)
             {
                 case GameState.MainMenu:
-                    //menu background texture
+                    //spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
                     //menu filler art
                     //spriteBatch.Draw(logo, logoPos, Color.White);
                     //main menu buttons
                     break;
                 case GameState.ItemMenu:
-                    //menu background texture
+                    //spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
                     //spriteBatch.DrawString(font, "Item Menu:", textPos, Color.White);
                     break;
                 case GameState.PlayGame:
@@ -188,7 +190,7 @@ namespace Game1
                     //collision animations (create a method for this)
                     break;
                 case GameState.PauseMenu:
-                    //menu background texture
+                    //spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
                     //menu filler art
                     //spriteBatch.DrawString(font, "Game Paused", textPos, Color.White);
                     //pause menu buttons
