@@ -135,8 +135,8 @@ namespace Game1
                 Exit();
             ms = Mouse.GetState();
             //for some reason this gets more off when you move away from the origin so i put in a function to fix it while not exact, it works
-            float xdist = ms.X - mainChar.loc.Center.X + (float)(.037 * mainChar.loc.Center.X);
-            float ydist = ms.Y - mainChar.loc.Center.Y + (float)(.065 * mainChar.loc.Center.Y);
+            float xdist = ms.X - mainChar.loc.Center.X;  
+            float ydist = ms.Y - mainChar.loc.Center.Y; 
             rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
             if (SingleKeyPress(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
