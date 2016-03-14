@@ -19,13 +19,6 @@ namespace Game1
 
         enum wallType { Full, Door, Open};
 
-        /*public void SetWalls()
-        {
-            topWall = new Rectangle(0, 0, 1600, 50);
-            bottomWall = new Rectangle(0, 1550, 1600, 50);
-            leftWall = new Rectangle(0, 0, 50, 900);
-            rightWall = new Rectangle(850, 0, 50, 900);
-        }*/
 
         public Rectangle SetTopWall()
         {

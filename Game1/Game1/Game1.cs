@@ -15,9 +15,10 @@ namespace Game1
         
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //Createing basic sprite objects These should be added to each class for the different objects
+
+        //Creating basic sprite objects These should be added to each class for the different objects
         Texture2D Floor; //Background used for each room
-        Texture2D fullWall; //A wall that isnt open 
+        Texture2D fullWall; //A wall that isn't open 
         Texture2D doorWall; //The wall with an opening for a door
         Texture2D sealedDoor; // a door that you cant walk through
         Texture2D openDoor; //Open door
@@ -25,9 +26,10 @@ namespace Game1
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
         Texture2D menuBG; //Background for menu screens
+
         //Game Objects
         Player player;
-        KeyboardState kbState; //2 Keboard states for toggeling items
+        KeyboardState kbState; //2 Keboard states for toggling items
         KeyboardState previousKbState;
         Vector2 movement;
         int movespeed;
@@ -55,7 +57,7 @@ namespace Game1
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            //This changes the size and location of the window dont mess with it
+            //This changes the size and location of the window don't mess with it
             graphics.HardwareModeSwitch = false;
 
             graphics.PreferredBackBufferWidth = 1600;
@@ -161,7 +163,6 @@ namespace Game1
                 graphics.ApplyChanges();
             }
 
-            //walls.SetWalls(); //DON'T TOUCH THIS
 
             // TODO: Add your update logic here
 
@@ -212,6 +213,7 @@ namespace Game1
                     break;
             }
 
+            //draw the walls (feel free to move this code elsewhere)
             spriteBatch.Draw(fullWall, topWall, Color.White);
             spriteBatch.Draw(fullWall, bottomWall, Color.White);
             spriteBatch.Draw(fullWall, leftWall, Color.White);
