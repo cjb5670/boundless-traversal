@@ -12,6 +12,7 @@ namespace Game1
 
     public class Game1 : Game
     {
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //Createing basic sprite objects These should be added to each class for the different objects
@@ -32,6 +33,12 @@ namespace Game1
         int movespeed;
         float rotate;
         MouseState ms;
+        Wall walls;
+        Rectangle topWall;
+        Rectangle bottomWall;
+        Rectangle leftWall;
+        Rectangle rightWall;
+
         //enum for Game State
         enum GameState
         {
@@ -72,6 +79,13 @@ namespace Game1
             this.IsMouseVisible = true;
             movespeed = 10;
 
+            //wall object
+            walls = new Wall();
+            topWall = walls.SetTopWall();
+            bottomWall = walls.SetBottomWall();
+            leftWall = walls.SetLeftWall();
+            rightWall = walls.SetRightWall();
+
             base.Initialize();
         }
 
@@ -86,15 +100,15 @@ namespace Game1
             Character = Content.Load<Texture2D>("Character.png");
             mainChar.SetSprite(Character);
             // TODO: use this.Content to load your game content here
-            /*
-            Floor = Content.Load<Texture2D>(); //Background used for each room
-            fullWall = Content.Load<Texture2D>(); //A wall that isnt open 
-            doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
-            sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
-            openDoor = Content.Load<Texture2D>(); //Open door
-            Character = Content.Load<Texture2D>(); //The character's sprite
-            Enemy = Content.Load<Texture2D>(); //The enemy sprite
-            logo = Content.Load<Texture2D>(); //Game's logo */
+            
+            //Floor = Content.Load<Texture2D>(); //Background used for each room
+            fullWall = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
+            //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
+            //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
+            //openDoor = Content.Load<Texture2D>(); //Open door
+            //Character = Content.Load<Texture2D>(); //The character's sprite
+            //Enemy = Content.Load<Texture2D>(); //The enemy sprite
+            //logo = Content.Load<Texture2D>(); //Game's logo
             menuBG = Content.Load<Texture2D>("oldpaper.jpg");
         }
 
@@ -147,6 +161,7 @@ namespace Game1
                 graphics.ApplyChanges();
             }
 
+            //walls.SetWalls(); //DON'T TOUCH THIS
 
             // TODO: Add your update logic here
 
@@ -163,11 +178,6 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
-            // TODO: Add your drawing code here
-
-
-
-
 
             switch (state)
             {
@@ -201,6 +211,11 @@ namespace Game1
                     //buttons, back to main menu
                     break;
             }
+
+            spriteBatch.Draw(fullWall, topWall, Color.White);
+            spriteBatch.Draw(fullWall, bottomWall, Color.White);
+            spriteBatch.Draw(fullWall, leftWall, Color.White);
+            spriteBatch.Draw(fullWall, rightWall, Color.White);
 
             spriteBatch.End();
 

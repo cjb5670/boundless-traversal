@@ -11,7 +11,7 @@ namespace Game1
     {
         //Gameobject Variables
         private Texture2D sprite;
-        private Rectangle hitBox;   
+        private Rectangle hitBox;
 
         //Default Constructor
         public GameObject()
