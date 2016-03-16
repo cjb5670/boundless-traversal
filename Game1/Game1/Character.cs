@@ -49,6 +49,9 @@ namespace Game1
                 defender.loc.Center.Y -= 100 * (float)Math.Pow(Math.Cos(rotate), 2);
             else if (attacker.loc.Center.Y < defender.loc.Center.Y)
                 defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
+
+           
+
         }
 
         public static float getAngleBetween(Character c1, Character c2)
@@ -57,6 +60,20 @@ namespace Game1
             float ydist = c1.loc.Center.Y - c2.loc.Center.Y;
             float rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
             return rotate;
+        }
+
+        //Checks if the character is off the screen
+        public static void offScreen(Character c1)
+        {
+            if(c1.loc.Center.X < 0)
+            {
+                c1.loc.Center.X = 100;
+            }
+            if(c1.loc.Center.Y < 0)
+            {
+                c1.loc.Center.Y = 100;
+            }
+            
         }
     }
 
