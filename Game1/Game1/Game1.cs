@@ -27,11 +27,11 @@ namespace Game1
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
         Texture2D menuBG; //Background for menu screens
-
+        Texture2D sword;
         //Game Objects
 
         Character mainChar;
-        Enemy z1;
+        Enemy z1, z2, z3;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -44,7 +44,8 @@ namespace Game1
         Rectangle bottomWall;
         Rectangle leftWall;
         Rectangle rightWall;
-
+        bool leftMousePress;
+        bool rightMousePress;
         //enum for Game State
         enum GameState
         {
@@ -92,11 +93,11 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 100;
 
-           
+
             
 
             movespeed = 10;
-            
+
 
             //Setting walls
             walls = new Wall();
@@ -108,6 +109,8 @@ namespace Game1
             z1 = new Enemy(800, 200, 123);
             z1.healthPoints = 10;
             z1.attackDamage = 5;
+            z2 = new Enemy(1000, 200, 12);
+            z3 = new Enemy(1200, 200, 12);
             base.Initialize();
         }
 
@@ -124,10 +127,12 @@ namespace Game1
             character = Content.Load<Texture2D>("Character.png");
             Enemy = Content.Load<Texture2D>("Enemy.png");
             font = Content.Load<SpriteFont>("Font");
+            sword = Content.Load<Texture2D>("mouse-2.jpg");
             //Setting sprites
             mainChar.SetSprite(character);
             z1.SetSprite(Enemy);
-
+            z2.SetSprite(Enemy);
+            z3.SetSprite(Enemy);
             
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             fullWall = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
@@ -193,13 +198,20 @@ namespace Game1
             float ydist = ms.Y - mainChar.loc.Center.Y; 
             rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
+            if (ms.LeftButton == ButtonState.Pressed)
+            {
+                leftMousePress = true;
+            }
+            else { leftMousePress = false; }
+
             //Rotates the enemy to the character
             rotate2 = Character.getAngleBetween(mainChar, z1);
 
 
             //Enemy AI function
             z1.followChar(mainChar);
-
+            z2.followChar(mainChar);
+            z3.followChar(mainChar);
 
             //Toggle between fullscreen and windowed with F11
             if (SingleKeyPress(Keys.F11)) 
@@ -224,6 +236,12 @@ namespace Game1
             //Drawing Game Objects
             spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
             spriteBatch.Draw(z1.getSprite(), z1.loc.Center, null, Color.White, rotate2, z1.origin, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(z2.getSprite(), z2.loc.Center, null, Color.White, rotate2, z2.origin, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(z3.getSprite(), z3.loc.Center, null, Color.White, rotate2, z3.origin, 1.0f, SpriteEffects.None, 0f);
+            if (leftMousePress)
+            {
+                spriteBatch.Draw(sword, new Vector2(0, 0), Color.White);
+            }
 
             //States for animations and drawing
             switch (state)
