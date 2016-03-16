@@ -45,13 +45,13 @@ namespace Game1
                     loc.Center.Y -= 5 * (float)Math.Pow(Math.Cos(rotate), 2);
                 else if (loc.Center.Y < player.loc.Center.Y)
                     loc.Center.Y += 5 * (float)Math.Pow(Math.Cos(rotate), 2);
-
+                if (playerIntersect(player))
+                {
+                    charHit(this, player);
+                    pauseMove = 0;
+                }
             }
-            if (playerIntersect(player))
-            {
-                charHit(this, player);
-                pauseMove = 0;
-            }
+            
 
 
         }

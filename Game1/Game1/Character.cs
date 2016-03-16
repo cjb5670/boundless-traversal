@@ -50,7 +50,7 @@ namespace Game1
             else if (attacker.loc.Center.Y < defender.loc.Center.Y)
                 defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
 
-           
+            offScreen(defender);
 
         }
 
