@@ -9,6 +9,7 @@ namespace Game1
 {
     class Enemy : Character
     {
+        
         public Enemy(int x, int y, float radius)
             :base (x, y, radius)
         {
@@ -24,10 +25,7 @@ namespace Game1
         public void followChar(Character player)
         {
 
-            
-            float xdist = player.loc.Center.X - loc.Center.X;
-            float ydist = player.loc.Center.Y - loc.Center.Y;
-            float rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
+            float rotate = getAngleBetween(player, this);
             if (loc.Center.X > player.loc.Center.X)
                 loc.Center.X -= 5 * (float)Math.Pow(Math.Sin(rotate), 2);
             else if (loc.Center.X < player.loc.Center.X)
@@ -39,16 +37,11 @@ namespace Game1
                 loc.Center.Y += 5 * (float)Math.Pow(Math.Cos(rotate), 2);
             if (playerIntersect(player))
             {
-                if (loc.Center.X > player.loc.Center.X)
-                    player.loc.Center.X -= 100 *(float)Math.Pow(Math.Sin(rotate), 2);
-                else if (loc.Center.X < player.loc.Center.X)
-                    player.loc.Center.X += 100 * (float)Math.Pow(Math.Sin(rotate), 2);
-                if (loc.Center.Y > player.loc.Center.Y)
-                    player.loc.Center.Y -= 100 * (float)Math.Pow(Math.Cos(rotate), 2);
-                else if (loc.Center.Y < player.loc.Center.Y)
-                    player.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
+                charHit(this, player);
             }
         }
+
+       
 
 
         

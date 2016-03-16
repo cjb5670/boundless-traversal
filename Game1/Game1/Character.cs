@@ -37,10 +37,28 @@ namespace Game1
         public Texture2D getSprite()
         {
             return sprite;
-
         }
 
+        public static void charHit(Character attacker, Character defender)
+        {
+            float rotate = getAngleBetween(defender, attacker);
+            if (attacker.loc.Center.X > defender.loc.Center.X)
+                defender.loc.Center.X -= 100 * (float)Math.Pow(Math.Sin(rotate), 2);
+            else if (attacker.loc.Center.X < defender.loc.Center.X)
+                defender.loc.Center.X += 100 * (float)Math.Pow(Math.Sin(rotate), 2);
+            if (attacker.loc.Center.Y > defender.loc.Center.Y)
+                defender.loc.Center.Y -= 100 * (float)Math.Pow(Math.Cos(rotate), 2);
+            else if (attacker.loc.Center.Y < defender.loc.Center.Y)
+                defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
+        }
 
+        public static float getAngleBetween(Character c1, Character c2)
+        {
+            float xdist = c1.loc.Center.X - c2.loc.Center.X;
+            float ydist = c1.loc.Center.Y - c2.loc.Center.Y;
+            float rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
+            return rotate;
+        }
     }
 
 }
