@@ -7,44 +7,77 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    public class Character : GameObject
-    {
-        //Character variables
-        private double maxHP;//Max character hp
-        private double moveSpeed;//Charcter movement speed modifier
 
-        //Default Constructor
+     public class Character
+    {
+        
+        public double healthPoints;
+        public double attackDamage;
+        double moveSpeed;
+        Texture2D sprite;
+        public Vector2 origin;
+        public Circle loc;
+
+
         public Character()
         {
         }
-
-        //Main Constructor
-        public Character(int hp, int ms)
+        public Character(int x, int y, float radius)
         {
-            maxHP = hp;
-            moveSpeed = ms;
+            loc = new Circle(new Vector2(x, y), radius);
+
+        }
+        public void SetSprite(Texture2D text)
+        {
+            sprite = text;
+            loc.Radius = sprite.Width / 2;
+            origin.X = sprite.Width / 2;
+            origin.Y = sprite.Height / 2;
         }
 
-        //Properties
-        public double MaxHP
+        public Texture2D getSprite()
         {
-            get
-            {
-                return maxHP;
-            }
+            return sprite;
         }
 
-        public double MoveSpeed
+        public static void charHit(Character attacker, Character defender)
         {
-            get
-            {
-                return moveSpeed;
-            }
+            float rotate = getAngleBetween(defender, attacker);
+            if (attacker.loc.Center.X > defender.loc.Center.X)
+                defender.loc.Center.X -= 100 * (float)Math.Pow(Math.Sin(rotate), 2);
+            else if (attacker.loc.Center.X < defender.loc.Center.X)
+                defender.loc.Center.X += 100 * (float)Math.Pow(Math.Sin(rotate), 2);
+            if (attacker.loc.Center.Y > defender.loc.Center.Y)
+                defender.loc.Center.Y -= 100 * (float)Math.Pow(Math.Cos(rotate), 2);
+            else if (attacker.loc.Center.Y < defender.loc.Center.Y)
+                defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
 
-            set
+            defender.healthPoints -= attacker.attackDamage;
+
+        }
+
+        public static float getAngleBetween(Character c1, Character c2)
+        {
+            float xdist = c1.loc.Center.X - c2.loc.Center.X;
+            float ydist = c1.loc.Center.Y - c2.loc.Center.Y;
+            float rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
+            return rotate;
+        }
+
+        //Checks if the character is off the screen
+        public static void offScreen(Character c1)
+        {
+            if(c1.loc.Center.X < 0)
             {
-                moveSpeed = value;
+                c1.loc.Center.X = 100;
             }
+            if(c1.loc.Center.Y < 0)
+            {
+                c1.loc.Center.Y = 100;
+            }
+            
         }
     }
+
 }
+
