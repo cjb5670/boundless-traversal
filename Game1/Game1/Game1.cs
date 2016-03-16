@@ -16,7 +16,8 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Creating basic sprite objects These should be added to each class for the different objects
+        //Texture objects
+
         Texture2D Floor; //Background used for each room
         Texture2D fullWall; //A wall that isn't open 
         Texture2D doorWall; //The wall with an opening for a door
@@ -28,7 +29,9 @@ namespace Game1
         Texture2D menuBG; //Background for menu screens
 
         //Game Objects
-        
+
+        Character mainChar;
+        Enemy z1;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -41,30 +44,33 @@ namespace Game1
         Rectangle bottomWall;
         Rectangle leftWall;
         Rectangle rightWall;
-        
+
         //enum for Game State
         enum GameState
         {
             MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
         }
+        GameState state;
+
         //enum for player movement
         enum PlayerMovement
         {
             North,South,East,West,NorthEast,NorthWest,SouthEast,SouthWest,Static
         }
-        Character mainChar;
-        Enemy z1;
         PlayerMovement direction;
-        GameState state;
+
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
             //This changes the size and location of the window don't mess with it
             graphics.HardwareModeSwitch = false;
-
             graphics.PreferredBackBufferWidth = 1600;
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
         }
 
@@ -76,18 +82,23 @@ namespace Game1
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            //State initialization
             state = GameState.MainMenu;
             direction = PlayerMovement.Static;
-            mainChar = new Character(500, 500, 34);
             this.IsMouseVisible = true;
-            movespeed = 10; walls = new Wall();
+
+            //Game Object initialzation
+            mainChar = new Character(500, 500, 34);
+
+            
+            movespeed = 10;
+
+            //Setting walls
+            walls = new Wall();
             topWall = walls.SetTopWall();
             bottomWall = walls.SetBottomWall();
             leftWall = walls.SetLeftWall();
             rightWall = walls.SetRightWall();
-
-            //wall object
             walls = new Wall();
             topWall = walls.SetTopWall();
             bottomWall = walls.SetBottomWall();
@@ -104,13 +115,17 @@ namespace Game1
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Creating Game Object sprites
             Character = Content.Load<Texture2D>("Character.png");
             Enemy = Content.Load<Texture2D>("Enemy.png");
+
+            //Setting sprites
             mainChar.SetSprite(Character);
             z1.SetSprite(Enemy);
-            // TODO: use this.Content to load your game content here
+
             
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             fullWall = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
@@ -140,9 +155,11 @@ namespace Game1
 
         protected override void Update(GameTime gameTime)
         {
+            //Keyboard states
             previousKbState = kbState;
             kbState = Keyboard.GetState();
 
+            //Gameplay states
             switch (state)
             {
                 case GameState.MainMenu:
@@ -157,32 +174,37 @@ namespace Game1
                     break;
             }
 
+            //Function for player movement
             CharacterMovement(mainChar);
+
+            //Player-Wall collision
             mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius, 1600-mainChar.loc.Radius);
             mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius, 900 - mainChar.loc.Radius);
+
+            //Exit on pressing escape
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
+
+            //Rotates the character to the mouse
             ms = Mouse.GetState();
-            //rotates the character to the mouse
             float xdist = ms.X - mainChar.loc.Center.X;  
             float ydist = ms.Y - mainChar.loc.Center.Y; 
             rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
-            //rotates the enemy to the character
+            //Rotates the enemy to the character
             xdist = mainChar.loc.Center.X - z1.loc.Center.X;
             ydist = mainChar.loc.Center.Y - z1.loc.Center.Y;
             rotate2 = (float)(Math.Atan2(ydist, xdist)+ 1.570);
+
+            //Enemy AI function
             z1.followChar(mainChar);
-            
-            if (SingleKeyPress(Keys.F11)) //when F11 is pressed the game will toggle between fullscreen and windowed
+
+            //Toggle between fullscreen and windowed with F11
+            if (SingleKeyPress(Keys.F11)) 
             {
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
             }
-
-
-            // TODO: Add your update logic here
-
 
             base.Update(gameTime);
         }
@@ -193,15 +215,15 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+
+            //Drawing Game Objects
             spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
-            // TODO: Add your drawing code here
             spriteBatch.Draw(z1.getSprite(), z1.loc.Center, null, Color.White, rotate2, z1.origin, 1.0f, SpriteEffects.None, 0f);
 
-
-
-
+            //States for animations and drawing
             switch (state)
             {
                 case GameState.MainMenu:
@@ -235,7 +257,7 @@ namespace Game1
                     break;
             }
 
-            //draw the walls (feel free to move this code elsewhere)
+            //Drawing walls
             spriteBatch.Draw(fullWall, topWall, Color.White);
             spriteBatch.Draw(fullWall, bottomWall, Color.White);
             spriteBatch.Draw(fullWall, leftWall, Color.White);
@@ -243,11 +265,10 @@ namespace Game1
 
             spriteBatch.End();
 
-
             base.Draw(gameTime);
         }
 
-        //prevents a key from being pressed multiple times
+        //Prevents a key from being pressed multiple times
         public bool SingleKeyPress(Keys k)
         {
 
@@ -282,6 +303,7 @@ namespace Game1
                     break;
               }
             */
+
             //Basic movement code for testing
             float speedmodifier = (float)(Math.Cos(0.785398) * movespeed);
 
@@ -302,12 +324,14 @@ namespace Game1
                     movement = new Vector2(0, -10);
             }
 
+            //move south
             else if (kbState.IsKeyDown(Keys.S))
             {
-
+                //move southwest
                 if (kbState.IsKeyDown(Keys.A))
                     movement = new Vector2(-speedmodifier, speedmodifier);
 
+                //move southeast
                 else if (kbState.IsKeyDown(Keys.D))
                     movement = new Vector2(speedmodifier, speedmodifier);
 
@@ -316,16 +340,19 @@ namespace Game1
 
             }
 
+            //move west
             else if (kbState.IsKeyDown(Keys.A))
             {
                     movement = new Vector2(-10, 0);
             }
 
+            //move east
             else if (kbState.IsKeyDown(Keys.D))
             {
                     movement = new Vector2(10, 0);
             }
-                
+            
+            //when player is static    
             else
             {
                 movement = new Vector2(0, 0);

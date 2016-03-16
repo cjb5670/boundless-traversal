@@ -10,6 +10,7 @@ namespace Game1
 
      public class Character
     {
+        
         double healthPoints;
         double moveSpeed;
         Texture2D sprite;
@@ -38,6 +39,7 @@ namespace Game1
             return sprite;
 
         }
+
 
     }
 
