@@ -11,7 +11,7 @@ namespace Game1
      public class Character
     {
         
-        double healthPoints;
+        public double healthPoints;
         double moveSpeed;
         Texture2D sprite;
         public Vector2 origin;

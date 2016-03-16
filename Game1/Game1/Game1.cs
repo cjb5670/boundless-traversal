@@ -90,7 +90,7 @@ namespace Game1
             //Game Object initialzation
             mainChar = new Character(500, 500, 34);
 
-            
+            mainChar.healthPoints = 100;
             movespeed = 10;
 
             //Setting walls
