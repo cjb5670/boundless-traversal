@@ -178,8 +178,8 @@ namespace Game1
             CharacterMovement(mainChar);
 
             //Player-Wall collision
-            mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius, 1600-mainChar.loc.Radius);
-            mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius, 900 - mainChar.loc.Radius);
+            mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius+50, 1550-mainChar.loc.Radius);
+            mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius+50, 850 - mainChar.loc.Radius);
 
             //Exit on pressing escape
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
