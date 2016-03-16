@@ -23,7 +23,7 @@ namespace Game1
         Texture2D doorWall; //The wall with an opening for a door
         Texture2D sealedDoor; // a door that you cant walk through
         Texture2D openDoor; //Open door
-        Texture2D Character; //The character's sprite
+        Texture2D character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
         Texture2D logo; //Game's logo
         Texture2D menuBG; //Background for menu screens
@@ -99,12 +99,7 @@ namespace Game1
             bottomWall = walls.SetBottomWall();
             leftWall = walls.SetLeftWall();
             rightWall = walls.SetRightWall();
-            walls = new Wall();
-            topWall = walls.SetTopWall();
-            bottomWall = walls.SetBottomWall();
-            leftWall = walls.SetLeftWall();
-            rightWall = walls.SetRightWall();
-
+           
             z1 = new Enemy(800, 200, 123);
             base.Initialize();
         }
@@ -119,11 +114,11 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Creating Game Object sprites
-            Character = Content.Load<Texture2D>("Character.png");
+            character = Content.Load<Texture2D>("Character.png");
             Enemy = Content.Load<Texture2D>("Enemy.png");
 
             //Setting sprites
-            mainChar.SetSprite(Character);
+            mainChar.SetSprite(character);
             z1.SetSprite(Enemy);
 
             
@@ -192,9 +187,8 @@ namespace Game1
             rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
             //Rotates the enemy to the character
-            xdist = mainChar.loc.Center.X - z1.loc.Center.X;
-            ydist = mainChar.loc.Center.Y - z1.loc.Center.Y;
-            rotate2 = (float)(Math.Atan2(ydist, xdist)+ 1.570);
+            rotate2 = Character.getAngleBetween(mainChar, z1);
+
 
             //Enemy AI function
             z1.followChar(mainChar);
@@ -360,7 +354,7 @@ namespace Game1
 
             mc.loc.Center += movement;
         }
-
         
+
     }
 }
