@@ -193,6 +193,7 @@ namespace Game1
             //Enemy AI function
             z1.followChar(mainChar);
 
+
             //Toggle between fullscreen and windowed with F11
             if (SingleKeyPress(Keys.F11)) 
             {

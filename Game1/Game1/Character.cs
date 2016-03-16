@@ -12,6 +12,7 @@ namespace Game1
     {
         
         public double healthPoints;
+        public double attackDamage;
         double moveSpeed;
         Texture2D sprite;
         public Vector2 origin;
@@ -51,7 +52,7 @@ namespace Game1
             else if (attacker.loc.Center.Y < defender.loc.Center.Y)
                 defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
 
-            
+            defender.healthPoints -= 10;
 
         }
 
