@@ -28,10 +28,11 @@ namespace Game1
         Texture2D logo; //Game's logo
         Texture2D menuBG; //Background for menu screens
         Texture2D sword;
+        Texture2D healthBar;
         //Game Objects
 
+        Room testRoom;
         Character mainChar;
-        Enemy z1, z2, z3;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -40,13 +41,9 @@ namespace Game1
         float rotate;
         float rotate2;
         MouseState ms;
-        Wall walls;
-        Rectangle topWall;
-        Rectangle bottomWall;
-        Rectangle leftWall;
-        Rectangle rightWall;
         bool leftMousePress;
         bool rightMousePress;
+        int enemyNo;
         //enum for Game State
         enum GameState
         {
@@ -94,24 +91,18 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 100;
             blade = new Weapon(mainChar);
+            testRoom = new Room();
+
 
             
-
             movespeed = 10;
 
+            //Sets testroom enemy number
+            enemyNo = 3;
 
             //Setting walls
-            walls = new Wall();
-            topWall = walls.SetTopWall();
-            bottomWall = walls.SetBottomWall();
-            leftWall = walls.SetLeftWall();
-            rightWall = walls.SetRightWall();
-            
-            z1 = new Enemy(800, 200, 123);
-            z1.healthPoints = 10;
-            z1.attackDamage = 5;
-            z2 = new Enemy(1000, 200, 12);
-            z3 = new Enemy(1200, 200, 12);
+           
+
             base.Initialize();
         }
 
@@ -132,19 +123,25 @@ namespace Game1
             //Setting sprites
             blade.setSprite(sword);
             mainChar.SetSprite(character);
-            z1.SetSprite(Enemy);
-            z2.SetSprite(Enemy);
-            z3.SetSprite(Enemy);
             
+            //Setting room enemies and their textures
+            testRoom.SetEnemies(Enemy, enemyNo);
+
+            //Spawinging enemies
+            testRoom.SpawnEnemies();
+
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            fullWall = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
+            testRoom.SetWallTexure(Content.Load<Texture2D>("wall.jpg")); //A wall that isnt open 
+            testRoom.SetWalls();
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
             //Character = Content.Load<Texture2D>(); //The character's sprite
             //Enemy = Content.Load<Texture2D>(); //The enemy sprite
             //logo = Content.Load<Texture2D>(); //Game's logo
-            menuBG = Content.Load<Texture2D>("oldpaper.jpg");
+
+          
+            healthBar = Content.Load<Texture2D>("health.png");
         }
 
         /// <summary>
@@ -176,6 +173,8 @@ namespace Game1
                 case GameState.ItemMenu:
                     break;
                 case GameState.PlayGame:
+                    if (mainChar.healthPoints <= 0)
+                        state = GameState.Gameover;
                      break;
                 case GameState.PauseMenu:
                     break;
@@ -210,22 +209,25 @@ namespace Game1
             }
             else { leftMousePress = false; }
 
+            //Enemy AI function
+            for(int i =0;i< testRoom.enemies.Count;i++)
+            {
             //Rotates the enemy to the character
-            rotate2 = Character.getAngleBetween(mainChar, z1);
+                rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
+                testRoom.enemies[i].followChar(mainChar);
+            }
+
 
             blade.moveWeapon(mainChar, rotate);
-            //Enemy AI function
-            //z1.followChar(mainChar);
-            //   z2.followChar(mainChar);
-            //  z3.followChar(mainChar);
             
+
             //Toggle between fullscreen and windowed with F11
             if (SingleKeyPress(Keys.F11)) 
             {
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
             }
-            
+
             base.Update(gameTime);
         }
 
@@ -239,11 +241,19 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.DrawString(font,health , new Vector2(50, 40), Color.White);
+            spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
+            
             //Drawing Game Objects
             spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
-            spriteBatch.Draw(z1.getSprite(), z1.loc.Center, null, Color.White, rotate2, z1.origin, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(z2.getSprite(), z2.loc.Center, null, Color.White, rotate2, z2.origin, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(z3.getSprite(), z3.loc.Center, null, Color.White, rotate2, z3.origin, 1.0f, SpriteEffects.None, 0f);
+
+            //Drawing enemies
+            for (int i = 0; i < testRoom.enemies.Count; i++)
+            {
+                Enemy enemyTemp = testRoom.enemies[i];
+                spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+            }
+                
+
             if (leftMousePress)
             {
                 
@@ -285,10 +295,7 @@ namespace Game1
             }
 
             //Drawing walls
-            spriteBatch.Draw(fullWall, topWall, Color.White);
-            spriteBatch.Draw(fullWall, bottomWall, Color.White);
-            spriteBatch.Draw(fullWall, leftWall, Color.White);
-            spriteBatch.Draw(fullWall, rightWall, Color.White);
+            testRoom.DrawWalls(spriteBatch);
 
             spriteBatch.End();
 

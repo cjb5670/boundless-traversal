@@ -23,5 +23,11 @@ namespace Game1
             return hitBox;
         }
 
+        public void SetSprite()
+        {
+
+        }
+
+
     }
 }
