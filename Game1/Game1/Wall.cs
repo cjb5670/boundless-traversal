@@ -10,7 +10,7 @@ namespace Game1
     public class Wall
     {
         Door wallDoor; 
-        Rectangle roomWall;
+        public Rectangle roomWall;
         public Texture2D texture;
         //walls
         public Wall()
@@ -21,30 +21,35 @@ namespace Game1
         enum wallType { Full, Door, Open};
 
 
-        public Rectangle SetTopWall()
+        public void SetTopWall()
         {
             roomWall = new Rectangle(0, 0, 1600, 50);
-            return roomWall;
+
             
         }
 
-        public Rectangle SetBottomWall()
+        public void SetBottomWall()
         {
             roomWall = new Rectangle(0, 850, 1600, 50);
-            return roomWall;
+
         }
 
-        public Rectangle SetLeftWall()
+        public void SetLeftWall()
         {
             roomWall = new Rectangle(0, 0, 50, 900);
-            return roomWall;
+
         }
 
-        public Rectangle SetRightWall()
+        public void SetRightWall()
         {
             roomWall = new Rectangle(1550, 0, 50, 900);
-            return roomWall;
+
         }
 
+        public void DrawWall(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, roomWall, Color.White);
+
+        }
     }
 }

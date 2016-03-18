@@ -10,15 +10,15 @@ namespace Game1
     class Room
     {
 
-        public Wall roomWall = new Wall();
-        
-        Rectangle topWall;
-        Rectangle bottomWall;
-        Rectangle leftWall;
-        Rectangle rightWall; 
+        public Wall topWall=new Wall();
+        public Wall bottomWall=new Wall();
+        public Wall leftWall=new Wall();
+        public Wall rightWall=new Wall();
+
 
         bool isCleared; //bool to test if all enemys have been cleared from the room
         public List<Enemy> enemies; //the list of all the enemies in the room
+
         Texture2D texture;
         Rectangle rect;
         public Room()
@@ -66,17 +66,17 @@ namespace Game1
         }
         public void SetWalls()
         {
-            topWall=roomWall.SetTopWall();
-            bottomWall=roomWall.SetBottomWall();
-            leftWall=roomWall.SetLeftWall();
-            rightWall=roomWall.SetRightWall();
+            topWall.SetTopWall();
+            bottomWall.SetBottomWall();
+            leftWall.SetLeftWall();
+            rightWall.SetRightWall();
         }
         public void DrawWalls(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(roomWall.texture, topWall, Color.White);
-            spriteBatch.Draw(roomWall.texture, bottomWall, Color.White);
-            spriteBatch.Draw(roomWall.texture, leftWall, Color.White);
-            spriteBatch.Draw(roomWall.texture, rightWall, Color.White);
+            spriteBatch.Draw(topWall.texture, topWall.roomWall, Color.White);
+            spriteBatch.Draw(bottomWall.texture, bottomWall.roomWall, Color.White);
+            spriteBatch.Draw(leftWall.texture, leftWall.roomWall, Color.White);
+            spriteBatch.Draw(rightWall.texture, rightWall.roomWall, Color.White);
         }
     }
 }
