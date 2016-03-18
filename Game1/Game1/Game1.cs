@@ -35,6 +35,7 @@ namespace Game1
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
+        Weapon blade;
         int movespeed;
         float rotate;
         float rotate2;
@@ -92,7 +93,7 @@ namespace Game1
             mainChar = new Character(500, 500, 34);
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 100;
-
+            blade = new Weapon(mainChar);
 
             
 
@@ -105,7 +106,7 @@ namespace Game1
             bottomWall = walls.SetBottomWall();
             leftWall = walls.SetLeftWall();
             rightWall = walls.SetRightWall();
-           
+            
             z1 = new Enemy(800, 200, 123);
             z1.healthPoints = 10;
             z1.attackDamage = 5;
@@ -127,8 +128,9 @@ namespace Game1
             character = Content.Load<Texture2D>("Character.png");
             Enemy = Content.Load<Texture2D>("Enemy.png");
             font = Content.Load<SpriteFont>("Font");
-            sword = Content.Load<Texture2D>("mouse-2.jpg");
+            sword = Content.Load<Texture2D>("sword.png");
             //Setting sprites
+            blade.setSprite(sword);
             mainChar.SetSprite(character);
             z1.SetSprite(Enemy);
             z2.SetSprite(Enemy);
@@ -185,9 +187,13 @@ namespace Game1
             CharacterMovement(mainChar);
 
             //Player-Wall collision
-            mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius+50, 1550-mainChar.loc.Radius);
-            mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius+50, 850 - mainChar.loc.Radius);
+            if (3 < 2)
+            {
 
+
+                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
+                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+            }
             //Exit on pressing escape
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
@@ -207,19 +213,19 @@ namespace Game1
             //Rotates the enemy to the character
             rotate2 = Character.getAngleBetween(mainChar, z1);
 
-
+            blade.moveWeapon(mainChar, rotate);
             //Enemy AI function
-            z1.followChar(mainChar);
-            z2.followChar(mainChar);
-            z3.followChar(mainChar);
-
+            //z1.followChar(mainChar);
+            //   z2.followChar(mainChar);
+            //  z3.followChar(mainChar);
+            
             //Toggle between fullscreen and windowed with F11
             if (SingleKeyPress(Keys.F11)) 
             {
                 graphics.ToggleFullScreen();
                 graphics.ApplyChanges();
             }
-
+            
             base.Update(gameTime);
         }
 
@@ -240,7 +246,8 @@ namespace Game1
             spriteBatch.Draw(z3.getSprite(), z3.loc.Center, null, Color.White, rotate2, z3.origin, 1.0f, SpriteEffects.None, 0f);
             if (leftMousePress)
             {
-                spriteBatch.Draw(sword, new Vector2(0, 0), Color.White);
+                
+                spriteBatch.Draw(blade.getSprite(),blade.position, null, Color.White, rotate + 3.141f, blade.origin, 1.0f, SpriteEffects.None, 0f);
             }
 
             //States for animations and drawing

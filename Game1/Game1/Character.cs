@@ -17,6 +17,7 @@ namespace Game1
         Texture2D sprite;
         public Vector2 origin;
         public Circle loc;
+        
 
 
         public Character()
