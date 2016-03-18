@@ -128,7 +128,7 @@ namespace Game1
             testRoom.SpawnEnemies();
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            testRoom.roomWall.texture = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
+            testRoom.SetWallTexure(Content.Load<Texture2D>("wall.jpg")); //A wall that isnt open 
             testRoom.SetWalls();
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through

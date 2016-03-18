@@ -45,7 +45,7 @@ namespace Game1
             roomWall = new Rectangle(1550, 0, 50, 900);
 
         }
-
+        
         public void DrawWall(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, roomWall, Color.White);

@@ -78,5 +78,13 @@ namespace Game1
             spriteBatch.Draw(leftWall.texture, leftWall.roomWall, Color.White);
             spriteBatch.Draw(rightWall.texture, rightWall.roomWall, Color.White);
         }
+
+        public void SetWallTexure(Texture2D texture)
+        {
+            topWall.texture = texture;
+            bottomWall.texture = texture;
+            rightWall.texture = texture;
+            leftWall.texture = texture;
+        }
     }
 }
