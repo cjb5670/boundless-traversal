@@ -28,6 +28,7 @@ namespace Game1
         Texture2D logo; //Game's logo
         Texture2D menuBG; //Background for menu screens
         Texture2D sword;
+        Texture2D healthBar;
         //Game Objects
 
         Character mainChar;
@@ -143,6 +144,7 @@ namespace Game1
             //Enemy = Content.Load<Texture2D>(); //The enemy sprite
             //logo = Content.Load<Texture2D>(); //Game's logo
             menuBG = Content.Load<Texture2D>("oldpaper.jpg");
+            healthBar = Content.Load<Texture2D>("health.png");
         }
 
         /// <summary>
@@ -233,6 +235,8 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.DrawString(font,health , new Vector2(50, 40), Color.White);
+            spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints, 40), Color.White);
+            
             //Drawing Game Objects
             spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
             spriteBatch.Draw(z1.getSprite(), z1.loc.Center, null, Color.White, rotate2, z1.origin, 1.0f, SpriteEffects.None, 0f);
