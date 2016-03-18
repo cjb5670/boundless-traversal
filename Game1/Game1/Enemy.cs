@@ -7,15 +7,34 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Enemy : Character
+    public class Enemy : Character
     {
         int pauseMove = 31;
-
-        public Enemy(int x, int y, float radius)
-            : base(x, y, radius)
+        float movespeed;
+        Random msmod = new Random();
+        //Default constructor
+        public Enemy()
         {
 
         }
+
+        //main constructor
+        public Enemy(int x, int y, float radius)
+            : base(x, y, radius)
+        {
+            movespeed =msmod.Next(0, 50)*0.1f+5;
+        }
+
+        //Checks if the current Enemy is alive or not
+        public bool checkAlive()
+        {
+            if (this.healthPoints >0)
+                return true;
+            else
+                return false;
+        }
+
+        //Checks for enemy-player intersection
         public bool playerIntersect(Character player)
         {
             Vector2 relativePosition = player.loc.Center - loc.Center;
@@ -23,9 +42,10 @@ namespace Game1
             if (distanceBetweenCenters <= loc.Radius + player.loc.Radius) { return true; }
             else { return false; }
         }
+
+        //Rudimentary enemy AI
         public void followChar(Character player)
         {
-
             
             //stops the character from moving for half a second
             if (pauseMove <= 30)
@@ -37,24 +57,22 @@ namespace Game1
             {
                 float rotate = getAngleBetween(player, this);
                 if (loc.Center.X > player.loc.Center.X)
-                    loc.Center.X -= 5 * (float)Math.Pow(Math.Sin(rotate), 2);
+                    loc.Center.X -= movespeed * (float)Math.Pow(Math.Sin(rotate), 2);
                 else if (loc.Center.X < player.loc.Center.X)
-                    loc.Center.X += 5 * (float)Math.Pow(Math.Sin(rotate), 2);
+                    loc.Center.X += movespeed * (float)Math.Pow(Math.Sin(rotate), 2);
 
                 if (loc.Center.Y > player.loc.Center.Y)
-                    loc.Center.Y -= 5 * (float)Math.Pow(Math.Cos(rotate), 2);
+                    loc.Center.Y -= movespeed * (float)Math.Pow(Math.Cos(rotate), 2);
                 else if (loc.Center.Y < player.loc.Center.Y)
-                    loc.Center.Y += 5 * (float)Math.Pow(Math.Cos(rotate), 2);
+                    loc.Center.Y += movespeed * (float)Math.Pow(Math.Cos(rotate), 2);
                 if (playerIntersect(player))
                 {
                     charHit(this, player);
                     pauseMove = 0;
                 }
-            }
-            
-
-
+            }          
         }
+
 
 
 

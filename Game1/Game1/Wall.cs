@@ -7,42 +7,49 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Wall:GameObject
+    public class Wall
     {
-        Door wallDoor; //I really dont know what to name this
-
+        Door wallDoor; 
+        public Rectangle roomWall;
+        public Texture2D texture;
         //walls
-        public Rectangle leftWall;
-        public Rectangle rightWall;
-        public Rectangle bottomWall;
-        public Rectangle topWall;
+        public Wall()
+        {
 
+        }
+        
         enum wallType { Full, Door, Open};
 
 
-        public Rectangle SetTopWall()
+        public void SetTopWall()
         {
-            topWall = new Rectangle(0, 0, 1600, 50);
-            return topWall;
+            roomWall = new Rectangle(0, 0, 1600, 50);
+
+            
         }
 
-        public Rectangle SetBottomWall()
+        public void SetBottomWall()
         {
-            bottomWall = new Rectangle(0, 850, 1600, 50);
-            return bottomWall;
+            roomWall = new Rectangle(0, 850, 1600, 50);
+
         }
 
-        public Rectangle SetLeftWall()
+        public void SetLeftWall()
         {
-            leftWall = new Rectangle(0, 0, 50, 900);
-            return leftWall;
+            roomWall = new Rectangle(0, 0, 50, 900);
+
         }
 
-        public Rectangle SetRightWall()
+        public void SetRightWall()
         {
-            rightWall = new Rectangle(1550, 0, 50, 900);
-            return rightWall;
-        }
+            roomWall = new Rectangle(1550, 0, 50, 900);
 
+        }
+        
+        public void DrawWall(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, roomWall, Color.White);
+
+        }
     }
 }
