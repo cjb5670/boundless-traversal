@@ -176,6 +176,8 @@ namespace Game1
                 case GameState.ItemMenu:
                     break;
                 case GameState.PlayGame:
+                    if (mainChar.healthPoints <= 0)
+                        state = GameState.Gameover;
                      break;
                 case GameState.PauseMenu:
                     break;
@@ -235,7 +237,7 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.DrawString(font,health , new Vector2(50, 40), Color.White);
-            spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints, 40), Color.White);
+            spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
             
             //Drawing Game Objects
             spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);            
