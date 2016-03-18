@@ -23,10 +23,11 @@ namespace Game1
             return hitBox;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void SetSprite()
         {
 
         }
+
 
     }
 }

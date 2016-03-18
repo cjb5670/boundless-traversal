@@ -33,7 +33,6 @@ namespace Game1
 
         Room testRoom;
         Character mainChar;
-        Enemy z1, z2, z3;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -41,11 +40,6 @@ namespace Game1
         float rotate;
         float rotate2;
         MouseState ms;
-        Wall walls;
-        Rectangle topWall;
-        Rectangle bottomWall;
-        Rectangle leftWall;
-        Rectangle rightWall;
         bool leftMousePress;
         bool rightMousePress;
         int enemyNo;
@@ -105,11 +99,7 @@ namespace Game1
             enemyNo = 3;
 
             //Setting walls
-            walls = new Wall();
-            topWall = walls.SetTopWall();
-            bottomWall = walls.SetBottomWall();
-            leftWall = walls.SetLeftWall();
-            rightWall = walls.SetRightWall();
+            
 
             base.Initialize();
         }
@@ -138,8 +128,8 @@ namespace Game1
             testRoom.SpawnEnemies();
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            fullWall = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
-
+            testRoom.roomWall.texture = Content.Load<Texture2D>("wall.jpg"); //A wall that isnt open 
+            testRoom.SetWalls();
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
@@ -293,10 +283,7 @@ namespace Game1
             }
 
             //Drawing walls
-            spriteBatch.Draw(fullWall, topWall, Color.White);
-            spriteBatch.Draw(fullWall, bottomWall, Color.White);
-            spriteBatch.Draw(fullWall, leftWall, Color.White);
-            spriteBatch.Draw(fullWall, rightWall, Color.White);
+            testRoom.DrawWalls(spriteBatch);
 
             spriteBatch.End();
 

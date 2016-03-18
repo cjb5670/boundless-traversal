@@ -9,7 +9,14 @@ namespace Game1
 {
     class Room
     {
-        Wall northWall, eastWall, southWall, westWall; //rooms 4 wall objects
+
+        public Wall roomWall = new Wall();
+        
+        Rectangle topWall;
+        Rectangle bottomWall;
+        Rectangle leftWall;
+        Rectangle rightWall; 
+
         bool isCleared; //bool to test if all enemys have been cleared from the room
         public List<Enemy> enemies; //the list of all the enemies in the room
         Texture2D texture;
@@ -26,12 +33,23 @@ namespace Game1
         {
             for(int i=0; i < j; i ++)
             {
-                Enemy roomEnemy=new Enemy(0,0,0);
+                Enemy roomEnemy =new Enemy(0,0,0);
                 roomEnemy.SetSprite(texture);
                 roomEnemy.healthPoints = 10;
                 roomEnemy.attackDamage = 5;
                 enemies.Add(roomEnemy);
             }
+        }
+
+        public bool RoomClear()
+        {
+            foreach(Enemy roomEnemy in enemies)
+            {
+                if (roomEnemy.checkAlive())
+                    return false;
+
+            }
+            return true;
         }
 
         //Sets the position of the enemies
@@ -45,6 +63,20 @@ namespace Game1
             enemies[2].loc.Center.X = 1200;
             enemies[2].loc.Center.Y = 200;
 
+        }
+        public void SetWalls()
+        {
+            topWall=roomWall.SetTopWall();
+            bottomWall=roomWall.SetBottomWall();
+            leftWall=roomWall.SetLeftWall();
+            rightWall=roomWall.SetRightWall();
+        }
+        public void DrawWalls(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(roomWall.texture, topWall, Color.White);
+            spriteBatch.Draw(roomWall.texture, bottomWall, Color.White);
+            spriteBatch.Draw(roomWall.texture, leftWall, Color.White);
+            spriteBatch.Draw(roomWall.texture, rightWall, Color.White);
         }
     }
 }
