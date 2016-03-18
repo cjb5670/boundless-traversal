@@ -7,10 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Enemy : Character
+    public class Enemy : Character
     {
         int pauseMove = 31;
+        public Enemy()
+        {
 
+        }
         public Enemy(int x, int y, float radius)
             : base(x, y, radius)
         {
@@ -25,8 +28,7 @@ namespace Game1
         }
         public void followChar(Character player)
         {
-
-            
+  
             //stops the character from moving for half a second
             if (pauseMove <= 30)
             {
@@ -50,11 +52,9 @@ namespace Game1
                     charHit(this, player);
                     pauseMove = 0;
                 }
-            }
-            
-
-
+            }          
         }
+
 
 
 

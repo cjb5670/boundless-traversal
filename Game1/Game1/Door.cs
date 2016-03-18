@@ -9,5 +9,6 @@ namespace Game1
 {
     class Door :GameObject
     {
+
     }
 }
