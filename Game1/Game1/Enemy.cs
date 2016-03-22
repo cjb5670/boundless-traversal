@@ -22,7 +22,7 @@ namespace Game1
         public Enemy(int x, int y, float radius)
             : base(x, y, radius)
         {
-            movespeed =msmod.Next(0, 50)*0.1f+5;
+            movespeed =msmod.Next(0, 5)*0.1f+5;
         }
 
         //Checks if the current Enemy is alive or not
@@ -42,6 +42,16 @@ namespace Game1
             if (distanceBetweenCenters <= loc.Radius + player.loc.Radius) { return true; }
             else { return false; }
         }
+
+        public bool playerIntersect(Weapon player)
+        {
+            Vector2 relativePosition = player.hitBox.Center - loc.Center;
+            float distanceBetweenCenters = relativePosition.Length();
+            if (distanceBetweenCenters <= loc.Radius + player.hitBox.Radius) { return true; }
+            else { return false; }
+        }
+
+
 
         //Rudimentary enemy AI
         public void followChar(Character player)

@@ -14,7 +14,7 @@ namespace Game1
         public double healthPoints;
         public double attackDamage;
         double moveSpeed;
-        Texture2D sprite;
+        public Texture2D sprite;
         public Vector2 origin;
         public Circle loc;
         
@@ -56,6 +56,7 @@ namespace Game1
             defender.healthPoints -= attacker.attackDamage;
 
         }
+
 
         public static float getAngleBetween(Character c1, Character c2)
         {

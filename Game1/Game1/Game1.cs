@@ -12,7 +12,7 @@ namespace Game1
 
     public class Game1 : Game
     {
-        
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -29,19 +29,19 @@ namespace Game1
         Texture2D menuBG; //Background for menu screens
         Texture2D sword;
         Texture2D healthBar;
-		Texture2D fullHealthBar;
-		//Game Objects
+        Texture2D fullHealthBar;
+        //Game Objects
 
-		Texture2D MenuBack;
-		Rectangle FullScreen;
-		Vector2 CenterScreen;
-		string MainMenuText;
-		string ItemMenuText;
-		string PauseMenuText;
-		string GameOverText;
-		//Menu Objects
+        Texture2D MenuBack;
+        Rectangle FullScreen;
+        Vector2 CenterScreen;
+        string MainMenuText;
+        string ItemMenuText;
+        string PauseMenuText;
+        string GameOverText;
+        //Menu Objects
 
-		Room testRoom;
+        Room testRoom;
         Character mainChar;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
@@ -54,18 +54,18 @@ namespace Game1
         bool leftMousePress;
         bool rightMousePress;
         int enemyNo;
-	
+
         //enum for Game State
         enum GameState
         {
             MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
         }
-		GameState state;
+        GameState state;
 
         //enum for player movement
         enum PlayerMovement
         {
-            North,South,East,West,NorthEast,NorthWest,SouthEast,SouthWest,Static
+            North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest, Static
         }
         PlayerMovement direction;
 
@@ -98,24 +98,24 @@ namespace Game1
             this.IsMouseVisible = true;
 
             //Game Object initialzation
-            mainChar = new Character(500, 500, 34);
+            mainChar = new Character(500, 500, 35);
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 100;
             blade = new Weapon(mainChar);
             testRoom = new Room();
 
 
-            
+
             movespeed = 10;
 
             //Sets testroom enemy number
             enemyNo = 3;
 
-			//Setting walls
+            //Setting walls
 
-			// Menu Setup
-			FullScreen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-			CenterScreen = new Vector2(GraphicsDevice.Viewport.Width/2, GraphicsDevice.Viewport.Height/2);
+            // Menu Setup
+            FullScreen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            CenterScreen = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
             base.Initialize();
         }
 
@@ -133,11 +133,11 @@ namespace Game1
             Enemy = Content.Load<Texture2D>("Enemy.png");
             font = Content.Load<SpriteFont>("Font");
             sword = Content.Load<Texture2D>("sword.png");
-			MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
+            //MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
             //Setting sprites
-            blade.setSprite(sword);
+            blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
-            
+
             //Setting room enemies and their textures
             testRoom.SetEnemies(Enemy, enemyNo);
 
@@ -154,9 +154,9 @@ namespace Game1
             //Enemy = Content.Load<Texture2D>(); //The enemy sprite
             //logo = Content.Load<Texture2D>(); //Game's logo
 
-          
+
             healthBar = Content.Load<Texture2D>("health.png");
-			fullHealthBar = Content.Load<Texture2D>("health.png");
+            fullHealthBar = Content.Load<Texture2D>("health.png");
         }
 
         /// <summary>
@@ -180,81 +180,96 @@ namespace Game1
             previousKbState = kbState;
             kbState = Keyboard.GetState();
 
-			
 
-			//Gameplay states
-			switch (state)
+
+            //Gameplay states
+            switch (state)
             {
                 case GameState.MainMenu:
-					ResetGame();
-					if (SingleKeyPress(Keys.Enter) == true)
-					{ state = GameState.ItemMenu; }
+                    ResetGame();
+                    if (SingleKeyPress(Keys.Enter) == true)
+                    { state = GameState.ItemMenu; }
                     break;
                 case GameState.ItemMenu:
-					if (SingleKeyPress(Keys.Enter) == true)
-					{ state = GameState.PlayGame; }
+                    if (SingleKeyPress(Keys.Enter) == true)
+                    { state = GameState.PlayGame; }
                     break;
                 case GameState.PlayGame:
-					if (mainChar.healthPoints <= 0)
-					{ state = GameState.Gameover; }
-					else if (SingleKeyPress(Keys.P) == true)
-					{ state = GameState.PauseMenu; }
+                    if (mainChar.healthPoints <= 0)
+                    { state = GameState.Gameover; }
+                    else if (SingleKeyPress(Keys.P) == true)
+                    { state = GameState.PauseMenu; }
 
-					//Function for player movement
-					CharacterMovement(mainChar);
+                    //Function for player movement
+                    CharacterMovement(mainChar);
 
-					//Player-Wall collision
-					mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
-					mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+                    //Player-Wall collision
+                    mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
+                    mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
 
-					//Rotates the character to the mouse
-					ms = Mouse.GetState();
-					float xdist = ms.X - mainChar.loc.Center.X;
-					float ydist = ms.Y - mainChar.loc.Center.Y;
-					rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
+                    //Rotates the character to the mouse
+                    ms = Mouse.GetState();
+                    float xdist = ms.X - mainChar.loc.Center.X;
+                    float ydist = ms.Y - mainChar.loc.Center.Y;
+                    rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
-					if (ms.LeftButton == ButtonState.Pressed)
-					{
-						leftMousePress = true;
-					}
-					else { leftMousePress = false; }
+                    blade.moveWeapon(mainChar, rotate);
+                    if (ms.LeftButton == ButtonState.Pressed)
+                    {
+                        if (blade.swingtime < 16)
+                        {
+                            leftMousePress = true;
+                            foreach (Enemy e in testRoom.enemies)
+                            {
 
-					//Enemy AI function
-					for (int i = 0; i < testRoom.enemies.Count; i++)
-					{
-						//Rotates the enemy to the character
-						rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
-						testRoom.enemies[i].followChar(mainChar);
-					}
+                                if (e.playerIntersect(blade))
+                                {
+                                    Character.charHit(blade, e);
+                                }
+
+                            }
+                            blade.swingtime++;
+                        }
+                        else { leftMousePress = false; }
+                    }
+                    else { leftMousePress = false; blade.swingtime = 0; }
+
+                    //Enemy AI function
+                    for (int i = 0; i < testRoom.enemies.Count; i++)
+                    {
+                        //Rotates the enemy to the character
+                        rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
+                        testRoom.enemies[i].followChar(mainChar);
+                    }
 
 
-					blade.moveWeapon(mainChar, rotate);
 
 
-					//Toggle between fullscreen and windowed with F11
-					if (SingleKeyPress(Keys.F11))
-					{
-						graphics.ToggleFullScreen();
-						graphics.ApplyChanges();
-					}
-					break;
+
+                    //Toggle between fullscreen and windowed with F11
+                    if (SingleKeyPress(Keys.F11))
+                    {
+                        graphics.ToggleFullScreen();
+                        graphics.ApplyChanges();
+                    }
+                    break;
                 case GameState.PauseMenu:
-					if (SingleKeyPress(Keys.P) == true)
-					{ state = GameState.PlayGame; }
+                    if (SingleKeyPress(Keys.P) == true)
+                    { state = GameState.PlayGame; }
                     break;
                 case GameState.Gameover:
-					if (SingleKeyPress(Keys.Enter) == true)
-					{ state = GameState.MainMenu; }
+                    if (SingleKeyPress(Keys.Enter) == true)
+                    { state = GameState.MainMenu; }
                     break;
             }
 
-            
+
 
             //Exit on pressing escape
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //Readded for ease of update
                 Exit();
 
-            
+
 
             base.Update(gameTime);
         }
@@ -265,106 +280,109 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-			spriteBatch.Begin();
+            spriteBatch.Begin();
 
-			//States for animations and drawing
-			switch (state)
+            //States for animations and drawing
+            switch (state)
             {
                 case GameState.MainMenu:
-					//spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
-					//menu filler art
-					//spriteBatch.Draw(logo, logoPos, Color.White);
-					//main menu buttons
-					
-					spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-					MainMenuText = "This is the Main Menu";
-					spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
+                    //spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
+                    //menu filler art
+                    //spriteBatch.Draw(logo, logoPos, Color.White);
+                    //main menu buttons
 
-					break;
+                    //spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    MainMenuText = "This is the Main Menu";
+                    spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
+
+                    break;
                 case GameState.ItemMenu:
-					//spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
-					//spriteBatch.DrawString(font, "Item Menu:", textPos, Color.White);
-					spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-					ItemMenuText = "This is the Item Menu";
-					spriteBatch.DrawString(font, ItemMenuText, CenterScreen, Color.SaddleBrown);
-					break;
+                    //spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
+                    //spriteBatch.DrawString(font, "Item Menu:", textPos, Color.White);
+                    //spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    ItemMenuText = "This is the Item Menu";
+                    spriteBatch.DrawString(font, ItemMenuText, CenterScreen, Color.SaddleBrown);
+                    break;
                 case GameState.PlayGame:
-					//walls, doors textures
-					//floor texture
-					//health bar, current weapon box
-					//spriteBatch.Draw(Character, characterPos, Color.White);
-					//enemies
-					//collision animations (create a method for this)
-					string health = (mainChar.healthPoints).ToString();
-					GraphicsDevice.Clear(Color.CornflowerBlue);
-					
-					spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
-					spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, 200, 40), Color.Black);
-					spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
-					
+                    //walls, doors textures
+                    //floor texture
+                    //health bar, current weapon box
+                    //spriteBatch.Draw(Character, characterPos, Color.White);
+                    //enemies
+                    //collision animations (create a method for this)
+                    string health = (mainChar.healthPoints).ToString();
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
 
-					//Drawing Game Objects
-					spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
-
-					//Drawing enemies
-					for (int i = 0; i < testRoom.enemies.Count; i++)
-					{
-						Enemy enemyTemp = testRoom.enemies[i];
-						spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
-					}
+                    spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
+                    spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, 200, 40), Color.Black);
+                    spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
 
-					if (leftMousePress)
-					{
+                    //Drawing Game Objects
+                    spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
 
-						spriteBatch.Draw(blade.getSprite(), blade.position, null, Color.White, rotate + 3.141f, blade.origin, 1.0f, SpriteEffects.None, 0f);
-					}
+                    //Drawing enemies
+                    for (int i = 0; i < testRoom.enemies.Count; i++)
+                    {
+                        Enemy enemyTemp = testRoom.enemies[i];
+                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                    }
 
 
-					//Drawing walls
-					testRoom.DrawWalls(spriteBatch);
+                    if (leftMousePress)
+                    {
 
-					
-					break;
+                        spriteBatch.Draw(blade.getSprite(), blade.loc.Center, null, Color.White, rotate + 3.926f - 0.1047f * blade.swingtime, blade.origin, 0.65f, SpriteEffects.None, 0f);
+
+
+                    }
+                    
+
+
+                    //Drawing walls
+                    testRoom.DrawWalls(spriteBatch);
+
+
+                    break;
                 case GameState.PauseMenu:
-					
-					PauseMenuText = "The Game is Paused";
-					spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
-					health = (mainChar.healthPoints).ToString();
-					GraphicsDevice.Clear(Color.CornflowerBlue);
-					
-					spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
-					spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
-					//Drawing Game Objects
-					spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
+                    PauseMenuText = "The Game is Paused";
+                    spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
+                    health = (mainChar.healthPoints).ToString();
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
 
-					//Drawing enemies
-					for (int i = 0; i < testRoom.enemies.Count; i++)
-					{
-						Enemy enemyTemp = testRoom.enemies[i];
-						spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
-					}
+                    spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
+                    spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
+
+                    //Drawing Game Objects
+                    spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
+
+                    //Drawing enemies
+                    for (int i = 0; i < testRoom.enemies.Count; i++)
+                    {
+                        Enemy enemyTemp = testRoom.enemies[i];
+                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                    }
 
 
-					//Drawing walls
-					testRoom.DrawWalls(spriteBatch);
+                    //Drawing walls
+                    testRoom.DrawWalls(spriteBatch);
 
-					
 
-					break;
+
+                    break;
                 case GameState.Gameover:
-					//game over background texture
-					//final stats
-					//buttons, back to main menu
-					spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-					GameOverText = "Ur ded Scrub";
-					spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
-					break;
+                    //game over background texture
+                    //final stats
+                    //buttons, back to main menu
+                    //spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    GameOverText = "Ur ded Scrub";
+                    spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
+                    break;
             }
 
-			spriteBatch.End();
-			base.Draw(gameTime);
+            spriteBatch.End();
+            base.Draw(gameTime);
         }
 
         //Prevents a key from being pressed multiple times
@@ -410,10 +428,10 @@ namespace Game1
             if (kbState.IsKeyDown(Keys.W))
             {
                 //move north west
-                 if (kbState.IsKeyDown(Keys.A))
+                if (kbState.IsKeyDown(Keys.A))
                 {
                     movement = new Vector2(-speedmodifier, -speedmodifier);
-                    
+
                 }
                 //move north east
                 else if (kbState.IsKeyDown(Keys.D))
@@ -442,15 +460,15 @@ namespace Game1
             //move west
             else if (kbState.IsKeyDown(Keys.A))
             {
-                    movement = new Vector2(-10, 0);
+                movement = new Vector2(-10, 0);
             }
 
             //move east
             else if (kbState.IsKeyDown(Keys.D))
             {
-                    movement = new Vector2(10, 0);
+                movement = new Vector2(10, 0);
             }
-            
+
             //when player is static    
             else
             {
@@ -460,17 +478,17 @@ namespace Game1
             mc.loc.Center += movement;
         }
 
-		//Resets values that change during gameplay
-		public void ResetGame()
-		{
-			
-			mainChar.loc = new Circle(new Vector2 (500, 500), 34);
-			mainChar.attackDamage = 10;
-			mainChar.healthPoints = 100;
-			enemyNo = 3;
+        //Resets values that change during gameplay
+        public void ResetGame()
+        {
 
-		}
-        
+            mainChar.loc = new Circle(new Vector2(500, 500), mainChar.loc.Radius);
+            mainChar.attackDamage = 10;
+            mainChar.healthPoints = 100;
+            enemyNo = 3;
+
+        }
+
 
     }
 }
