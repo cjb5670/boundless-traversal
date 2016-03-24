@@ -21,7 +21,8 @@ namespace Game1
         Texture2D Floor; //Background used for each room
         Texture2D fullWall; //A wall that isn't open 
         Texture2D doorWall; //The wall with an opening for a door
-        Texture2D sealedDoor; // a door that you cant walk through
+        Texture2D sealedVDoor; // a vertical door that you cant walk through
+        Texture2D sealedHDoor; // a horizontal door that you cant walk through
         Texture2D openDoor; //Open door
         Texture2D character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
@@ -133,12 +134,14 @@ namespace Game1
             Enemy = Content.Load<Texture2D>("Enemy.png");
             font = Content.Load<SpriteFont>("Font");
             sword = Content.Load<Texture2D>("sword.png");
+            sealedVDoor = Content.Load<Texture2D>("vDoor.jpg");
+            sealedHDoor = Content.Load<Texture2D>("hDoor.jpg");
             //MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
-
-            //Setting room enemies and their textures
+           
+            //Setting room enemies and their textures   
             testRoom.SetEnemies(Enemy, enemyNo);
 
             //Spawinging enemies
@@ -147,6 +150,10 @@ namespace Game1
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             testRoom.SetWallTexure(Content.Load<Texture2D>("wall.jpg")); //A wall that isnt open 
             testRoom.SetWalls();
+            testRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
+            testRoom.topWall.wallDoor.SetSprite(sealedHDoor);
+            testRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
+            testRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door

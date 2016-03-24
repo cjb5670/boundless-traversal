@@ -7,21 +7,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1
 {
-    class Door 
+    public class Door 
     {
-        Texture2D sprite;
+        public Texture2D sprite;
         Boolean open = false;
-        Rectangle position;
+        public Rectangle position;
 
-        public Door()
+        public Door(int w, int h,int x, int y)
         {
-            position.Width = 50;
-            position.Height = 150;
+            position = new Rectangle(x, y, w, h);
             
         }
-        public void SetSprite()
+        public void SetSprite(Texture2D texture)
         {
-
+            sprite = texture;
         }
+
+
     }
 }
