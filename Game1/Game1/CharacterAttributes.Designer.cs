@@ -38,6 +38,7 @@
             this.dexterityNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.submitButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.clearButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dexterityNumericUpDown)).BeginInit();
@@ -94,6 +95,11 @@
             this.healthNumericUpDown.Name = "healthNumericUpDown";
             this.healthNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.healthNumericUpDown.TabIndex = 7;
+            this.healthNumericUpDown.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             this.healthNumericUpDown.ValueChanged += new System.EventHandler(this.healthNumericUpDown_ValueChanged);
             // 
             // strengthNumericUpDown
@@ -114,7 +120,7 @@
             // 
             // submitButton
             // 
-            this.submitButton.Location = new System.Drawing.Point(97, 201);
+            this.submitButton.Location = new System.Drawing.Point(97, 192);
             this.submitButton.Name = "submitButton";
             this.submitButton.Size = new System.Drawing.Size(75, 23);
             this.submitButton.TabIndex = 10;
@@ -130,11 +136,22 @@
             this.textBox1.TabIndex = 11;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // clearButton
+            // 
+            this.clearButton.Location = new System.Drawing.Point(197, 226);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(75, 23);
+            this.clearButton.TabIndex = 12;
+            this.clearButton.Text = "CLEAR";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // CharacterAttributes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.dexterityNumericUpDown);
@@ -168,5 +185,6 @@
         private System.Windows.Forms.NumericUpDown dexterityNumericUpDown;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button clearButton;
     }
 }

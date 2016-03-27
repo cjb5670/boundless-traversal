@@ -15,6 +15,11 @@ namespace Game1
         // external file to save data
         string file = "attributes.txt";
 
+        public double points = 10; // number of points to allocate (can be altered later)
+        public double health;
+        public double strength;
+        public double dexterity;
+
         public CharacterAttributes()
         {
             InitializeComponent();
@@ -22,7 +27,8 @@ namespace Game1
 
         private void CharacterAttributes_Load(object sender, EventArgs e)
         {
-
+            textBox1.Enabled = false;
+            textBox1.Text = points.ToString();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -32,17 +38,59 @@ namespace Game1
 
         private void healthNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            
+            if(points == 0)
+            {
+                healthNumericUpDown.Enabled = false;
+            }
+            double previousHealth = (double)healthNumericUpDown.Value;
+            if(previousHealth < health)
+            {
+                points -= 1;
+            }
+            if(previousHealth > health)
+            {
+                points += 1;
+            }
+            textBox1.Text = points.ToString();
+            previousHealth = health;
         }
 
         private void strengthNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-
+            if(points == 0)
+            {
+                strengthNumericUpDown.Enabled = false;
+            }
+            double previousStrength = (double)strengthNumericUpDown.Value;
+            if(previousStrength < strength)
+            {
+                points -= 1;
+            }
+            if(previousStrength > strength)
+            {
+                points += 1;
+            }
+            textBox1.Text = points.ToString();
+            previousStrength = strength;
         }
 
         private void dexterityNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            
+            if(points == 0)
+            {
+                dexterityNumericUpDown.Enabled = false;
+            }
+            double previousDexterity = (double)dexterityNumericUpDown.Value;
+            if(previousDexterity < dexterity)
+            {
+                points -= 1;
+            }
+            if(previousDexterity > dexterity)
+            {
+                points += 1;
+            }
+            textBox1.Text = points.ToString();
+            previousDexterity = dexterity;
         }
 
         private void submitButton_Click(object sender, EventArgs e)
@@ -50,8 +98,16 @@ namespace Game1
             WriteData(file);
         }
 
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            points = 10;
+            healthNumericUpDown.Value = 100;
+            strengthNumericUpDown.Value = 0;
+            dexterityNumericUpDown.Value = 0;
+        }
+
         // Read data from file
-        static void ReadData(String file)
+        public void ReadData(String file)
         {
             StreamReader input = null;
 
@@ -78,14 +134,16 @@ namespace Game1
         }
 
         // Write data to file
-        static void WriteData(String file)
+        public void WriteData(String file)
         {
             StreamWriter output = null;
 
             try
             {
                 output = new StreamWriter(file);
-                output.WriteLine(""); //PUT SOMETHING HERE
+                output.WriteLine(health);
+                output.WriteLine(strength);
+                output.WriteLine(dexterity);
             }
             catch (Exception e)
             {
