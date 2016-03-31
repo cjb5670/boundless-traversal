@@ -26,15 +26,20 @@ namespace Game1
         Texture2D openDoor; //Open door
         Texture2D character; //The character's sprite
         Texture2D Enemy; //The enemy sprite
-        Texture2D logo; //Game's logo
         Texture2D menuBG; //Background for menu screens
         Texture2D sword;
         Texture2D healthBar;
         Texture2D fullHealthBar;
         //Game Objects
 
+        Texture2D ItemMenu;
+        Texture2D Logo;
         Texture2D MenuBack;
+        Rectangle LogoLoc;
+        Texture2D RIP;
+        Rectangle StatsLoc;
         Rectangle FullScreen;
+        Rectangle RIPloc;
         Vector2 CenterScreen;
         string MainMenuText;
         string ItemMenuText;
@@ -116,8 +121,12 @@ namespace Game1
 
             // Menu Setup
             FullScreen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            CenterScreen = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+            CenterScreen = new Vector2(280, 500);
+            LogoLoc = new Rectangle(335, 250, 1000, 115);
+            StatsLoc = new Rectangle(335, 85, 1000, 750);
+            RIPloc = new Rectangle(800, 250, 500, 500);
             base.Initialize();
+           
         }
 
         /// <summary>
@@ -136,7 +145,11 @@ namespace Game1
             sword = Content.Load<Texture2D>("sword.png");
             sealedVDoor = Content.Load<Texture2D>("vDoor.jpg");
             sealedHDoor = Content.Load<Texture2D>("hDoor.jpg");
-            //MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
+            MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
+            Logo = Content.Load<Texture2D>("PlaceholderLogo.png");
+            ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
+            RIP = Content.Load<Texture2D>("RIP.jpg");
+            
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
@@ -298,17 +311,20 @@ namespace Game1
                     //spriteBatch.Draw(logo, logoPos, Color.White);
                     //main menu buttons
 
-                    //spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-                    MainMenuText = "This is the Main Menu";
+                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    MainMenuText = "       Fight off enemies and try not to die! \nWASD to move, and click to swing your sword. \n           Press enter to set your stats.";
                     spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
+                    spriteBatch.Draw(Logo, LogoLoc, Color.White);
 
                     break;
                 case GameState.ItemMenu:
                     //spriteBatch.Draw(menuBG, destinationRectangle, null, Color.White);
                     //spriteBatch.DrawString(font, "Item Menu:", textPos, Color.White);
-                    //spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-                    ItemMenuText = "This is the Item Menu";
+                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    ItemMenuText = "                     Just kidding. \nLook at this pretty picture and press enter to begin.";
+                    spriteBatch.Draw(ItemMenu, StatsLoc, Color.White);
                     spriteBatch.DrawString(font, ItemMenuText, CenterScreen, Color.SaddleBrown);
+                    
                     break;
                 case GameState.PlayGame:
                     //walls, doors textures
@@ -321,8 +337,7 @@ namespace Game1
                     GraphicsDevice.Clear(Color.CornflowerBlue);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
-                    spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, 200, 40), Color.Black);
-                    spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
+                    
 
 
                     //Drawing Game Objects
@@ -343,8 +358,9 @@ namespace Game1
 
 
                     }
-                    
 
+                    spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, 200, 40), Color.Black);
+                    spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
                     //Drawing walls
                     testRoom.DrawWalls(spriteBatch);
@@ -353,13 +369,12 @@ namespace Game1
                     break;
                 case GameState.PauseMenu:
 
-                    PauseMenuText = "The Game is Paused";
-                    spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
+                    PauseMenuText = "         The Game is Paused";
+                    
                     health = (mainChar.healthPoints).ToString();
                     GraphicsDevice.Clear(Color.CornflowerBlue);
 
-                    spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
-                    spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
+                    
 
                     //Drawing Game Objects
                     spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
@@ -374,17 +389,20 @@ namespace Game1
 
                     //Drawing walls
                     testRoom.DrawWalls(spriteBatch);
+                    spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
 
-
+                    spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
+                    spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
                     break;
                 case GameState.Gameover:
                     //game over background texture
                     //final stats
                     //buttons, back to main menu
-                    //spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-                    GameOverText = "Ur ded Scrub";
+                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    GameOverText = "     Ur ded Scrub";
                     spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
+                    spriteBatch.Draw(RIP, RIPloc, Color.White);
                     break;
             }
 
