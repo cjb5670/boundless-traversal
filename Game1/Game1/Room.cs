@@ -31,6 +31,7 @@ namespace Game1
         //Sets number of enemies with their properties for a room
         public void SetEnemies(Texture2D texture,int j)
         {
+            enemies.Clear();
             for(int i=0; i < j; i ++)
             {
                 Enemy roomEnemy =new Enemy(0,0,0);
@@ -41,15 +42,15 @@ namespace Game1
             }
         }
 
-        public bool RoomClear()
+        public void RoomClear()
         {
             foreach(Enemy roomEnemy in enemies)
             {
                 if (roomEnemy.checkAlive())
-                    return false;
+                    return;
 
             }
-            return true;
+           
         }
 
         //Sets the position of the enemies
@@ -74,10 +75,19 @@ namespace Game1
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
-            topWall.DrawWall(spriteBatch);
-            bottomWall.DrawWall(spriteBatch);
-            rightWall.DrawWall(spriteBatch);
-            leftWall.DrawWall(spriteBatch);
+            DrawSingleWall(topWall,spriteBatch);
+            DrawSingleWall(bottomWall,spriteBatch);
+            DrawSingleWall(rightWall,spriteBatch);
+            DrawSingleWall(leftWall,spriteBatch);
+
+            
+
+      }
+
+        public void DrawSingleWall(Wall wall, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
+            spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
         }
 
         public void SetWallTexure(Texture2D texture)

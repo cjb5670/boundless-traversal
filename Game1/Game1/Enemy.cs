@@ -29,7 +29,11 @@ namespace Game1
         public bool checkAlive()
         {
             if (this.healthPoints >0)
+            {
+                
                 return true;
+            }
+                
             else
                 return false;
         }

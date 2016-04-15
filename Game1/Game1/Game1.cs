@@ -267,9 +267,10 @@ namespace Game1
                             foreach (Enemy e in testRoom.enemies)
                             {
 
-                                if (e.playerIntersect(blade))
+                                if (e.playerIntersect(blade)&& e.checkAlive())
                                 {
                                     Character.charHit(blade, e);
+                                    e.healthPoints = 0;
                                 }
 
                             }
@@ -279,12 +280,17 @@ namespace Game1
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
 
+                    testRoom.RoomClear();
+
                     //Enemy AI function
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         //Rotates the enemy to the character
-                        rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
-                        testRoom.enemies[i].followChar(mainChar);
+                        if (testRoom.enemies[i].checkAlive())
+                        {
+                            rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
+                            testRoom.enemies[i].followChar(mainChar);
+                        }
                     }
 
 
@@ -388,7 +394,8 @@ namespace Game1
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testRoom.enemies[i];
-                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                        if (enemyTemp.checkAlive())
+                            spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
 
@@ -425,6 +432,7 @@ namespace Game1
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testRoom.enemies[i];
+                        
                         spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 

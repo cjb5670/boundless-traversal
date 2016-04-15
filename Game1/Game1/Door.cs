@@ -23,6 +23,16 @@ namespace Game1
             sprite = texture;
         }
 
+        public void Open(Boolean roomClear)
+        {
+            if(roomClear==true)
+            {
+                sprite = null;
+            }
+
+           
+        }
+
 
     }
 }
