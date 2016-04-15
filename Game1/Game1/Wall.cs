@@ -25,15 +25,12 @@ namespace Game1
         {
             roomWall = new Rectangle(0, 0, 1600, 50);
             wallDoor = new Door(150, 51, 750, 0);
-
-
         }
 
         public void SetBottomWall()
         {
             roomWall = new Rectangle(0, 850, 1600, 50);
             wallDoor = new Door(150, 51, 750,850);
-
         }
 
         public void SetLeftWall()
@@ -48,9 +45,5 @@ namespace Game1
             wallDoor = new Door(51, 150, 1550, 400);
 
         }
-        
-        
-
-        
     }
 }

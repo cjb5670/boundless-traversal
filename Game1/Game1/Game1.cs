@@ -175,7 +175,7 @@ namespace Game1
             testRoom.SpawnEnemies();
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            testRoom.SetWallTexure(Content.Load<Texture2D>("hWall.png"), Content.Load<Texture2D>("vWall.png")); //A wall that isnt open 
+            testRoom.SetWallTexture(Content.Load<Texture2D>("hWall.png"), Content.Load<Texture2D>("vWall.png")); //A wall that isnt open 
             testRoom.SetWalls();
             testRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
             testRoom.topWall.wallDoor.SetSprite(sealedHDoor);
@@ -411,7 +411,7 @@ namespace Game1
                     spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
                     //Drawing walls
-        testRoom.DrawWalls(spriteBatch);
+                    testRoom.DrawWalls(spriteBatch);
                     
 
 
@@ -439,7 +439,7 @@ namespace Game1
 
 
                     //Drawing walls
-      testRoom.DrawWalls(spriteBatch);
+                    testRoom.DrawWalls(spriteBatch);
                     spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);

@@ -93,10 +93,10 @@ namespace Game1
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, null, Color.White, 0.0f, new Vector2(0, 0), myEffect, 0.0f);
             if (RoomClear() == true)
-                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
+                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, null, Color.White, 0.0f, new Vector2(0,0), myEffect, 0.0f);
         }
 
-        public void SetWallTexure(Texture2D hTexture, Texture2D vTexture)
+        public void SetWallTexture(Texture2D hTexture, Texture2D vTexture)
         {
             topWall.texture = hTexture;
             bottomWall.texture = hTexture;
