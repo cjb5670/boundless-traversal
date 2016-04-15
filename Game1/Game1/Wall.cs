@@ -54,5 +54,11 @@ namespace Game1
             spriteBatch.Draw(texture, roomWall, Color.White);
             spriteBatch.Draw(wallDoor.sprite, wallDoor.position, Color.White);
         }
+
+        public void DrawWall(SpriteBatch spriteBatch, SpriteEffects myEffect)
+        {
+            spriteBatch.Draw(texture, roomWall, null, Color.White, 0.0f, new Vector2(0,0), myEffect, 0.0f);
+            spriteBatch.Draw(wallDoor.sprite, wallDoor.position, Color.White);
+        }
     }
 }

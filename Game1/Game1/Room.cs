@@ -73,10 +73,9 @@ namespace Game1
         }
         public void DrawWalls(SpriteBatch spriteBatch)
         {
-
             topWall.DrawWall(spriteBatch);
-            bottomWall.DrawWall(spriteBatch);
-            rightWall.DrawWall(spriteBatch);
+            bottomWall.DrawWall(spriteBatch, SpriteEffects.FlipHorizontally);
+            rightWall.DrawWall(spriteBatch, SpriteEffects.FlipVertically);
             leftWall.DrawWall(spriteBatch);
         }
 
