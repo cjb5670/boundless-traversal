@@ -75,20 +75,25 @@ namespace Game1
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
-            DrawSingleWall(topWall,spriteBatch);
-            DrawSingleWall(bottomWall,spriteBatch);
-            DrawSingleWall(rightWall,spriteBatch);
-            DrawSingleWall(leftWall,spriteBatch);
-
-            
+            DrawNWWall(topWall,spriteBatch);
+            DrawSEWall(bottomWall,spriteBatch,SpriteEffects.FlipVertically);
+            DrawSEWall(rightWall,spriteBatch,SpriteEffects.FlipHorizontally);
+            DrawNWWall(leftWall,spriteBatch);
 
       }
 
-        public void DrawSingleWall(Wall wall, SpriteBatch spriteBatch)
+        public void DrawNWWall(Wall wall, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
             if (RoomClear() == true)
             spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
+        }
+
+        public void DrawSEWall(Wall wall, SpriteBatch spriteBatch, SpriteEffects myEffect)
+        {
+            spriteBatch.Draw(wall.texture, wall.roomWall, null, Color.White, 0.0f, new Vector2(0, 0), myEffect, 0.0f);
+            if (RoomClear() == true)
+                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
         }
 
         public void SetWallTexure(Texture2D hTexture, Texture2D vTexture)
