@@ -36,21 +36,21 @@ namespace Game1
             {
                 Enemy roomEnemy =new Enemy(0,0,0);
                 roomEnemy.SetSprite(texture);
-                roomEnemy.healthPoints = 10;
+                roomEnemy.healthPoints = 30;
                 roomEnemy.attackDamage = 5;
                 enemies.Add(roomEnemy);
             }
         }
 
-        public void RoomClear()
+        public Boolean RoomClear()
         {
             foreach(Enemy roomEnemy in enemies)
             {
                 if (roomEnemy.checkAlive())
-                    return;
+                    return true;
 
             }
-           
+            return false;
         }
 
         //Sets the position of the enemies
@@ -87,7 +87,8 @@ namespace Game1
         public void DrawSingleWall(Wall wall, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
-            spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
+            if (RoomClear() == true)
+            spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
         }
 
         public void SetWallTexure(Texture2D hTexture, Texture2D vTexture)

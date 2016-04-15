@@ -10,7 +10,7 @@ namespace Game1
     public class Door 
     {
         public Texture2D sprite;
-        Boolean open = false;
+        public Color color=Color.White;
         public Rectangle position;
 
         public Door(int w, int h,int x, int y)
@@ -23,15 +23,7 @@ namespace Game1
             sprite = texture;
         }
 
-        public void Open(Boolean roomClear)
-        {
-            if(roomClear==true)
-            {
-                sprite = null;
-            }
-
-           
-        }
+       
 
 
     }
