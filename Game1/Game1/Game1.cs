@@ -37,6 +37,7 @@ namespace Game1
         Texture2D MenuBack;
 		Texture2D ButtonBack;
         Texture2D RIP;
+        Texture2D StatSetter;
 		Rectangle LogoLoc;
 		Rectangle StatsLoc;
         Rectangle FullScreen;
@@ -67,10 +68,23 @@ namespace Game1
 		Button Play;
 		Button Resume;
 		Button Restart;
-		Rectangle buttonPosSetStats;
+        Button upStr;
+        Button downStr;
+        Button upDex;
+        Button downDex;
+        Button upCon;
+        Button downCon;
+        Rectangle buttonPosSetStats;
 		Rectangle buttonPosPlay;
 		Rectangle buttonPosResume;
 		Rectangle buttonPosRestart;
+        Rectangle upStrPos;
+        Rectangle downStrPos;
+        Rectangle upDexPos;
+        Rectangle downDexPos;
+        Rectangle upConPos;
+        Rectangle downConPos;
+        StatList PlayerStats;
 
 		//enum for Game State
 		enum GameState
@@ -136,7 +150,7 @@ namespace Game1
             LogoLoc = new Rectangle(335, 250, 1000, 115);
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
-
+            PlayerStats = new StatList();
 			
 			
 			base.Initialize();
@@ -164,6 +178,7 @@ namespace Game1
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
             RIP = Content.Load<Texture2D>("RIP.jpg");
 			ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
+            StatSetter = Content.Load<Texture2D>("UpArrow.png");
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
@@ -238,6 +253,29 @@ namespace Game1
 					ms = Mouse.GetState();
 					if (Play.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
 					{ state = GameState.PlayGame; }
+
+                    
+
+                    upStrPos = new Rectangle(upStr.buttonX, upStr.buttonY, 60, 60);
+                    downStrPos = new Rectangle(downStr.buttonX, downStr.buttonY, 60, 60);
+                    upDexPos = new Rectangle(upDex.buttonX, upDex.buttonY, 60, 60);
+                    downDexPos = new Rectangle(downDex.buttonX, downDex.buttonY, 60, 60);
+                    upConPos = new Rectangle(upCon.buttonX, upCon.buttonY, 60, 60);
+                    downConPos = new Rectangle(downCon.buttonX, downCon.buttonY, 60, 60);
+
+                    if (upStr.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        PlayerStats.upStr();
+                    else if (downStr.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        PlayerStats.downStr();
+                    else if (upCon.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        PlayerStats.upCon();
+                    else if (downCon.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        PlayerStats.downCon();
+                    else if (upDex.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        PlayerStats.upDex();
+                    else if (downDex.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        PlayerStats.downDex();
+
                     break;
                 case GameState.PlayGame:
                     if (mainChar.healthPoints <= 0)
@@ -353,11 +391,19 @@ namespace Game1
 
 					break;
                 case GameState.ItemMenu:
-					
-					spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-                    ItemMenuText = "                     Just kidding. \nLook at this pretty picture and press 'Play' to begin.";
-                    spriteBatch.Draw(ItemMenu, StatsLoc, Color.White);
-                    spriteBatch.DrawString(font, ItemMenuText, CenterScreen, Color.SaddleBrown);
+                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+
+                    ItemMenuText = "                     Select where to allocate your 5 Stats.\n      Strength ups your attack damage, Dex ups your attack speed," +
+                        "\n                               and Con ups your health." +
+                        "\n                               Points Left to Spend: " + PlayerStats.totalStats + 
+                        "\n " +
+                        "                     Strength:         " + PlayerStats.strength +
+                        "\n \n" +
+                        "                     Dexterity:        " + PlayerStats.dexterity +
+                        "\n \n" + 
+                        "                     Constituition:    " + PlayerStats.constitution;
+
+                    spriteBatch.DrawString(font, ItemMenuText, new Vector2 (0,0), Color.SaddleBrown);
 
 					// Has button location
 					Play = new Button(buttonPosPlay, 700, 720);
@@ -365,8 +411,45 @@ namespace Game1
 					if (Play.enterButton() == true)
 					{ spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
 					spriteBatch.DrawString(font, "Play", new Vector2(buttonPosPlay.X + 28, buttonPosPlay.Y + 8), Color.Silver);
-					
-					break;
+
+
+                    // All stat buttons
+                    upStr = new Button(upStrPos, 1200, 200);
+                    downStr = new Button(downStrPos, 1200, 350);
+                    upDex = new Button(upDexPos, 1200, 450);
+                    downDex = new Button(downDexPos, 1200, 600);
+                    upCon = new Button(upConPos, 1200, 700);
+                    downCon = new Button(downConPos, 1200, 850);
+
+                    // Button Draw Logic
+                    spriteBatch.Draw(StatSetter, upStrPos, Color.White);
+                    if (upStr.enterButton() == true)
+                        spriteBatch.Draw(StatSetter, upStrPos, Color.SandyBrown); 
+
+                    spriteBatch.Draw(StatSetter, downStrPos, Color.White);
+                    if (downStr.enterButton() == true)
+                        spriteBatch.Draw(StatSetter, downStrPos, Color.SandyBrown);
+
+                    spriteBatch.Draw(StatSetter, upDexPos, Color.White);
+                    if (upDex.enterButton() == true)
+                        spriteBatch.Draw(StatSetter, upDexPos, Color.SandyBrown);
+
+                    spriteBatch.Draw(StatSetter, downDexPos, Color.White);
+                    if (downDex.enterButton() == true)
+                        spriteBatch.Draw(StatSetter, downDexPos, Color.SandyBrown);
+
+                    spriteBatch.Draw(StatSetter, upConPos, Color.White);
+                    if (upCon.enterButton() == true)
+                        spriteBatch.Draw(StatSetter, upConPos, Color.SandyBrown);
+
+                    spriteBatch.Draw(StatSetter, downConPos, Color.White);
+                    if (downCon.enterButton() == true)
+                        spriteBatch.Draw(StatSetter, downConPos, Color.SandyBrown);
+
+
+
+
+                    break;
                 case GameState.PlayGame:
                     //walls, doors textures
                     //floor texture
