@@ -19,13 +19,14 @@ namespace Game1
         bool isCleared; //bool to test if all enemys have been cleared from the room
         public List<Enemy> enemies; //the list of all the enemies in the room
 
-        Texture2D texture;
+        public Texture2D texture;
         Rectangle rect;
         public Room()
         {
             rect.Height = 900;
             rect.Width = 1600;
             enemies = new List<Enemy>();
+            
         }
 
         //Sets number of enemies with their properties for a room

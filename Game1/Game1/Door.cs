@@ -11,8 +11,13 @@ namespace Game1
     {
         public Texture2D sprite;
         Boolean open = false;
-        public Rectangle position;
+        public Rectangle position; 
 
+
+        public Door()
+        {
+
+        }
         public Door(int w, int h,int x, int y)
         {
             position = new Rectangle(x, y, w, h);

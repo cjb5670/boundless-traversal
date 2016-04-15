@@ -30,6 +30,7 @@ namespace Game1
         Texture2D sword;
         Texture2D healthBar;
         Texture2D fullHealthBar;
+        Texture2D wallTexture;
         //Game Objects
 
         Texture2D ItemMenu;
@@ -49,7 +50,7 @@ namespace Game1
 		
         //Menu Objects
 
-        Room testRoom;
+        
         Character mainChar;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
@@ -71,7 +72,7 @@ namespace Game1
 		Rectangle buttonPosPlay;
 		Rectangle buttonPosResume;
 		Rectangle buttonPosRestart;
-
+        Floor testFloor;
 		//enum for Game State
 		enum GameState
         {
@@ -119,7 +120,7 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 100;
             blade = new Weapon(mainChar);
-            testRoom = new Room();
+            
 
 
 
@@ -137,7 +138,7 @@ namespace Game1
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
 
-			
+            testFloor = new Floor(1, 1, 1);
 			
 			base.Initialize();
            
@@ -167,28 +168,32 @@ namespace Game1
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
-           
-            //Setting room enemies and their textures   
-            testRoom.SetEnemies(Enemy, enemyNo);
 
-            //Spawinging enemies
-            testRoom.SpawnEnemies();
+           
+
+           
+            
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            testRoom.SetWallTexure(Content.Load<Texture2D>("hWall.png")); //A wall that isnt open 
-            testRoom.SetWalls();
-            testRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
-            testRoom.topWall.wallDoor.SetSprite(sealedHDoor);
-            testRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
-            testRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
+            wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open 
+            testFloor.defaultRoom.SetWallTexure(wallTexture);
+             
+            testFloor.defaultRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
+            testFloor.defaultRoom.topWall.wallDoor.SetSprite(sealedHDoor);
+            testFloor.defaultRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
+            testFloor.defaultRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
+            
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
             //Character = Content.Load<Texture2D>(); //The character's sprite
             //Enemy = Content.Load<Texture2D>(); //The enemy sprite
             //logo = Content.Load<Texture2D>(); //Game's logo
-
-
+            
+            //Setting room enemies and their textures   
+            testFloor.enterRoom(1, 1);
+            testFloor.currentRoom.SetEnemies(Enemy, 3);
+            testFloor.currentRoom.SpawnEnemies();
             healthBar = Content.Load<Texture2D>("health.png");
             fullHealthBar = Content.Load<Texture2D>("health.png");
         }
@@ -264,7 +269,7 @@ namespace Game1
                         if (blade.swingtime < 16)
                         {
                             leftMousePress = true;
-                            foreach (Enemy e in testRoom.enemies)
+                            foreach (Enemy e in testFloor.currentRoom.enemies)
                             {
 
                                 if (e.playerIntersect(blade))
@@ -280,11 +285,11 @@ namespace Game1
                     else { leftMousePress = false; blade.swingtime = 0; }
 
                     //Enemy AI function
-                    for (int i = 0; i < testRoom.enemies.Count; i++)
+                    for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
                         //Rotates the enemy to the character
-                        rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
-                        testRoom.enemies[i].followChar(mainChar);
+                        rotate2 = Character.getAngleBetween(mainChar, testFloor.currentRoom.enemies[i]);
+                        testFloor.currentRoom.enemies[i].followChar(mainChar);
                     }
 
 
@@ -385,10 +390,10 @@ namespace Game1
                     spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
 
                     //Drawing enemies
-                    for (int i = 0; i < testRoom.enemies.Count; i++)
+                    for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
-                        Enemy enemyTemp = testRoom.enemies[i];
-                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                        Enemy enemyTemp = testFloor.currentRoom.enemies[i];
+                        spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
 
@@ -404,7 +409,7 @@ namespace Game1
                     spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
                     //Drawing walls
-                    testRoom.DrawWalls(spriteBatch);
+                    testFloor.defaultRoom.DrawWalls(spriteBatch);
 
 
                     break;
@@ -422,15 +427,15 @@ namespace Game1
                     spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
 
                     //Drawing enemies
-                    for (int i = 0; i < testRoom.enemies.Count; i++)
+                    for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
-                        Enemy enemyTemp = testRoom.enemies[i];
-                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                        Enemy enemyTemp = testFloor.currentRoom.enemies[i];
+                        spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
 
                     //Drawing walls
-                    testRoom.DrawWalls(spriteBatch);
+                    testFloor.defaultRoom.DrawWalls(spriteBatch);
                     spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
