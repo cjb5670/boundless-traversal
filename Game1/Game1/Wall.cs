@@ -11,6 +11,7 @@ namespace Game1
     {
         public Door wallDoor; 
         public Rectangle roomWall;
+        public Rectangle exitBox;
         public Texture2D texture;
         //walls
         public Wall()
@@ -24,7 +25,7 @@ namespace Game1
         public void SetTopWall()
         {
             roomWall = new Rectangle(0, 0, 1600, 50);
-            wallDoor = new Door(150, 51, 750, 0);
+            wallDoor = new Door(150, 50, 750, 0);
 
 
         }
@@ -32,23 +33,24 @@ namespace Game1
         public void SetBottomWall()
         {
             roomWall = new Rectangle(0, 850, 1600, 50);
-            wallDoor = new Door(150, 51, 750,850);
+            wallDoor = new Door(150, 50, 750,850);
+            exitBox = new Rectangle();
 
         }
 
         public void SetLeftWall()
         {
             roomWall = new Rectangle(0, 0, 50, 900);
-            wallDoor = new Door(51, 150, 0, 400);
+            wallDoor = new Door(50, 150, 0, 400);
         }
 
         public void SetRightWall()
         {
             roomWall = new Rectangle(1550, 0, 50, 900);
-            wallDoor = new Door(51, 150, 1550, 400);
+            wallDoor = new Door(50, 150, 1550, 400);
 
         }
-        
-        
+
+       
     }
 }

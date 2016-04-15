@@ -10,10 +10,10 @@ namespace Game1
     class Room
     {
 
-        public Wall topWall=new Wall();
-        public Wall bottomWall=new Wall();
-        public Wall leftWall=new Wall();
-        public Wall rightWall=new Wall();
+        public Wall topWall = new Wall();
+        public Wall bottomWall = new Wall();
+        public Wall leftWall = new Wall();
+        public Wall rightWall = new Wall();
 
 
         bool isCleared; //bool to test if all enemys have been cleared from the room
@@ -29,12 +29,12 @@ namespace Game1
         }
 
         //Sets number of enemies with their properties for a room
-        public void SetEnemies(Texture2D texture,int j)
+        public void SetEnemies(Texture2D texture, int j)
         {
             enemies.Clear();
-            for(int i=0; i < j; i ++)
+            for (int i = 0; i < j; i++)
             {
-                Enemy roomEnemy =new Enemy(0,0,0);
+                Enemy roomEnemy = new Enemy(0, 0, 0);
                 roomEnemy.SetSprite(texture);
                 roomEnemy.healthPoints = 30;
                 roomEnemy.attackDamage = 5;
@@ -44,7 +44,7 @@ namespace Game1
 
         public Boolean RoomClear()
         {
-            foreach(Enemy roomEnemy in enemies)
+            foreach (Enemy roomEnemy in enemies)
             {
                 if (roomEnemy.checkAlive())
                     return true;
@@ -75,20 +75,20 @@ namespace Game1
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
-            DrawSingleWall(topWall,spriteBatch);
-            DrawSingleWall(bottomWall,spriteBatch);
-            DrawSingleWall(rightWall,spriteBatch);
-            DrawSingleWall(leftWall,spriteBatch);
+            DrawSingleWall(topWall, spriteBatch);
+            DrawSingleWall(bottomWall, spriteBatch);
+            DrawSingleWall(rightWall, spriteBatch);
+            DrawSingleWall(leftWall, spriteBatch);
 
-            
 
-      }
+
+        }
 
         public void DrawSingleWall(Wall wall, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
             if (RoomClear() == true)
-            spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
+                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
         }
 
         public void SetWallTexure(Texture2D hTexture, Texture2D vTexture)
@@ -98,5 +98,13 @@ namespace Game1
             rightWall.texture = vTexture;
             leftWall.texture = vTexture;
         }
+
+        public void Exit(Circle loc)
+        {
+           
+        }
+            
+         
+        
     }
 }

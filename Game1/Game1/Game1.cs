@@ -269,8 +269,8 @@ namespace Game1
 
                                 if (e.playerIntersect(blade)&& e.checkAlive())
                                 {
-                                    Character.charHit(blade, e);
-                                    e.healthPoints = 0;
+                                    Character.charHit(mainChar, e);
+                                    
                                 }
 
                             }
