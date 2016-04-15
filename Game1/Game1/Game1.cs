@@ -120,7 +120,7 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 100;
             blade = new Weapon(mainChar);
-            
+
 
 
 
@@ -168,8 +168,8 @@ namespace Game1
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
-
            
+
 
            
             
@@ -189,7 +189,7 @@ namespace Game1
             //Character = Content.Load<Texture2D>(); //The character's sprite
             //Enemy = Content.Load<Texture2D>(); //The enemy sprite
             //logo = Content.Load<Texture2D>(); //Game's logo
-            
+
             //Setting room enemies and their textures   
             testFloor.enterRoom(1, 1);
             testFloor.currentRoom.SetEnemies(Enemy, 3);
@@ -272,9 +272,10 @@ namespace Game1
                             foreach (Enemy e in testFloor.currentRoom.enemies)
                             {
 
-                                if (e.playerIntersect(blade))
+                                if (e.playerIntersect(blade)&& e.checkAlive())
                                 {
-                                    Character.charHit(blade, e);
+                                    Character.charHit(mainChar, e);
+                                    
                                 }
 
                             }
@@ -284,12 +285,18 @@ namespace Game1
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
 
+                    testRoom.RoomClear();
+
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
                         //Rotates the enemy to the character
+                        if (testRoom.enemies[i].checkAlive())
+                        {
+                            
                         rotate2 = Character.getAngleBetween(mainChar, testFloor.currentRoom.enemies[i]);
                         testFloor.currentRoom.enemies[i].followChar(mainChar);
+                    }
                     }
 
 
@@ -393,7 +400,10 @@ namespace Game1
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testFloor.currentRoom.enemies[i];
-                        spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                        
+                       
+                        if (enemyTemp.checkAlive())
+                            spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
 
@@ -410,6 +420,7 @@ namespace Game1
 
                     //Drawing walls
                     testFloor.defaultRoom.DrawWalls(spriteBatch);
+
 
 
                     break;

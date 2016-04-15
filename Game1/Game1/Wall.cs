@@ -11,6 +11,7 @@ namespace Game1
     {
         public Door wallDoor; 
         public Rectangle roomWall;
+        public Rectangle exitBox;
         public Texture2D texture;
         //walls
         public Wall()
@@ -54,10 +55,6 @@ namespace Game1
 
         }
         
-        public void DrawWall(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, roomWall, Color.White);
-            spriteBatch.Draw(wallDoor.sprite, wallDoor.position, Color.White);
-        }
+       
     }
 }

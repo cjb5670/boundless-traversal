@@ -10,8 +10,8 @@ namespace Game1
     public class Door 
     {
         public Texture2D sprite;
-        Boolean open = false;
-        public Rectangle position; 
+        public Color color=Color.White;
+        public Rectangle position;
 
 
         public Door()
@@ -22,11 +22,15 @@ namespace Game1
         {
             position = new Rectangle(x, y, w, h);
             
+
         }
         public void SetSprite(Texture2D texture)
         {
             sprite = texture;
         }
+
+
+       
 
 
     }
