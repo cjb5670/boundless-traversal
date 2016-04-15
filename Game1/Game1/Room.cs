@@ -31,25 +31,26 @@ namespace Game1
         //Sets number of enemies with their properties for a room
         public void SetEnemies(Texture2D texture,int j)
         {
+            enemies.Clear();
             for(int i=0; i < j; i ++)
             {
                 Enemy roomEnemy =new Enemy(0,0,0);
                 roomEnemy.SetSprite(texture);
-                roomEnemy.healthPoints = 10;
+                roomEnemy.healthPoints = 30;
                 roomEnemy.attackDamage = 5;
                 enemies.Add(roomEnemy);
             }
         }
 
-        public bool RoomClear()
+        public Boolean RoomClear()
         {
             foreach(Enemy roomEnemy in enemies)
             {
                 if (roomEnemy.checkAlive())
-                    return false;
+                    return true;
 
             }
-            return true;
+            return false;
         }
 
         //Sets the position of the enemies
@@ -74,18 +75,33 @@ namespace Game1
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
-            topWall.DrawWall(spriteBatch);
-            bottomWall.DrawWall(spriteBatch);
-            rightWall.DrawWall(spriteBatch);
-            leftWall.DrawWall(spriteBatch);
+            DrawNWWall(topWall,spriteBatch);
+            DrawSEWall(bottomWall,spriteBatch,SpriteEffects.FlipVertically);
+            DrawSEWall(rightWall,spriteBatch,SpriteEffects.FlipHorizontally);
+            DrawNWWall(leftWall,spriteBatch);
+
+      }
+
+        public void DrawNWWall(Wall wall, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
+            if (RoomClear() == true)
+            spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
         }
 
-        public void SetWallTexure(Texture2D texture)
+        public void DrawSEWall(Wall wall, SpriteBatch spriteBatch, SpriteEffects myEffect)
         {
-            topWall.texture = texture;
-            bottomWall.texture = texture;
-            rightWall.texture = texture;
-            leftWall.texture = texture;
+            spriteBatch.Draw(wall.texture, wall.roomWall, null, Color.White, 0.0f, new Vector2(0, 0), myEffect, 0.0f);
+            if (RoomClear() == true)
+                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, null, Color.White, 0.0f, new Vector2(0,0), myEffect, 0.0f);
+        }
+
+        public void SetWallTexture(Texture2D hTexture, Texture2D vTexture)
+        {
+            topWall.texture = hTexture;
+            bottomWall.texture = hTexture;
+            rightWall.texture = vTexture;
+            leftWall.texture = vTexture;
         }
     }
 }

@@ -190,7 +190,7 @@ namespace Game1
             testRoom.SpawnEnemies();
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            testRoom.SetWallTexure(Content.Load<Texture2D>("hWall.png")); //A wall that isnt open 
+            testRoom.SetWallTexture(Content.Load<Texture2D>("hWall.png"), Content.Load<Texture2D>("vWall.png")); //A wall that isnt open 
             testRoom.SetWalls();
             testRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
             testRoom.topWall.wallDoor.SetSprite(sealedHDoor);
@@ -305,9 +305,10 @@ namespace Game1
                             foreach (Enemy e in testRoom.enemies)
                             {
 
-                                if (e.playerIntersect(blade))
+                                if (e.playerIntersect(blade)&& e.checkAlive())
                                 {
-                                    Character.charHit(blade, e);
+                                    Character.charHit(mainChar, e);
+                                    
                                 }
 
                             }
@@ -317,12 +318,17 @@ namespace Game1
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
 
+                    testRoom.RoomClear();
+
                     //Enemy AI function
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         //Rotates the enemy to the character
-                        rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
-                        testRoom.enemies[i].followChar(mainChar);
+                        if (testRoom.enemies[i].checkAlive())
+                        {
+                            rotate2 = Character.getAngleBetween(mainChar, testRoom.enemies[i]);
+                            testRoom.enemies[i].followChar(mainChar);
+                        }
                     }
 
 
@@ -471,7 +477,8 @@ namespace Game1
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testRoom.enemies[i];
-                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                        if (enemyTemp.checkAlive())
+                            spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
 
@@ -488,6 +495,7 @@ namespace Game1
 
                     //Drawing walls
                     testRoom.DrawWalls(spriteBatch);
+                    
 
 
                     break;
@@ -508,6 +516,7 @@ namespace Game1
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testRoom.enemies[i];
+                        
                         spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
