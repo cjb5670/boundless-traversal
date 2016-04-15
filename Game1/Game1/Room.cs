@@ -80,12 +80,12 @@ namespace Game1
             leftWall.DrawWall(spriteBatch);
         }
 
-        public void SetWallTexure(Texture2D texture)
+        public void SetWallTexure(Texture2D hTexture, Texture2D vTexture)
         {
-            topWall.texture = texture;
-            bottomWall.texture = texture;
-            rightWall.texture = texture;
-            leftWall.texture = texture;
+            topWall.texture = hTexture;
+            bottomWall.texture = hTexture;
+            rightWall.texture = vTexture;
+            leftWall.texture = vTexture;
         }
     }
 }
