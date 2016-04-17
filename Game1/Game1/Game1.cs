@@ -36,11 +36,11 @@ namespace Game1
         Texture2D ItemMenu;
         Texture2D Logo;
         Texture2D MenuBack;
-		Texture2D ButtonBack;
+        Texture2D ButtonBack;
         Texture2D RIP;
         Texture2D StatSetter;
-		Rectangle LogoLoc;
-		Rectangle StatsLoc;
+        Rectangle LogoLoc;
+        Rectangle StatsLoc;
         Rectangle FullScreen;
         Rectangle RIPloc;
         Vector2 CenterScreen;
@@ -48,10 +48,10 @@ namespace Game1
         string ItemMenuText;
         string PauseMenuText;
         string GameOverText;
-		
+
         //Menu Objects
 
-        
+
         Character mainChar;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
@@ -61,24 +61,24 @@ namespace Game1
         float rotate;
         float rotate2;
         MouseState ms;
-		MouseState previousms;
+        MouseState previousms;
         bool leftMousePress;
         bool rightMousePress;
         int enemyNo;
-		Button SetStats;
-		Button Play;
-		Button Resume;
-		Button Restart;
+        Button SetStats;
+        Button Play;
+        Button Resume;
+        Button Restart;
         Button upStr;
         Button downStr;
         Button upDex;
         Button downDex;
         Button upCon;
         Button downCon;
-		Rectangle buttonPosSetStats;
-		Rectangle buttonPosPlay;
-		Rectangle buttonPosResume;
-		Rectangle buttonPosRestart;
+        Rectangle buttonPosSetStats;
+        Rectangle buttonPosPlay;
+        Rectangle buttonPosResume;
+        Rectangle buttonPosRestart;
         Rectangle upStrPos;
         Rectangle downStrPos;
         Rectangle upDexPos;
@@ -87,8 +87,8 @@ namespace Game1
         Rectangle downConPos;
         StatList PlayerStats;
         Floor testFloor;
-		//enum for Game State
-		enum GameState
+        //enum for Game State
+        enum GameState
         {
             MainMenu, PauseMenu, ItemMenu, PlayGame, Gameover
         }
@@ -140,7 +140,7 @@ namespace Game1
 
             movespeed = 10;
 
-           
+
             enemyNo = 3;
 
             //Setting walls
@@ -153,10 +153,10 @@ namespace Game1
             RIPloc = new Rectangle(800, 250, 500, 500);
             PlayerStats = new StatList();
 
-            testFloor = new Floor(1, 1, 1);
-			
-			base.Initialize();
-           
+            testFloor = new Floor(3, 3, 1);
+
+            base.Initialize();
+
         }
 
         /// <summary>
@@ -179,16 +179,16 @@ namespace Game1
             Logo = Content.Load<Texture2D>("PlaceholderLogo.png");
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
             RIP = Content.Load<Texture2D>("RIP.jpg");
-			ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
+            ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
             StatSetter = Content.Load<Texture2D>("UpArrow.png");
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
-           
 
 
-           
-            
+
+
+
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open 
@@ -198,7 +198,7 @@ namespace Game1
             testFloor.currentRoom.topWall.wallDoor.SetSprite(sealedHDoor);
             testFloor.currentRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
-            
+
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
@@ -207,7 +207,7 @@ namespace Game1
             //logo = Content.Load<Texture2D>(); //Game's logo
 
             //Setting room enemies and their textures   
-            testFloor.enterRoom(1, 1);
+            testFloor.enterRoom();
             testFloor.currentRoom.SetEnemies(Enemy, 3);
             testFloor.currentRoom.SpawnEnemies();
             healthBar = Content.Load<Texture2D>("health.png");
@@ -242,25 +242,25 @@ namespace Game1
             {
                 case GameState.MainMenu:
                     ResetGame();
-					// Has button location
-					SetStats = new Button(buttonPosSetStats, 650, 720);
-					// Has button size
-					buttonPosSetStats = new Rectangle(SetStats.buttonX, SetStats.buttonY, 280, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if (SetStats.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
+                    // Has button location
+                    SetStats = new Button(buttonPosSetStats, 650, 720);
+                    // Has button size
+                    buttonPosSetStats = new Rectangle(SetStats.buttonX, SetStats.buttonY, 280, 80);
+                    previousms = ms;
+                    ms = Mouse.GetState();
+                    if (SetStats.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
                     { state = GameState.ItemMenu; }
                     break;
                 case GameState.ItemMenu:
-					
-					// Has button size
-					buttonPosPlay = new Rectangle(Play.buttonX, Play.buttonY, 150, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if (Play.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-					{ state = GameState.PlayGame; }
 
-                    
+                    // Has button size
+                    buttonPosPlay = new Rectangle(Play.buttonX, Play.buttonY, 150, 80);
+                    previousms = ms;
+                    ms = Mouse.GetState();
+                    if (Play.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
+                    { state = GameState.PlayGame; }
+
+
 
                     upStrPos = new Rectangle(upStr.buttonX, upStr.buttonY, 60, 60);
                     downStrPos = new Rectangle(downStr.buttonX, downStr.buttonY, 60, 60);
@@ -311,10 +311,10 @@ namespace Game1
                             foreach (Enemy e in testFloor.currentRoom.enemies)
                             {
 
-                                if (e.playerIntersect(blade)&& e.checkAlive())
+                                if (e.playerIntersect(blade) && e.checkAlive())
                                 {
                                     Character.charHit(mainChar, e);
-                                    
+
                                 }
 
                             }
@@ -324,7 +324,16 @@ namespace Game1
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
 
-                    testFloor.currentRoom.RoomClear();
+                    if (testFloor.currentRoom.RoomClear())
+                    {
+                        testFloor.enterDoor(Enemy);
+                        if (!testFloor.currentRoom.RoomClear())
+                        {
+                            testFloor.currentRoom.SetEnemies(Enemy, 3);
+                            testFloor.currentRoom.SpawnEnemies();
+                        }
+
+                    }
 
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
@@ -332,9 +341,9 @@ namespace Game1
                         //Rotates the enemy to the character
                         if (testFloor.currentRoom.enemies[i].checkAlive())
                         {
-                            
-                        rotate2 = Character.getAngleBetween(mainChar, testFloor.currentRoom.enemies[i]);
-                        testFloor.currentRoom.enemies[i].followChar(mainChar);
+
+                            rotate2 = Character.getAngleBetween(mainChar, testFloor.currentRoom.enemies[i]);
+                            testFloor.currentRoom.enemies[i].followChar(mainChar);
                         }
                     }
 
@@ -350,20 +359,20 @@ namespace Game1
                     }
                     break;
                 case GameState.PauseMenu:
-					// Has button size
-					buttonPosResume = new Rectangle(Resume.buttonX, Resume.buttonY, 240, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if ((Resume.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-						|| (SingleKeyPress(Keys.P) == true))
+                    // Has button size
+                    buttonPosResume = new Rectangle(Resume.buttonX, Resume.buttonY, 240, 80);
+                    previousms = ms;
+                    ms = Mouse.GetState();
+                    if ((Resume.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
+                        || (SingleKeyPress(Keys.P) == true))
                     { state = GameState.PlayGame; }
                     break;
                 case GameState.Gameover:
-					buttonPosRestart = new Rectangle(Restart.buttonX, Restart.buttonY, 240, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if (Restart.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-					{ state = GameState.MainMenu; }
+                    buttonPosRestart = new Rectangle(Restart.buttonX, Restart.buttonY, 240, 80);
+                    previousms = ms;
+                    ms = Mouse.GetState();
+                    if (Restart.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
+                    { state = GameState.MainMenu; }
                     break;
             }
 
@@ -390,41 +399,41 @@ namespace Game1
             switch (state)
             {
                 case GameState.MainMenu:
-					//menu filler art
-					
-                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-                    MainMenuText = "       Fight off enemies and try not to die! \nWASD to move, and click to swing your sword.\n       Press 'Set Stats' to build a character.";          
-                    spriteBatch.Draw(Logo, LogoLoc, Color.White);
-					
-					spriteBatch.Draw(ButtonBack, buttonPosSetStats, Color.White);
-					if (SetStats.enterButton() == true)
-					{ spriteBatch.Draw(ButtonBack, buttonPosSetStats, Color.SandyBrown); }
-					spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
-					spriteBatch.DrawString(font, "Set Stats", new Vector2(buttonPosSetStats.X + 32, buttonPosSetStats.Y+8), Color.Silver);
+                    //menu filler art
 
-					break;
+                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+                    MainMenuText = "       Fight off enemies and try not to die! \nWASD to move, and click to swing your sword.\n       Press 'Set Stats' to build a character.";
+                    spriteBatch.Draw(Logo, LogoLoc, Color.White);
+
+                    spriteBatch.Draw(ButtonBack, buttonPosSetStats, Color.White);
+                    if (SetStats.enterButton() == true)
+                    { spriteBatch.Draw(ButtonBack, buttonPosSetStats, Color.SandyBrown); }
+                    spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
+                    spriteBatch.DrawString(font, "Set Stats", new Vector2(buttonPosSetStats.X + 32, buttonPosSetStats.Y + 8), Color.Silver);
+
+                    break;
                 case GameState.ItemMenu:
                     spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-					
+
                     ItemMenuText = "                     Select where to allocate your 5 Stats.\n      Strength ups your attack damage, Dex ups your attack speed," +
                         "\n                               and Con ups your health." +
-                        "\n                               Points Left to Spend: " + PlayerStats.totalStats + 
+                        "\n                               Points Left to Spend: " + PlayerStats.totalStats +
                         "\n " +
                         "                     Strength:         " + PlayerStats.strength +
                         "\n \n" +
                         "                     Dexterity:        " + PlayerStats.dexterity +
-                        "\n \n" + 
+                        "\n \n" +
                         "                     Constituition:    " + PlayerStats.constitution;
 
-                    spriteBatch.DrawString(font, ItemMenuText, new Vector2 (0,0), Color.SaddleBrown);
+                    spriteBatch.DrawString(font, ItemMenuText, new Vector2(0, 0), Color.SaddleBrown);
 
-					// Has button location
-					Play = new Button(buttonPosPlay, 700, 720);
-					spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.White);
-					if (Play.enterButton() == true)
-					{ spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
-					spriteBatch.DrawString(font, "Play", new Vector2(buttonPosPlay.X + 28, buttonPosPlay.Y + 8), Color.Silver);
-					
+                    // Has button location
+                    Play = new Button(buttonPosPlay, 700, 720);
+                    spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.White);
+                    if (Play.enterButton() == true)
+                    { spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
+                    spriteBatch.DrawString(font, "Play", new Vector2(buttonPosPlay.X + 28, buttonPosPlay.Y + 8), Color.Silver);
+
 
                     // All stat buttons
                     upStr = new Button(upStrPos, 1200, 200);
@@ -437,7 +446,7 @@ namespace Game1
                     // Button Draw Logic
                     spriteBatch.Draw(StatSetter, upStrPos, Color.White);
                     if (upStr.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, upStrPos, Color.SandyBrown); 
+                        spriteBatch.Draw(StatSetter, upStrPos, Color.SandyBrown);
 
                     spriteBatch.Draw(StatSetter, downStrPos, Color.White);
                     if (downStr.enterButton() == true)
@@ -462,7 +471,7 @@ namespace Game1
 
 
 
-					break;
+                    break;
                 case GameState.PlayGame:
                     //walls, doors textures
                     //floor texture
@@ -474,7 +483,7 @@ namespace Game1
                     GraphicsDevice.Clear(Color.CornflowerBlue);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
-                    
+
 
 
                     //Drawing Game Objects
@@ -484,8 +493,8 @@ namespace Game1
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testFloor.currentRoom.enemies[i];
-                        
-                       
+
+
                         if (enemyTemp.checkAlive())
                             spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
@@ -504,19 +513,19 @@ namespace Game1
 
                     //Drawing walls
                     testFloor.currentRoom.DrawWalls(spriteBatch);
-                    
+
 
 
                     break;
                 case GameState.PauseMenu:
 
                     PauseMenuText = "         The Game is Paused \n Press 'p' or 'Resume' to Resume.";
-                    
-                    health = (mainChar.healthPoints).ToString();
-					spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, 200, 40), Color.Black);
-					GraphicsDevice.Clear(Color.CornflowerBlue);
 
-                    
+                    health = (mainChar.healthPoints).ToString();
+                    spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, 200, 40), Color.Black);
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
 
                     //Drawing Game Objects
                     spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
@@ -536,14 +545,14 @@ namespace Game1
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
                     spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
-					// Has button location
-					Resume = new Button(buttonPosResume, 700, 720);
-					spriteBatch.Draw(ButtonBack, buttonPosResume, Color.White);
-					if (Play.enterButton() == true)
-					{ spriteBatch.Draw(ButtonBack, buttonPosResume, Color.SandyBrown); }
-					spriteBatch.DrawString(font, "Resume", new Vector2(buttonPosResume.X + 28, buttonPosResume.Y + 8), Color.Silver);
+                    // Has button location
+                    Resume = new Button(buttonPosResume, 700, 720);
+                    spriteBatch.Draw(ButtonBack, buttonPosResume, Color.White);
+                    if (Play.enterButton() == true)
+                    { spriteBatch.Draw(ButtonBack, buttonPosResume, Color.SandyBrown); }
+                    spriteBatch.DrawString(font, "Resume", new Vector2(buttonPosResume.X + 28, buttonPosResume.Y + 8), Color.Silver);
 
-					break;
+                    break;
                 case GameState.Gameover:
                     //game over background texture
                     //final stats
@@ -552,13 +561,13 @@ namespace Game1
                     GameOverText = "     Ur ded Scrub";
                     spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
                     spriteBatch.Draw(RIP, RIPloc, Color.White);
-					// Has button location
-					Restart = new Button(buttonPosRestart, 700, 720);
-					spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.White);
-					if (Restart.enterButton() == true)
-					{ spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.SandyBrown); }
-					spriteBatch.DrawString(font, "Restart", new Vector2(buttonPosRestart.X + 28, buttonPosRestart.Y + 8), Color.Silver);
-					break;
+                    // Has button location
+                    Restart = new Button(buttonPosRestart, 700, 720);
+                    spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.White);
+                    if (Restart.enterButton() == true)
+                    { spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.SandyBrown); }
+                    spriteBatch.DrawString(font, "Restart", new Vector2(buttonPosRestart.X + 28, buttonPosRestart.Y + 8), Color.Silver);
+                    break;
             }
 
             spriteBatch.End();
@@ -574,10 +583,10 @@ namespace Game1
             return false;
         }
 
-		
 
-		//Controls player wasd movement
-		public void CharacterMovement(Character mc)
+
+        //Controls player wasd movement
+        public void CharacterMovement(Character mc)
         {
             /*Code when we choose to use enums for player movement when we implement animations
             switch(direction)
