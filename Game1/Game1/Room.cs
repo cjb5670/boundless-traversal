@@ -86,8 +86,8 @@ namespace Game1
         public void DrawNWWall(Wall wall, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
-            if (RoomClear() == true)
-            spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
+            //if (RoomClear() == true)
+                //spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
         }
 
         public void DrawSEWall(Wall wall, SpriteBatch spriteBatch, SpriteEffects myEffect)

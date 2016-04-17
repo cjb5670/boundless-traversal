@@ -86,7 +86,7 @@ namespace Game1
         Rectangle upConPos;
         Rectangle downConPos;
         StatList PlayerStats;
-
+        Floor testFloor;
 		//enum for Game State
 		enum GameState
         {
@@ -140,7 +140,7 @@ namespace Game1
 
             movespeed = 10;
 
-            //Sets testroom enemy number
+           
             enemyNo = 3;
 
             //Setting walls
@@ -192,12 +192,12 @@ namespace Game1
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open 
-            testFloor.defaultRoom.SetWallTexure(wallTexture);
-             
-            testFloor.defaultRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
-            testFloor.defaultRoom.topWall.wallDoor.SetSprite(sealedHDoor);
-            testFloor.defaultRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
-            testFloor.defaultRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
+            testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
+            testFloor.currentRoom.SetWalls();
+            testFloor.currentRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
+            testFloor.currentRoom.topWall.wallDoor.SetSprite(sealedHDoor);
+            testFloor.currentRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
+            testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
             
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
@@ -324,13 +324,13 @@ namespace Game1
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
 
-                    testRoom.RoomClear();
+                    testFloor.currentRoom.RoomClear();
 
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
                         //Rotates the enemy to the character
-                        if (testRoom.enemies[i].checkAlive())
+                        if (testFloor.currentRoom.enemies[i].checkAlive())
                         {
                             
                         rotate2 = Character.getAngleBetween(mainChar, testFloor.currentRoom.enemies[i]);
@@ -503,7 +503,7 @@ namespace Game1
                     spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
                     //Drawing walls
-                    testFloor.defaultRoom.DrawWalls(spriteBatch);
+                    testFloor.currentRoom.DrawWalls(spriteBatch);
                     
 
 
@@ -530,7 +530,7 @@ namespace Game1
 
 
                     //Drawing walls
-                    testFloor.defaultRoom.DrawWalls(spriteBatch);
+                    testFloor.currentRoom.DrawWalls(spriteBatch);
                     spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
