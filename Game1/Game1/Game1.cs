@@ -36,11 +36,14 @@ namespace Game1
         Texture2D Logo;
         Texture2D MenuBack;
 		Texture2D ButtonBack;
+		Texture2D ButtonPressed;
         Texture2D RIP;
 		Rectangle LogoLoc;
 		Rectangle StatsLoc;
         Rectangle FullScreen;
         Rectangle RIPloc;
+		Rectangle UpArrow;
+		Rectangle DownArrow;
         Vector2 CenterScreen;
         string MainMenuText;
         string ItemMenuText;
@@ -136,9 +139,10 @@ namespace Game1
             LogoLoc = new Rectangle(335, 250, 1000, 115);
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
+			
 
-			
-			
+
+
 			base.Initialize();
            
         }
@@ -164,6 +168,7 @@ namespace Game1
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
             RIP = Content.Load<Texture2D>("RIP.jpg");
 			ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
+			ButtonPressed = Content.Load<Texture2D>("Test.png");
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
@@ -223,21 +228,17 @@ namespace Game1
                     ResetGame();
 					// Has button location
 					SetStats = new Button(buttonPosSetStats, 650, 720);
-					// Has button size
 					buttonPosSetStats = new Rectangle(SetStats.buttonX, SetStats.buttonY, 280, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if (SetStats.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-                    { state = GameState.ItemMenu; }
-                    break;
+					if (ButtonPress(SetStats) == true)
+						 state = GameState.ItemMenu; 
+					break;
                 case GameState.ItemMenu:
 					
 					// Has button size
 					buttonPosPlay = new Rectangle(Play.buttonX, Play.buttonY, 150, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if (Play.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-					{ state = GameState.PlayGame; }
+
+					if (ButtonPress(Play) == true)
+						 state = GameState.PlayGame; 
                     break;
                 case GameState.PlayGame:
                     if (mainChar.healthPoints <= 0)
@@ -301,18 +302,16 @@ namespace Game1
                 case GameState.PauseMenu:
 					// Has button size
 					buttonPosResume = new Rectangle(Resume.buttonX, Resume.buttonY, 240, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if ((Resume.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-						|| (SingleKeyPress(Keys.P) == true))
-                    { state = GameState.PlayGame; }
+					
+					if (ButtonPress(Resume) == true || (SingleKeyPress(Keys.P) == true))
+						 state = GameState.PlayGame; 
                     break;
+
+
                 case GameState.Gameover:
 					buttonPosRestart = new Rectangle(Restart.buttonX, Restart.buttonY, 240, 80);
-					previousms = ms;
-					ms = Mouse.GetState();
-					if (Restart.enterButton() == true && previousms.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
-					{ state = GameState.MainMenu; }
+					if (ButtonPress(Restart) == true)
+						 state = GameState.MainMenu; 
                     break;
             }
 
@@ -345,9 +344,12 @@ namespace Game1
                     MainMenuText = "       Fight off enemies and try not to die! \nWASD to move, and click to swing your sword.\n       Press 'Set Stats' to build a character.";          
                     spriteBatch.Draw(Logo, LogoLoc, Color.White);
 					
+					// Button drawing and logic
 					spriteBatch.Draw(ButtonBack, buttonPosSetStats, Color.White);
 					if (SetStats.enterButton() == true)
 					{ spriteBatch.Draw(ButtonBack, buttonPosSetStats, Color.SandyBrown); }
+					if (SetStats.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
+					{ spriteBatch.Draw(ButtonPressed, buttonPosSetStats, Color.White); }
 					spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
 					spriteBatch.DrawString(font, "Set Stats", new Vector2(buttonPosSetStats.X + 32, buttonPosSetStats.Y+8), Color.Silver);
 
@@ -364,6 +366,8 @@ namespace Game1
 					spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.White);
 					if (Play.enterButton() == true)
 					{ spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
+					if (Play.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
+					{ spriteBatch.Draw(ButtonPressed, buttonPosPlay, Color.White); }
 					spriteBatch.DrawString(font, "Play", new Vector2(buttonPosPlay.X + 28, buttonPosPlay.Y + 8), Color.Silver);
 					
 					break;
@@ -439,8 +443,10 @@ namespace Game1
 					// Has button location
 					Resume = new Button(buttonPosResume, 700, 720);
 					spriteBatch.Draw(ButtonBack, buttonPosResume, Color.White);
-					if (Play.enterButton() == true)
+					if (Resume.enterButton() == true)
 					{ spriteBatch.Draw(ButtonBack, buttonPosResume, Color.SandyBrown); }
+					if (Resume.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
+					{ spriteBatch.Draw(ButtonPressed, buttonPosResume, Color.White); }
 					spriteBatch.DrawString(font, "Resume", new Vector2(buttonPosResume.X + 28, buttonPosResume.Y + 8), Color.Silver);
 
 					break;
@@ -457,6 +463,8 @@ namespace Game1
 					spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.White);
 					if (Restart.enterButton() == true)
 					{ spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.SandyBrown); }
+					if (Restart.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
+					{ spriteBatch.Draw(ButtonPressed, buttonPosRestart, Color.White); }
 					spriteBatch.DrawString(font, "Restart", new Vector2(buttonPosRestart.X + 28, buttonPosRestart.Y + 8), Color.Silver);
 					break;
             }
@@ -571,6 +579,34 @@ namespace Game1
 
         }
 
+		/// <summary>
+		/// Creates a button to advacne to the next screen.
+		/// </summary>
+		/// <param name="The rectangle to be used"></param>
+		/// <param name="The Button object you want passed in"></param>
+		/// <returns name="returns true if the button is clicked on"></returns>
+		public bool ButtonPress(Button SpecificButton)
+		{
+			previousms = ms;
+			ms = Mouse.GetState();
+			if (SpecificButton.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+			{ return true; }
+			return false;
+		}
+		/*
+		SetStats = new Button(buttonPosSetStats, 650, 720);
+		// Has button size
+		buttonPosSetStats = new Rectangle(SetStats.buttonX, SetStats.buttonY, 280, 80);
+		previousms = ms;
+			ms = Mouse.GetState();
+			if (SetStats.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+			{ state = GameState.ItemMenu; }
+			*/
 
-    }
+		public void DrawButtons()
+		{
+
+		}
+
+}
 }
