@@ -27,18 +27,20 @@ namespace Game1
             roomWall = new Rectangle(0, 0, 1600, 50);
             if (wallDoor != null)
             {
-                wallDoor = new Door(150, 51, 750, 0);
-                exitBox = new Rectangle();
+                wallDoor = new Door(150, 50, 750, 0);
+                exitBox = new Rectangle(750,0,150,80);
             }
-
 
         }
 
         public void SetBottomWall()
         {
             roomWall = new Rectangle(0, 850, 1600, 50);
-            if(wallDoor != null)
-                wallDoor = new Door(150, 51, 750, 850); 
+            if (wallDoor != null)
+            {
+                wallDoor = new Door(150, 50, 750, 850);
+                exitBox = new Rectangle(750, 820, 150, 80);
+            }
             
 
         }
@@ -47,17 +49,25 @@ namespace Game1
         {
             roomWall = new Rectangle(0, 0, 50, 900);
             if (wallDoor != null)
-                wallDoor = new Door(51, 150, 0, 400);
+            {
+                wallDoor = new Door(50, 150, 0, 400);
+                exitBox = new Rectangle(0, 400, 80, 150);
+            }
         }
 
         public void SetRightWall()
         {
             roomWall = new Rectangle(1550, 0, 50, 900);
             if (wallDoor != null)
-                wallDoor = new Door(51, 150, 1550, 400);
+            {
+                wallDoor = new Door(50, 150, 1550, 400);
+                exitBox = new Rectangle(1520, 400, 80, 150);
+            }
 
         }
+
         
-       
+
+
     }
 }
