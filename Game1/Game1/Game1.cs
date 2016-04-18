@@ -12,7 +12,7 @@ namespace Game1
 
     public class Game1 : Game
     {
-		
+
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -133,9 +133,9 @@ namespace Game1
             direction = PlayerMovement.Static;
             this.IsMouseVisible = true;
 
-			//Game Object initialzation
+            //Game Object initialzation
 			PlayerStats = new StatList();
-			mainChar = new Character(500, 500, 35);
+            mainChar = new Character(500, 500, 35);
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             blade = new Weapon(mainChar);
@@ -154,9 +154,8 @@ namespace Game1
             LogoLoc = new Rectangle(335, 250, 1000, 115);
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
-            
 
-            testFloor = new Floor(1, 1, 1);
+            testFloor = new Floor(3, 3, 1);
 			
 			
 			base.Initialize();
@@ -212,7 +211,7 @@ namespace Game1
             //logo = Content.Load<Texture2D>(); //Game's logo
 
             //Setting room enemies and their textures   
-            testFloor.enterRoom(1, 1);
+            testFloor.enterRoom();
             testFloor.currentRoom.SetEnemies(Enemy, 3);
             testFloor.currentRoom.SpawnEnemies();
             healthBar = Content.Load<Texture2D>("health.png");
@@ -312,15 +311,15 @@ namespace Game1
                     blade.moveWeapon(mainChar, rotate);
 
 										
-					if (ms.LeftButton == ButtonState.Pressed)
+                    if (ms.LeftButton == ButtonState.Pressed)
                     {
-                        if (blade.swingtime < 16) 
+                        if (blade.swingtime < 16)
                         {
                             leftMousePress = true;
                             foreach (Enemy e in testFloor.currentRoom.enemies)
                             {
 
-                                if (e.playerIntersect(blade)&& e.checkAlive())
+                                if (e.playerIntersect(blade) && e.checkAlive())
                                 {
                                     Character.charHit(mainChar, e);
                                     
@@ -332,9 +331,17 @@ namespace Game1
                         else { leftMousePress = false; }
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
-					
 
-					testFloor.currentRoom.RoomClear();
+                    if (testFloor.currentRoom.RoomClear())
+                    {
+                        testFloor.enterDoor(Enemy);
+                        if (!testFloor.currentRoom.RoomClear())
+                        {
+                            testFloor.currentRoom.SetEnemies(Enemy, 3);
+                            testFloor.currentRoom.SpawnEnemies();
+                        }
+
+                    }
 
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
@@ -406,7 +413,7 @@ namespace Game1
 					if (SetStats.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
 					{ spriteBatch.Draw(ButtonPressed, buttonPosSetStats, Color.White); }
 					spriteBatch.DrawString(font, MainMenuText, CenterScreen, Color.SaddleBrown);
-					spriteBatch.DrawString(font, "Set Stats", new Vector2(buttonPosSetStats.X + 32, buttonPosSetStats.Y+8), Color.Silver);
+                    spriteBatch.DrawString(font, "Set Stats", new Vector2(buttonPosSetStats.X + 32, buttonPosSetStats.Y + 8), Color.Silver);
 
 					break;
                 case GameState.ItemMenu:
@@ -422,8 +429,8 @@ namespace Game1
                         "                     Dexterity:        " + PlayerStats.dexterity +
                         "\n \n" + 
                         "                     Constituition:    " + PlayerStats.constitution;
-					
-                    spriteBatch.DrawString(font, ItemMenuText, new Vector2 (0,0), Color.SaddleBrown);
+
+                    spriteBatch.DrawString(font, ItemMenuText, new Vector2(0, 0), Color.SaddleBrown);
 
 					// Has button location
 					Play = new Button(buttonPosPlay, 700, 720);
@@ -519,26 +526,26 @@ namespace Game1
                     break;
                 case GameState.PauseMenu:
 
-
-					health = (mainChar.healthPoints).ToString();
+                    
+                    health = (mainChar.healthPoints).ToString();
 					GraphicsDevice.Clear(Color.CornflowerBlue);
 
 					spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
 
+                    
 
+                    //Drawing Game Objects
+                    spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
 
-					//Drawing Game Objects
-					spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
-
-					//Drawing enemies
-					for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
-					{
-						Enemy enemyTemp = testFloor.currentRoom.enemies[i];
+                    //Drawing enemies
+                    for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
+                    {
+                        Enemy enemyTemp = testFloor.currentRoom.enemies[i];
 
 
 						if (enemyTemp.checkAlive())
-							spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
-					}
+                        spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                    }
 
 
 					if (leftMousePress)
@@ -552,8 +559,8 @@ namespace Game1
 					spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, (50 * PlayerStats.constitution), 40), Color.Black);
 					spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
-					//Drawing walls
-					testFloor.currentRoom.DrawWalls(spriteBatch);
+                    //Drawing walls
+                    testFloor.currentRoom.DrawWalls(spriteBatch);
 
 					// Has button location
 					Resume = new Button(buttonPosResume, 700, 720);
@@ -628,8 +635,8 @@ namespace Game1
               }
             */
 
-					//Basic movement code for testing
-					float speedmodifier = (float)(Math.Cos(0.785398) * movespeed);
+            //Basic movement code for testing
+            float speedmodifier = (float)(Math.Cos(0.785398) * movespeed);
 
             //move north
             if (kbState.IsKeyDown(Keys.W))
@@ -693,7 +700,7 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
 			movespeed = 10;
-			enemyNo = 3;
+            enemyNo = 3;
 
         }
 

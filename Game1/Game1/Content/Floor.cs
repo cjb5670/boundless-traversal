@@ -15,6 +15,8 @@ namespace Game1
         public Room currentRoom; //the room the player is in
         public Room defaultRoom; //a default room that loads the textures from
         int depth;
+        int x = 1;
+        int y = 1;
         public Floor(int width, int height, int level)
         {
             floorLayout = new Room[height + 2, width + 2];
@@ -70,14 +72,18 @@ namespace Game1
             else { return false; }
         }
 
-        public void enterRoom(int x, int y)
+        public void enterRoom()
         {
             Room currentRoom = floorLayout[x, y];
-
             
-            
-            
-            
+        }
+        public void enterDoor(Texture2D enemyText)
+        {
+            if (currentRoom.RoomClear())
+            {
+                
+                enterRoom();
+            }
         }
     }
 }
