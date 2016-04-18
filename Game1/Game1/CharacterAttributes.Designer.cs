@@ -37,11 +37,13 @@
             this.strengthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dexterityNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.submitButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.clearButton = new System.Windows.Forms.Button();
+            this.pointsNumeric = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dexterityNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pointsNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -95,11 +97,6 @@
             this.healthNumericUpDown.Name = "healthNumericUpDown";
             this.healthNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.healthNumericUpDown.TabIndex = 7;
-            this.healthNumericUpDown.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
             this.healthNumericUpDown.ValueChanged += new System.EventHandler(this.healthNumericUpDown_ValueChanged);
             // 
             // strengthNumericUpDown
@@ -128,14 +125,6 @@
             this.submitButton.UseVisualStyleBackColor = true;
             this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(97, 41);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(60, 20);
-            this.textBox1.TabIndex = 11;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // clearButton
             // 
             this.clearButton.Location = new System.Drawing.Point(197, 226);
@@ -146,13 +135,37 @@
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
+            // pointsNumeric
+            // 
+            this.pointsNumeric.Location = new System.Drawing.Point(98, 44);
+            this.pointsNumeric.Name = "pointsNumeric";
+            this.pointsNumeric.Size = new System.Drawing.Size(59, 20);
+            this.pointsNumeric.TabIndex = 13;
+            this.pointsNumeric.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.pointsNumeric.ValueChanged += new System.EventHandler(this.pointsNumeric_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(25, 176);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(231, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Thank you! Your attributes have been updated!";
+            this.label6.Visible = false;
+            // 
             // CharacterAttributes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.pointsNumeric);
             this.Controls.Add(this.clearButton);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.dexterityNumericUpDown);
             this.Controls.Add(this.strengthNumericUpDown);
@@ -168,6 +181,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dexterityNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pointsNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,7 +198,8 @@
         private System.Windows.Forms.NumericUpDown strengthNumericUpDown;
         private System.Windows.Forms.NumericUpDown dexterityNumericUpDown;
         private System.Windows.Forms.Button submitButton;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.NumericUpDown pointsNumeric;
+        private System.Windows.Forms.Label label6;
     }
 }
