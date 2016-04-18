@@ -32,6 +32,7 @@ namespace Game1
            
             if(!checkUpperDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
             floorLayout[i, j].SetWalls();
+            floorLayout[i, j].isCleared = false;
 
         }
 
@@ -46,6 +47,28 @@ namespace Game1
             }
         }
 
+        public void drawFloor(Texture2D hWall, Texture2D vWall, Texture2D hDoor, Texture2D vDoor)
+        {
+            for (int i = 1; i < floorLayout.GetLength(0) - 1; i++)
+            {
+                for (int j = 1; j < floorLayout.GetLength(1) - 1; j++)
+                {
+                    floorLayout[i, j].SetWallTexture(hWall, vWall);
+                    floorLayout[i, j].SetWalls();
+                    if(floorLayout[i, j].leftWall.wallDoor != null)
+                        floorLayout[i, j].leftWall.wallDoor.SetSprite(vDoor);
+
+                    if (floorLayout[i, j].topWall.wallDoor != null)
+                    floorLayout[i, j].topWall.wallDoor.SetSprite(hDoor);
+
+                    if (floorLayout[i, j].rightWall.wallDoor != null)
+                        floorLayout[i, j].rightWall.wallDoor.SetSprite(vDoor);
+
+                    if (floorLayout[i, j].bottomWall.wallDoor != null)
+                        floorLayout[i, j].bottomWall.wallDoor.SetSprite(hDoor);
+                }
+            }
+        }
         bool checkLeftDoor(int i, int j)
         {
             if (floorLayout[i, j - 1] != null)
@@ -72,17 +95,20 @@ namespace Game1
             else { return false; }
         }
 
-        public void enterRoom()
+        public Room enterRoom()
         {
             Room currentRoom = floorLayout[x, y];
+            return currentRoom;
             
         }
-        public void enterDoor(Texture2D enemyText)
+        public Room enterDoor()
         {
-            
-                x++;
-                enterRoom();
-            
+            if (currentRoom.RoomClear())
+            {
+               
+                return enterRoom();
+            }
+            return currentRoom;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Game1
             if (wallDoor != null)
             {
                 wallDoor = new Door(150, 50, 750, 850);
-                exitBox = new Rectangle(750, 820, 150, 80);
+                exitBox = new Rectangle(750, 900, 150, 80);
             }
             
 
@@ -61,7 +61,7 @@ namespace Game1
             if (wallDoor != null)
             {
                 wallDoor = new Door(50, 150, 1550, 400);
-                exitBox = new Rectangle(1520, 400, 80, 150);
+                exitBox = new Rectangle(1600, 400, 80, 150);
             }
 
         }

@@ -17,7 +17,7 @@ namespace Game1
 
         public StatList()
         {
-            totalStats = 5;
+            totalStats = 3;
             strength = 1;
             dexterity = 1;
             constitution = 1;

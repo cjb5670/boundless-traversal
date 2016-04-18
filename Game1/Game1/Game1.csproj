@@ -50,9 +50,9 @@
       <DependentUpon>CharacterAttributes.cs</DependentUpon>
     </Compile>
     <Compile Include="Circle.cs" />
-    <Compile Include="Content\Button.cs" />
-    <Compile Include="Content\Floor.cs" />
-    <Compile Include="Content\StatList.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="Floor.cs" />
+    <Compile Include="StatList.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
