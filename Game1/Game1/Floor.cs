@@ -79,11 +79,10 @@ namespace Game1
         }
         public void enterDoor(Texture2D enemyText)
         {
-            if (currentRoom.RoomClear())
-            {
-                
+            
+                x++;
                 enterRoom();
-            }
+            
         }
     }
 }

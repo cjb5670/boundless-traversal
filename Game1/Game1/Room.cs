@@ -16,7 +16,7 @@ namespace Game1
         public Wall rightWall=new Wall();
 
 
-        bool isCleared; //bool to test if all enemys have been cleared from the room
+        public bool isCleared; //bool to test if all enemys have been cleared from the room
         public List<Enemy> enemies; //the list of all the enemies in the room
         int enemyNum;
         public Texture2D texture;
@@ -91,6 +91,7 @@ namespace Game1
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
             if (!RoomClear())
                 spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
+            
         }
 
         public void DrawSEWall(Wall wall, SpriteBatch spriteBatch, SpriteEffects myEffect)
