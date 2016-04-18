@@ -51,6 +51,8 @@
     </Compile>
     <Compile Include="Circle.cs" />
     <Compile Include="Content\Button.cs" />
+    <Compile Include="Content\Floor.cs" />
+    <Compile Include="Content\StatList.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
@@ -97,6 +99,9 @@
     <Content Include="Content\RIP.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Test.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\vDoor.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -109,13 +114,13 @@
     <Content Include="Content\sword.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\vWall.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\wall.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
+    <Content Include="Content\UpArrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb">

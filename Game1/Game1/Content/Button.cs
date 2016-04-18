@@ -5,12 +5,11 @@ using System;
 namespace Game1
 {
 	// Button code from Aintaro Microsoft
-	class Button : GameObject
+	public class Button : GameObject
 	{
 		public int buttonX;
 		public int buttonY;
 		Rectangle ButtonPos;
-		string Name;
         MouseState ms;
 		public Button(Rectangle buttonPos, int buttonX, int buttonY)
 		{

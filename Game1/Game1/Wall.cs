@@ -16,7 +16,7 @@ namespace Game1
         //walls
         public Wall()
         {
-            
+            wallDoor = new Door();
         }
         
         enum wallType { Full, Door, Open};
@@ -25,7 +25,8 @@ namespace Game1
         public void SetTopWall()
         {
             roomWall = new Rectangle(0, 0, 1600, 50);
-            wallDoor = new Door(150, 100, 750, 0);
+            if (wallDoor != null)
+                wallDoor = new Door(150, 51, 750, 0);
 
 
         }
@@ -33,24 +34,27 @@ namespace Game1
         public void SetBottomWall()
         {
             roomWall = new Rectangle(0, 850, 1600, 50);
-            wallDoor = new Door(150, 50, 750,850);
-            exitBox = new Rectangle(150, 100, 900, 850);
+            if(wallDoor != null)
+                wallDoor = new Door(150, 51, 750, 850); 
+            
 
         }
 
         public void SetLeftWall()
         {
             roomWall = new Rectangle(0, 0, 50, 900);
-            wallDoor = new Door(50, 150, 0, 400);
+            if (wallDoor != null)
+                wallDoor = new Door(51, 150, 0, 400);
         }
 
         public void SetRightWall()
         {
             roomWall = new Rectangle(1550, 0, 50, 900);
-            wallDoor = new Door(50, 150, 1550, 400);
+            if (wallDoor != null)
+                wallDoor = new Door(51, 150, 1550, 400);
 
         }
-
+        
        
     }
 }
