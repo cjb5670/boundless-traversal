@@ -26,7 +26,10 @@ namespace Game1
         {
             roomWall = new Rectangle(0, 0, 1600, 50);
             if (wallDoor != null)
+            {
                 wallDoor = new Door(150, 51, 750, 0);
+                exitBox = new Rectangle();
+            }
 
 
         }
