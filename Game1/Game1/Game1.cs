@@ -57,6 +57,7 @@ namespace Game1
 
         
         Character mainChar;
+       
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -195,7 +196,8 @@ namespace Game1
             
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
-            wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open 
+            wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open
+             
             testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
             testFloor.currentRoom.SetWalls();
             testFloor.currentRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
@@ -299,8 +301,15 @@ namespace Game1
                     CharacterMovement(mainChar);
 
                     //Player-Wall collision
-                    mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
-                    mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+                    if (testFloor.currentRoom.RoomClear())
+                    {
+                        testFloor.currentRoom.RoomExit(mainChar);
+                    }
+                    else
+                    {
+                        mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
+                        mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+                    }
 
                     //Rotates the character to the mouse
                     ms = Mouse.GetState();

@@ -9,7 +9,7 @@ namespace Game1
 {
     class Room
     {
-
+        
         public Wall topWall=new Wall();
         public Wall bottomWall=new Wall();
         public Wall leftWall=new Wall();
@@ -99,13 +99,63 @@ namespace Game1
             if (!RoomClear())
                 spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, null, Color.White, 0.0f, new Vector2(0,0), myEffect, 0.0f);
         }
-
+        
         public void SetWallTexture(Texture2D hTexture, Texture2D vTexture)
         {
             topWall.texture = hTexture;
             bottomWall.texture = hTexture;
             rightWall.texture = vTexture;
             leftWall.texture = vTexture;
+        }
+
+        public void RoomExit(Character mainChar)
+        {
+            if(CRIntersect(mainChar.loc,topWall.exitBox))
+            {
+                
+                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X,750+ mainChar.loc.Radius, 900- mainChar.loc.Radius);
+
+           }
+            else if (CRIntersect(mainChar.loc, bottomWall.exitBox))
+            {
+                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, 750 + mainChar.loc.Radius, 900 - mainChar.loc.Radius);
+            }
+            else if (CRIntersect(mainChar.loc, rightWall.exitBox))
+            {
+                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550- mainChar.loc.Radius);
+
+            }
+            else if (CRIntersect(mainChar.loc, leftWall.exitBox))
+            {
+
+                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550 - mainChar.loc.Radius);
+            }
+            else
+            {
+                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
+                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+            }
+        }
+
+        //Circle rectangle intersection
+        //http://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection/402010#402010
+        public bool CRIntersect(Circle circle, Rectangle rect)
+        {
+            double circleDistancex = Math.Abs(circle.Center.X - rect.X);
+            double circleDistancey = Math.Abs(circle.Center.Y - rect.Y);
+
+            if (circleDistancex > (rect.Width / 2.0 + circle.Radius))
+                return false;
+            if (circleDistancey > (rect.Height / 2.0 + circle.Radius))
+                return false;
+
+            if (circleDistancex <= (rect.Width / 2.0))
+                return true;
+            if (circleDistancey <= (rect.Height / 2.0))
+                return true;
+
+            double cornerDistance_sq = Math.Pow((circleDistancex - rect.Width / 2.0), 2) + Math.Pow((circleDistancey - rect.Height / 2.0), 2);
+            return (cornerDistance_sq <= Math.Pow(circle.Radius, 2));
         }
     }
 }
