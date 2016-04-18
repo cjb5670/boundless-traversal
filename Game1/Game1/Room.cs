@@ -58,13 +58,14 @@ namespace Game1
         //Sets the position of the enemies
         public void SpawnEnemies()
         {
-
-            enemies[0].loc.Center.X = 800;
-            enemies[0].loc.Center.Y = 200;
-            enemies[1].loc.Center.X = 1000;
-            enemies[1].loc.Center.Y = 200;
-            enemies[2].loc.Center.X = 1200;
-            enemies[2].loc.Center.Y = 200;
+            int x = 800;
+            foreach(Enemy roomEnemy in enemies)
+            {
+                roomEnemy.loc.Center.Y = 200;
+                roomEnemy.loc.Center.X = x;
+                x += 200;
+            }
+            
 
         }
         public void SetWalls()
@@ -74,6 +75,7 @@ namespace Game1
             leftWall.SetLeftWall();
             rightWall.SetRightWall();
         }
+
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
@@ -88,7 +90,7 @@ namespace Game1
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
             if (!RoomClear())
-                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, wall.wallDoor.color);
+                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
         }
 
         public void DrawSEWall(Wall wall, SpriteBatch spriteBatch, SpriteEffects myEffect)
