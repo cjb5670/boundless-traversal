@@ -433,8 +433,8 @@ namespace Game1
                     for (int i = 0; i < testRoom.enemies.Count; i++)
                     {
                         Enemy enemyTemp = testRoom.enemies[i];
-                        
-                        spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                        if (enemyTemp.checkAlive())
+                            spriteBatch.Draw(testRoom.enemies[i].getSprite(), testRoom.enemies[i].loc.Center, null, Color.White, rotate2, testRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
                     }
 
 

@@ -25,7 +25,7 @@ namespace Game1
         public void SetTopWall()
         {
             roomWall = new Rectangle(0, 0, 1600, 50);
-            wallDoor = new Door(150, 50, 750, 0);
+            wallDoor = new Door(150, 100, 750, 0);
 
 
         }
@@ -34,7 +34,7 @@ namespace Game1
         {
             roomWall = new Rectangle(0, 850, 1600, 50);
             wallDoor = new Door(150, 50, 750,850);
-            exitBox = new Rectangle();
+            exitBox = new Rectangle(150, 100, 900, 850);
 
         }
 
