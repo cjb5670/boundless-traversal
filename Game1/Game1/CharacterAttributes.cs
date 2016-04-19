@@ -33,14 +33,13 @@ namespace Game1
             // disable pointsNumeric so player can't add extra points
             pointsNumeric.Enabled = false;
 
+            // set initial values
             health = healthNumericUpDown.Value;
             previousHealth = health;
             strength = strengthNumericUpDown.Value;
             previousStrength = strength;
             dexterity = dexterityNumericUpDown.Value;
             previousDexterity = dexterity;
-
-            submitButton.Enabled = false;
 
         }
 
@@ -107,33 +106,6 @@ namespace Game1
             label6.Visible = false;
         }
 
-        // Read data from file
-        public void ReadData(String file)
-        {
-            StreamReader input = null;
-
-            try
-            {
-                input = new StreamReader(file);
-
-                String line = null;
-                while ((line = input.ReadLine()) != null)
-                {
-                    Console.WriteLine(line);
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error reading file: " + e.Message);
-            }
-            finally
-            {
-                if (input != null)
-                    input.Close();
-            }
-        }
-
         // Write data to file
         public void WriteData(String file)
         {
@@ -157,6 +129,33 @@ namespace Game1
             }
         }
 
+        static void ReadData(String file)
+        {
+            StreamReader input = null;
+
+            try
+            {
+                input = new StreamReader(file);
+
+                String line = null;
+                while ((line = input.ReadLine()) != null)
+                {
+                    // this needs to change
+                    Console.WriteLine(line);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error reading file: " + e.Message);
+            }
+            finally
+            {
+                if (input != null)
+                    input.Close();
+            }
+        }
+
         private void pointsNumeric_ValueChanged(object sender, EventArgs e)
         {
             if (pointsNumeric.Value == 0)
@@ -164,11 +163,6 @@ namespace Game1
                 healthNumericUpDown.Enabled = false;
                 strengthNumericUpDown.Enabled = false;
                 dexterityNumericUpDown.Enabled = false;
-                submitButton.Enabled = true;
-            }
-            else
-            {
-                submitButton.Enabled = false;
             }
         }
     }

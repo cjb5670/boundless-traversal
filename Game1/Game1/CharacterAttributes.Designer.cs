@@ -51,9 +51,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(-1, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 13);
+            this.label1.Size = new System.Drawing.Size(291, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Assign Your Character\'s Attributes:";
+            this.label1.Text = "Change the difficulty of your levels by changing enemy stats!";
             // 
             // label2
             // 
@@ -67,16 +67,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(-1, 75);
+            this.label3.Location = new System.Drawing.Point(-1, 145);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Health:";
+            this.label3.Text = "Constitution:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(-1, 110);
+            this.label4.Location = new System.Drawing.Point(-1, 77);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(50, 13);
             this.label4.TabIndex = 5;
@@ -85,7 +85,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(-1, 145);
+            this.label5.Location = new System.Drawing.Point(-1, 112);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(51, 13);
             this.label5.TabIndex = 6;
@@ -93,7 +93,7 @@
             // 
             // healthNumericUpDown
             // 
-            this.healthNumericUpDown.Location = new System.Drawing.Point(97, 73);
+            this.healthNumericUpDown.Location = new System.Drawing.Point(97, 143);
             this.healthNumericUpDown.Name = "healthNumericUpDown";
             this.healthNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.healthNumericUpDown.TabIndex = 7;
@@ -101,7 +101,7 @@
             // 
             // strengthNumericUpDown
             // 
-            this.strengthNumericUpDown.Location = new System.Drawing.Point(97, 108);
+            this.strengthNumericUpDown.Location = new System.Drawing.Point(97, 75);
             this.strengthNumericUpDown.Name = "strengthNumericUpDown";
             this.strengthNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.strengthNumericUpDown.TabIndex = 8;
@@ -109,7 +109,7 @@
             // 
             // dexterityNumericUpDown
             // 
-            this.dexterityNumericUpDown.Location = new System.Drawing.Point(97, 143);
+            this.dexterityNumericUpDown.Location = new System.Drawing.Point(97, 110);
             this.dexterityNumericUpDown.Name = "dexterityNumericUpDown";
             this.dexterityNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.dexterityNumericUpDown.TabIndex = 9;
@@ -153,16 +153,16 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(25, 176);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(231, 13);
+            this.label6.Size = new System.Drawing.Size(241, 13);
             this.label6.TabIndex = 14;
-            this.label6.Text = "Thank you! Your attributes have been updated!";
+            this.label6.Text = "Thank you! Enemy attributes have been updated!";
             this.label6.Visible = false;
             // 
             // CharacterAttributes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(310, 261);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pointsNumeric);
             this.Controls.Add(this.clearButton);
@@ -176,7 +176,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CharacterAttributes";
-            this.Text = "CharacterAttributes";
+            this.Text = "EnemyAttributes";
             this.Load += new System.EventHandler(this.CharacterAttributes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).EndInit();

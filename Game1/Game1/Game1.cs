@@ -254,10 +254,15 @@ namespace Game1
                     SetStats = new Button(buttonPosSetStats, 650, 720);
                     buttonPosSetStats = new Rectangle(SetStats.buttonX, SetStats.buttonY, 280, 80);
                     if (ButtonPress(SetStats) == true)
+                    {
+                        // call external tool to edit enemy stats
+                        CharacterAttributes ca = new CharacterAttributes();
+                        ca.Show();
+
                         state = GameState.ItemMenu;
+                    }
                     break;
                 case GameState.ItemMenu:
-
                     // Has button size
                     buttonPosPlay = new Rectangle(Play.buttonX, Play.buttonY, 150, 80);
                     previousms = ms;
