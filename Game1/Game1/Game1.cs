@@ -32,6 +32,7 @@ namespace Game1
         Texture2D healthBar;
         Texture2D fullHealthBar;
         Texture2D wallTexture;
+        Texture2D vWallTexture;
         //Game Objects
 
         Texture2D ItemMenu;
@@ -198,18 +199,16 @@ namespace Game1
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open
+            vWallTexture = Content.Load<Texture2D>("vWall.png"); //vertical wall texture (not open)
 
-            //testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
-            /*
+            testFloor.currentRoom.SetWallTexture(wallTexture, vWallTexture);
+            testFloor.currentRoom.SetWalls();
             testFloor.currentRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.topWall.wallDoor.SetSprite(sealedHDoor);
             testFloor.currentRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
-            */
+            testFloor.drawFloor(wallTexture, vWallTexture, sealedHDoor, sealedVDoor);
 
-
-            testFloor.drawFloor(wallTexture, wallTexture, sealedHDoor, sealedVDoor);
-            
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
@@ -317,10 +316,10 @@ namespace Game1
                         if (testFloor.currentRoom.RoomExit(mainChar))
                         {
                             testFloor.currentRoom = testFloor.enterDoor(mainChar);
-                            
-                             testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                            testFloor.currentRoom.SpawnEnemies();
 
+                            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                            testFloor.currentRoom.SpawnEnemies();
+                            
 
 
                         }

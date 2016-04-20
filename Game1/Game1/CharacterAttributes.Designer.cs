@@ -40,6 +40,7 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.pointsNumeric = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
+            this.loadButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dexterityNumericUpDown)).BeginInit();
@@ -117,7 +118,7 @@
             // 
             // submitButton
             // 
-            this.submitButton.Location = new System.Drawing.Point(97, 192);
+            this.submitButton.Location = new System.Drawing.Point(113, 192);
             this.submitButton.Name = "submitButton";
             this.submitButton.Size = new System.Drawing.Size(75, 23);
             this.submitButton.TabIndex = 10;
@@ -151,18 +152,29 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(25, 176);
+            this.label6.Location = new System.Drawing.Point(31, 176);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(241, 13);
             this.label6.TabIndex = 14;
             this.label6.Text = "Thank you! Enemy attributes have been updated!";
             this.label6.Visible = false;
             // 
+            // loadButton
+            // 
+            this.loadButton.Location = new System.Drawing.Point(34, 226);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(75, 23);
+            this.loadButton.TabIndex = 15;
+            this.loadButton.Text = "LOAD";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            // 
             // CharacterAttributes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(310, 261);
+            this.Controls.Add(this.loadButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pointsNumeric);
             this.Controls.Add(this.clearButton);
@@ -201,5 +213,6 @@
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.NumericUpDown pointsNumeric;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button loadButton;
     }
 }
