@@ -69,6 +69,8 @@ namespace Game1
                 }
             }
         }
+
+
         bool checkLeftDoor(int i, int j)
         {
             if (floorLayout[i, j - 1] != null)
@@ -81,6 +83,7 @@ namespace Game1
             }
             else { return false; }
         }
+
         bool checkUpperDoor(int i, int j)
         {
 
