@@ -76,6 +76,11 @@ namespace Game1
             rightWall.SetRightWall();
         }
 
+        public void moveRoom(Room room1, Room room2)
+        {
+
+        }
+
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
@@ -109,32 +114,37 @@ namespace Game1
             leftWall.texture = vTexture;
         }
 
-        public void RoomExit(Character mainChar)
+        public bool RoomExit(Character mainChar)
         {
             if(CRIntersect(mainChar.loc,topWall.exitBox))
             {
                 
                 mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X,750+ mainChar.loc.Radius, 900- mainChar.loc.Radius);
+                return true;
 
            }
             else if (CRIntersect(mainChar.loc, bottomWall.exitBox))
             {
                 mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, 750 + mainChar.loc.Radius, 900 - mainChar.loc.Radius);
+                return true;
             }
             else if (CRIntersect(mainChar.loc, rightWall.exitBox))
             {
                 mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550- mainChar.loc.Radius);
+                return true;
 
             }
             else if (CRIntersect(mainChar.loc, leftWall.exitBox))
             {
 
                 mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550 - mainChar.loc.Radius);
+                return true;
             }
             else
             {
                 mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
                 mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+                return false;
             }
         }
 
