@@ -199,14 +199,17 @@ namespace Game1
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open
 
-            testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
-            testFloor.currentRoom.SetWalls();
+            //testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
+            /*
             testFloor.currentRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.topWall.wallDoor.SetSprite(sealedHDoor);
             testFloor.currentRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
-            testFloor.drawFloor(wallTexture, wallTexture, sealedHDoor, sealedVDoor);
+            */
 
+
+            testFloor.drawFloor(wallTexture, wallTexture, sealedHDoor, sealedVDoor);
+            
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
@@ -308,21 +311,24 @@ namespace Game1
                     //Function for player movement
                     CharacterMovement(mainChar);
 
-                    //Player-Wall collision
+                    
                     if (testFloor.currentRoom.RoomClear())
                     {
                         if (testFloor.currentRoom.RoomExit(mainChar))
                         {
                             testFloor.currentRoom = testFloor.enterDoor(mainChar);
-
-                            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                            testFloor.currentRoom.SpawnEnemies();
                             
+                             testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                            testFloor.currentRoom.SpawnEnemies();
+
+
+
                         }
 
                     }
                     else
                     {
+                        //Player-Wall collision
                         mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
                         mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
                     }

@@ -13,27 +13,25 @@ namespace Game1
     {
         public Room[,] floorLayout;
         public Room currentRoom; //the room the player is in
-        public Room defaultRoom; //a default room that loads the textures from
+       // public Room defaultRoom; //a default room that loads the textures from
         int depth;
         int x = 1;
         int y = 1;
+
         public Floor(int width, int height, int level)
         {
             floorLayout = new Room[height + 2, width + 2];
-            currentRoom = new Room();
-            defaultRoom = new Room();
             createFloor();
+            currentRoom = floorLayout[1, 1];
+            //defaultRoom = new Room();
+            
         }
 
         void createRoom(int i, int j)
-        {
-            floorLayout[i, j] = new Room();
-            //if (!checkLeftDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
-           
-            //if(!checkUpperDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
+        {          
+            floorLayout[i, j] = new Room(i,j);                                   
+            floorLayout[i, j].isCleared = false;            
             floorLayout[i, j].SetWalls();
-            floorLayout[i, j].isCleared = false;
-
         }
 
         void createFloor()
@@ -53,8 +51,7 @@ namespace Game1
             {
                 for (int j = 1; j < floorLayout.GetLength(1) - 1; j++)
                 {
-                    floorLayout[i, j].SetWallTexture(hWall, vWall);
-                    floorLayout[i, j].SetWalls();
+                    floorLayout[i, j].SetWallTexture(hWall, vWall);                    
                     if(floorLayout[i, j].leftWall.wallDoor != null)
                         floorLayout[i, j].leftWall.wallDoor.SetSprite(vDoor);
 
@@ -71,11 +68,11 @@ namespace Game1
         }
 
 
-        bool checkLeftDoor(int i, int j)
+        public bool checkLeftDoor(int i, int j)
         {
             if (floorLayout[i, j - 1] != null)
             {
-                if (floorLayout[i, j - 1].rightWall.wallDoor != null)
+                if (floorLayout[i, j-1].rightWall.wallDoor!= null)
                 {
                     return true;
                 }
@@ -84,12 +81,12 @@ namespace Game1
             else { return false; }
         }
 
-        bool checkUpperDoor(int i, int j)
+        public bool checkUpperDoor(int i, int j)
         {
 
             if (floorLayout[i - 1, j] != null)
             {
-                if (floorLayout[i - 1, j].rightWall.wallDoor != null)
+                if (floorLayout[i - 1, j].bottomWall.wallDoor != null)
                 {
                     return true;
                 }
@@ -98,35 +95,72 @@ namespace Game1
             else { return false; }
         }
 
-        public Room enterRoom()
+        public bool checkLowerDoor(int i, int j)
         {
-            Room currentRoom = floorLayout[x, y];
-            return currentRoom;
-            
+
+            if (floorLayout[i + 1, j] != null)
+            {
+                if (floorLayout[i + 1, j].topWall.wallDoor != null)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            else { return false; }
         }
+
+        public bool checkRightDoor(int i, int j)
+        {
+
+            if (floorLayout[i , j+1] != null)
+            {
+                if (floorLayout[i , j+1].rightWall.wallDoor != null)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            else { return false; }
+        }
+
         public Room enterDoor(Character mainChar)
         {
             if (currentRoom.RoomClear())
             {
                if(currentRoom.CRIntersect(mainChar.loc, currentRoom.bottomWall.exitBox))
                 {
+                    mainChar.loc.Center.X = 800;
+                    mainChar.loc.Center.Y = 50+ mainChar.loc.Radius;
                     y++;
                 }
                 if (currentRoom.CRIntersect(mainChar.loc, currentRoom.topWall.exitBox))
                 {
+                    mainChar.loc.Center.X = 800 ;
+                    mainChar.loc.Center.Y = 850- mainChar.loc.Radius;
                     y--;
                 }
                 if (currentRoom.CRIntersect(mainChar.loc, currentRoom.rightWall.exitBox))
                 {
+                    mainChar.loc.Center.X = 50 + mainChar.loc.Radius;
+                    mainChar.loc.Center.Y = 450;
                     x++;
                 }
                 if (currentRoom.CRIntersect(mainChar.loc, currentRoom.leftWall.exitBox))
                 {
+                    mainChar.loc.Center.X = 1550 - mainChar.loc.Radius;
+                    mainChar.loc.Center.Y = 450;
                     x--;
                 }
                 return enterRoom();
             }
             return currentRoom;
+        }
+
+        public Room enterRoom()
+        {
+            Room currentRoom = floorLayout[x, y];
+            return currentRoom;
+
         }
     }
 }
