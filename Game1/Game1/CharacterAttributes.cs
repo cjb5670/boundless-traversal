@@ -23,6 +23,11 @@ namespace Game1
         public decimal dexterity;
         public decimal previousDexterity;
 
+        int count = 0;
+        string h;
+        string s;
+        string d;
+
         public CharacterAttributes()
         {
             InitializeComponent();
@@ -129,7 +134,7 @@ namespace Game1
             }
         }
 
-        static void ReadData(String file)
+        public void ReadData(String file)
         {
             StreamReader input = null;
 
@@ -140,10 +145,21 @@ namespace Game1
                 String line = null;
                 while ((line = input.ReadLine()) != null)
                 {
-                    // this needs to change
-                    Console.WriteLine(line);
+                    if(count == 0)
+                    {
+                        h = line;
+                    }
+                    if(count == 1)
+                    {
+                        s = line;
+                    }
+                    if(count == 2)
+                    {
+                        d = line;
+                    }
+                    count++;
                 }
-
+                count = 0;
             }
             catch (Exception e)
             {
@@ -164,6 +180,28 @@ namespace Game1
                 strengthNumericUpDown.Enabled = false;
                 dexterityNumericUpDown.Enabled = false;
             }
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            ReadData(file);
+
+            decimal loadHealth = System.Convert.ToDecimal(h);
+            decimal loadStrength = System.Convert.ToDecimal(s);
+            decimal loadDexterity = System.Convert.ToDecimal(d);
+
+            healthNumericUpDown.Value = loadHealth;
+            strengthNumericUpDown.Value = loadStrength;
+            dexterityNumericUpDown.Value = loadDexterity;
+
+            health = healthNumericUpDown.Value;
+            previousHealth = health;
+            strength = strengthNumericUpDown.Value;
+            previousStrength = strength;
+            dexterity = dexterityNumericUpDown.Value;
+            previousDexterity = dexterity;
+
+            pointsNumeric.Value = 5 - health - strength - dexterity;
         }
     }
 }
