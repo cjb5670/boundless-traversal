@@ -28,9 +28,9 @@ namespace Game1
         void createRoom(int i, int j)
         {
             floorLayout[i, j] = new Room();
-            if (!checkLeftDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
+            //if (!checkLeftDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
            
-            if(!checkUpperDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
+            //if(!checkUpperDoor(i, j)) { floorLayout[i, j].leftWall.wallDoor = null; }
             floorLayout[i, j].SetWalls();
             floorLayout[i, j].isCleared = false;
 
@@ -101,11 +101,26 @@ namespace Game1
             return currentRoom;
             
         }
-        public Room enterDoor()
+        public Room enterDoor(Character mainChar)
         {
             if (currentRoom.RoomClear())
             {
-               
+               if(currentRoom.CRIntersect(mainChar.loc, currentRoom.bottomWall.exitBox))
+                {
+                    y++;
+                }
+                if (currentRoom.CRIntersect(mainChar.loc, currentRoom.topWall.exitBox))
+                {
+                    y--;
+                }
+                if (currentRoom.CRIntersect(mainChar.loc, currentRoom.rightWall.exitBox))
+                {
+                    x++;
+                }
+                if (currentRoom.CRIntersect(mainChar.loc, currentRoom.leftWall.exitBox))
+                {
+                    x--;
+                }
                 return enterRoom();
             }
             return currentRoom;

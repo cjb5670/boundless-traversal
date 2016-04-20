@@ -57,7 +57,7 @@ namespace Game1
 
 
         Character mainChar;
-       
+
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -69,7 +69,7 @@ namespace Game1
         MouseState previousms;
         bool leftMousePress;
         bool rightMousePress;
-       
+
         int enemyNo;
         Button SetStats;
         Button Play;
@@ -198,13 +198,13 @@ namespace Game1
 
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open
-             
+
             testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
             testFloor.currentRoom.SetWalls();
             testFloor.currentRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.topWall.wallDoor.SetSprite(sealedHDoor);
             testFloor.currentRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
-            testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor); 
+            testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
             testFloor.drawFloor(wallTexture, wallTexture, sealedHDoor, sealedVDoor);
 
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
@@ -311,7 +311,15 @@ namespace Game1
                     //Player-Wall collision
                     if (testFloor.currentRoom.RoomClear())
                     {
-                        testFloor.currentRoom.RoomExit(mainChar);
+                        if (testFloor.currentRoom.RoomExit(mainChar))
+                        {
+                            testFloor.currentRoom = testFloor.enterDoor(mainChar);
+
+                            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                            testFloor.currentRoom.SpawnEnemies();
+                            
+                        }
+
                     }
                     else
                     {
@@ -351,17 +359,13 @@ namespace Game1
 
                     if (testFloor.currentRoom.RoomClear())
                     {
-                        testFloor.currentRoom = testFloor.enterDoor();
-                        /*if (!testFloor.currentRoom.isCleared)
-                        {
-                            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                            testFloor.currentRoom.SpawnEnemies();
-                            testFloor.currentRoom.SetWallTexture(wallTexture, wallTexture);
-                            testFloor.currentRoom.SetWalls();
-                        }*/
+
+                        /*
+
+                       */
 
                     }
-                    
+
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
@@ -371,12 +375,12 @@ namespace Game1
 
                             rotate2 = Character.getAngleBetween(mainChar, testFloor.currentRoom.enemies[i]);
                             testFloor.currentRoom.enemies[i].followChar(mainChar);
-                            
+
                         }
 
                     }
 
-                    
+
 
 
 
