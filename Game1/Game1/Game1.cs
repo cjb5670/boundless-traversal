@@ -158,7 +158,7 @@ namespace Game1
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
 
-            testFloor = new Floor(3, 3, 1);
+            testFloor = new Floor(5, 5, 1);
 
 
             base.Initialize();
@@ -188,6 +188,7 @@ namespace Game1
             ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
             StatSetter = Content.Load<Texture2D>("UpArrow.png");
             ButtonPressed = Content.Load<Texture2D>("Test.png");
+
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
@@ -195,20 +196,21 @@ namespace Game1
 
 
 
-
-
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open
             vWallTexture = Content.Load<Texture2D>("vWall.png"); //vertical wall texture (not open)
-
+            
             testFloor.currentRoom.SetWallTexture(wallTexture, vWallTexture);
-            testFloor.currentRoom.SetWalls();
+            //testFloor.currentRoom.SetWalls();
+            /*
             testFloor.currentRoom.leftWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.topWall.wallDoor.SetSprite(sealedHDoor);
             testFloor.currentRoom.rightWall.wallDoor.SetSprite(sealedVDoor);
             testFloor.currentRoom.bottomWall.wallDoor.SetSprite(sealedHDoor);
-            testFloor.drawFloor(wallTexture, vWallTexture, sealedHDoor, sealedVDoor);
+            */
 
+            testFloor.drawFloor(wallTexture, vWallTexture, sealedHDoor, sealedVDoor);
+            
             //doorWall = Content.Load<Texture2D>(); //The wall with an opening for a door
             //sealedDoor = Content.Load<Texture2D>(); // a door that you cant walk through
             //openDoor = Content.Load<Texture2D>(); //Open door
@@ -220,6 +222,27 @@ namespace Game1
             testFloor.enterRoom();
             testFloor.currentRoom.SetEnemies(EnemySprite, 3);
             testFloor.currentRoom.SpawnEnemies();
+            int x = testFloor.currentRoom.xPos;
+            int y = testFloor.currentRoom.yPos;
+
+            if (testFloor.checkLeftDoor(x, y))
+            {
+                testFloor.currentRoom.SetDoor("left");
+            }
+            if (testFloor.checkUpperDoor(x, y))
+            {
+                testFloor.currentRoom.SetDoor("top");
+            }
+            if (testFloor.checkRightDoor(x, y))
+            {
+                testFloor.currentRoom.SetDoor("right");
+            }
+            if (testFloor.checkLowerDoor(x, y))
+            {
+                testFloor.currentRoom.SetDoor("bottom");
+            }
+            testFloor.currentRoom.SetEB();
+
             healthBar = Content.Load<Texture2D>("health.png");
             fullHealthBar = Content.Load<Texture2D>("health.png");
         }
@@ -319,7 +342,27 @@ namespace Game1
 
                             testFloor.currentRoom.SetEnemies(EnemySprite, 3);
                             testFloor.currentRoom.SpawnEnemies();
-                            
+                            int x = testFloor.currentRoom.xPos;
+                            int y = testFloor.currentRoom.yPos;
+
+                            if (testFloor.checkLeftDoor(x, y))
+                            {
+                                testFloor.currentRoom.SetDoor("left");
+                            }
+                            if (testFloor.checkUpperDoor(x, y))
+                            {
+                                testFloor.currentRoom.SetDoor("top");
+                            }
+                            if (testFloor.checkRightDoor(x, y))
+                            {
+                                testFloor.currentRoom.SetDoor("right");
+                            }
+                            if (testFloor.checkLowerDoor(x, y))
+                            {
+                                testFloor.currentRoom.SetDoor("bottom");
+                            }
+                            testFloor.currentRoom.SetEB();
+
 
 
                         }
@@ -550,7 +593,8 @@ namespace Game1
 
                     //Drawing walls
                     testFloor.currentRoom.DrawWalls(spriteBatch);
-
+                    testFloor.currentRoom.SetDoorSprite(sealedVDoor, sealedHDoor);
+                    testFloor.currentRoom.DrawAllDoors(spriteBatch);
 
 
                     break;
@@ -591,6 +635,7 @@ namespace Game1
 
                     //Drawing walls
                     testFloor.currentRoom.DrawWalls(spriteBatch);
+                    testFloor.currentRoom.DrawAllDoors(spriteBatch);
 
                     // Has button location
                     Resume = new Button(buttonPosResume, 700, 720);
@@ -668,7 +713,7 @@ namespace Game1
               }
             */
 
-            //Basic movement code for testing
+            //Basic movement code
             float speedmodifier = (float)(Math.Cos(0.785398) * movespeed);
 
             //move north

@@ -29,8 +29,8 @@ namespace Game1
 
         void createRoom(int i, int j)
         {          
-            floorLayout[i, j] = new Room(i,j);                                   
-            floorLayout[i, j].isCleared = false;            
+            floorLayout[i, j] = new Room(j,i);                                   
+            floorLayout[i, j].isCleared = false;
             floorLayout[i, j].SetWalls();
         }
 
@@ -51,18 +51,8 @@ namespace Game1
             {
                 for (int j = 1; j < floorLayout.GetLength(1) - 1; j++)
                 {
-                    floorLayout[i, j].SetWallTexture(hWall, vWall);                    
-                    if(floorLayout[i, j].leftWall.wallDoor != null)
-                        floorLayout[i, j].leftWall.wallDoor.SetSprite(vDoor);
-
-                    if (floorLayout[i, j].topWall.wallDoor != null)
-                    floorLayout[i, j].topWall.wallDoor.SetSprite(hDoor);
-
-                    if (floorLayout[i, j].rightWall.wallDoor != null)
-                        floorLayout[i, j].rightWall.wallDoor.SetSprite(vDoor);
-
-                    if (floorLayout[i, j].bottomWall.wallDoor != null)
-                        floorLayout[i, j].bottomWall.wallDoor.SetSprite(hDoor);
+                    floorLayout[i, j].SetWallTexture(hWall, vWall);
+                    floorLayout[i, j].SetDoorSprite(vDoor, hDoor);
                 }
             }
         }
@@ -70,13 +60,10 @@ namespace Game1
 
         public bool checkLeftDoor(int i, int j)
         {
-            if (floorLayout[i, j - 1] != null)
+            if (floorLayout[i,j-1] != null)
             {
-                if (floorLayout[i, j-1].rightWall.wallDoor!= null)
-                {
-                    return true;
-                }
-                else { return false; }
+                return true;
+                
             }
             else { return false; }
         }
@@ -86,11 +73,8 @@ namespace Game1
 
             if (floorLayout[i - 1, j] != null)
             {
-                if (floorLayout[i - 1, j].bottomWall.wallDoor != null)
-                {
-                    return true;
-                }
-                else { return false; }
+
+                return true;
             }
             else { return false; }
         }
@@ -100,11 +84,7 @@ namespace Game1
 
             if (floorLayout[i + 1, j] != null)
             {
-                if (floorLayout[i + 1, j].topWall.wallDoor != null)
-                {
-                    return true;
-                }
-                else { return false; }
+                return true;
             }
             else { return false; }
         }
@@ -114,43 +94,57 @@ namespace Game1
 
             if (floorLayout[i , j+1] != null)
             {
-                if (floorLayout[i , j+1].rightWall.wallDoor != null)
-                {
-                    return true;
-                }
-                else { return false; }
+               return true;
+
             }
+            
             else { return false; }
         }
 
         public Room enterDoor(Character mainChar)
         {
+
+
             if (currentRoom.RoomClear())
             {
-               if(currentRoom.CRIntersect(mainChar.loc, currentRoom.bottomWall.exitBox))
+                floorLayout[x, y] = currentRoom;
+                if (currentRoom.bottomDoor != null)
                 {
-                    mainChar.loc.Center.X = 800;
-                    mainChar.loc.Center.Y = 50+ mainChar.loc.Radius;
-                    y++;
+                    if (currentRoom.CRIntersect(mainChar.loc, currentRoom.bottomDoor.exitBox))
+                    {
+                        mainChar.loc.Center.X = 800;
+                        mainChar.loc.Center.Y = 50 + mainChar.loc.Radius;
+                        y++;
+                    }
                 }
-                if (currentRoom.CRIntersect(mainChar.loc, currentRoom.topWall.exitBox))
+                if (currentRoom.topDoor != null)
                 {
-                    mainChar.loc.Center.X = 800 ;
-                    mainChar.loc.Center.Y = 850- mainChar.loc.Radius;
-                    y--;
+                    if (currentRoom.CRIntersect(mainChar.loc, currentRoom.topDoor.exitBox))
+                    {
+                        mainChar.loc.Center.X = 800;
+                        mainChar.loc.Center.Y = 850 - mainChar.loc.Radius;
+                        y--;
+                    }
                 }
-                if (currentRoom.CRIntersect(mainChar.loc, currentRoom.rightWall.exitBox))
+                if (currentRoom.rightDoor != null)
                 {
-                    mainChar.loc.Center.X = 50 + mainChar.loc.Radius;
-                    mainChar.loc.Center.Y = 450;
-                    x++;
+                    if (currentRoom.CRIntersect(mainChar.loc, currentRoom.rightDoor.exitBox))
+                    {
+                        mainChar.loc.Center.X = 50 + mainChar.loc.Radius;
+                        mainChar.loc.Center.Y = 450;
+                        x++;
+                    }
                 }
-                if (currentRoom.CRIntersect(mainChar.loc, currentRoom.leftWall.exitBox))
+                if (currentRoom.leftDoor != null)
                 {
-                    mainChar.loc.Center.X = 1550 - mainChar.loc.Radius;
-                    mainChar.loc.Center.Y = 450;
-                    x--;
+                    if (currentRoom.CRIntersect(mainChar.loc, currentRoom.leftDoor.exitBox))
+                    {
+                        mainChar.loc.Center.X = 1550 - mainChar.loc.Radius;
+                        mainChar.loc.Center.Y = 450;
+                        x--;
+                    }
                 }
+                floorLayout[x, y].isCleared = true;
                 return enterRoom();
             }
             return currentRoom;
@@ -158,7 +152,12 @@ namespace Game1
 
         public Room enterRoom()
         {
+            
             Room currentRoom = floorLayout[x, y];
+            
+        
+           
+            
             return currentRoom;
 
         }

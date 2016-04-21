@@ -14,24 +14,32 @@ namespace Game1
         public Wall bottomWall=new Wall();
         public Wall leftWall=new Wall();
         public Wall rightWall=new Wall();
+
+        public Door topDoor;
+        public Door rightDoor;
+        public Door leftDoor;
+        public Door bottomDoor;
+
         //Texture2D EnemySprite; //The enemy sprite
-        int xPos;
-        int yPos;
+        public int xPos;
+        public int yPos;
 
         public bool isCleared; //bool to test if all enemys have been cleared from the room
         public List<Enemy> enemies; //the list of all the enemies in the room
-        int enemyNum;
-        public Texture2D texture;
-        Rectangle rect;
 
+        //Constructor
         public Room(int x, int y)
         {
-            rect.Height = 900;
-            rect.Width = 1600;
             xPos = x;
             yPos = y;
             enemies = new List<Enemy>();
-        }
+
+
+            topDoor=null;
+            rightDoor=null;
+            leftDoor=null;
+            bottomDoor=null;
+    }
 
         //Sets number of enemies with their properties for a room
         public void SetEnemies(Texture2D texture,int j)
@@ -47,6 +55,7 @@ namespace Game1
             }
         }
 
+        //Checks if the enemies are dead
         public Boolean RoomClear()
         {
             foreach(Enemy roomEnemy in enemies)
@@ -72,6 +81,8 @@ namespace Game1
             
 
         }
+
+        //Setting wall values
         public void SetWalls()
         {
             topWall.SetTopWall();
@@ -80,6 +91,7 @@ namespace Game1
             rightWall.SetRightWall();
         }
 
+        //Draw all walls
         public void DrawWalls(SpriteBatch spriteBatch)
         {
 
@@ -89,40 +101,95 @@ namespace Game1
             DrawNWWall(leftWall,spriteBatch);
 
       }
-        /*
-        public void SetRoomTextures(Texture2D enemySprite)
+       
+        //Draw all 4 doors if possible
+       public void DrawAllDoors(SpriteBatch spriteBatch)
         {
-            EnemySprite = enemySprite;
+            if (topDoor != null)
+                DrawDoor(topDoor, spriteBatch);
+            if (leftDoor != null)
+                DrawDoor(leftDoor, spriteBatch);
+            if (rightDoor != null)
+                DrawDoor(rightDoor, spriteBatch, SpriteEffects.FlipHorizontally);
+            if (bottomDoor != null)
+                DrawDoor(bottomDoor, spriteBatch, SpriteEffects.FlipVertically);
+
         } 
-
-    
-        public void DrawEnemies(SpriteBatch spriteBatch, float rotate2)
+        
+        //Setting door sprites
+        public void SetDoorSprite(Texture2D vdoor,Texture2D hdoor)
         {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                Enemy enemyTemp = enemies[i];
-
-
-                if (enemyTemp.checkAlive())
-                    spriteBatch.Draw(enemies[i].getSprite(),enemies[i].loc.Center, null, Color.White, rotate2, enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
-            }
+            if (topDoor != null)
+                topDoor.SetSprite(hdoor);
+            if (leftDoor != null)
+                leftDoor.SetSprite(vdoor);
+            if (rightDoor != null)
+                rightDoor.SetSprite(vdoor);
+            if (bottomDoor != null)
+                bottomDoor.SetSprite(hdoor);
         }
-        */
+        
+       //Draw a door 
+       public void DrawDoor(Door door,SpriteBatch spriteBatch)
+       {
+            if(!RoomClear())
+                spriteBatch.Draw(door.sprite, door.position, Color.White);
+
+        }
+
+        //Draw a door-overloaded
+        public void DrawDoor(Door door, SpriteBatch spriteBatch, SpriteEffects spriteEffect)
+        {
+            if (!RoomClear())
+                spriteBatch.Draw(door.sprite,door.position, null, Color.White, 0.0f, new Vector2(0, 0), spriteEffect, 0.0f);
+        }
+
+        public void SetDoor(string door)
+        {
+            switch(door)
+            {
+                case "top": topDoor = new Door(150, 50, 750, 0);
+                    break;
+                case "left":
+                    leftDoor = new Door(50, 150, 0, 400);
+                    break;
+                case "right":
+                    rightDoor = new Door(50, 150, 1550, 400);
+                    break;
+                case "bottom": bottomDoor = new Door(150, 50, 750, 850);
+                    break;
+            }                                                   
+                    
+        }
+
+        public void SetEB()
+        {
+            if (topDoor != null)
+                topDoor.TopEB();
+            if (leftDoor != null)
+                leftDoor.LeftEB();
+            if (rightDoor != null)
+                rightDoor.RightEB();
+            if (bottomDoor != null)
+                bottomDoor.BottomEB();
+        }
+        //Draw top-left walls
         public void DrawNWWall(Wall wall, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, Color.White);
-            if (!RoomClear())
-                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, Color.White);
+           
+            
             
         }
 
+        //Draw bottom-right walls
         public void DrawSEWall(Wall wall, SpriteBatch spriteBatch, SpriteEffects myEffect)
         {
             spriteBatch.Draw(wall.texture, wall.roomWall, null, Color.White, 0.0f, new Vector2(0, 0), myEffect, 0.0f);
-            if (!RoomClear())
-                spriteBatch.Draw(wall.wallDoor.sprite, wall.wallDoor.position, null, Color.White, 0.0f, new Vector2(0,0), myEffect, 0.0f);
+            
         }
         
+        //Setting Wall textures
         public void SetWallTexture(Texture2D hTexture, Texture2D vTexture)
         {
             topWall.texture = hTexture;
@@ -130,45 +197,61 @@ namespace Game1
             rightWall.texture = vTexture;
             leftWall.texture = vTexture;
         }
-
+        
+        //Function for leaving a room
         public bool RoomExit(Character mainChar)
         {
-            if(CRIntersect(mainChar.loc,topWall.exitBox))
-            {
-                
-                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X,750+ mainChar.loc.Radius, 900- mainChar.loc.Radius);
-                return true;
 
-           }
-            else if (CRIntersect(mainChar.loc, bottomWall.exitBox))
+            if (topDoor != null)
             {
-                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, 750 + mainChar.loc.Radius, 900 - mainChar.loc.Radius);
-                return true;
-            }
-            else if (CRIntersect(mainChar.loc, rightWall.exitBox))
-            {
-                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550- mainChar.loc.Radius);
-                return true;
+                if (CRIntersect(mainChar.loc, topDoor.exitBox))
+                {
 
-            }
-            else if (CRIntersect(mainChar.loc, leftWall.exitBox))
-            {
+                    mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, 750 + mainChar.loc.Radius, 900 - mainChar.loc.Radius);
+                    return true;
 
-                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550 - mainChar.loc.Radius);
-                return true;
+                }
             }
-            else
-            {
-                mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
-                mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
-                return false;
+            if (bottomDoor != null)
+            { 
+              if (CRIntersect(mainChar.loc, bottomDoor.exitBox))
+                {
+                    mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, 750 + mainChar.loc.Radius, 900 - mainChar.loc.Radius);
+                    return true;
+                }
             }
+            if (rightDoor != null)
+            { 
+              if (CRIntersect(mainChar.loc, rightDoor.exitBox))
+                {
+                    mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550 - mainChar.loc.Radius);
+                    return true;
+
+                }
+            }
+            if (leftDoor != null)
+            { 
+              if (CRIntersect(mainChar.loc, leftDoor.exitBox))
+                {
+
+                    mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 400, 550 - mainChar.loc.Radius);
+                    return true;
+                }
+            }
+
+            mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
+            mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
+            return false;
+
+           
         }
 
         //Circle rectangle intersection
         //http://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection/402010#402010
         public bool CRIntersect(Circle circle, Rectangle rect)
         {
+            if (rect == null)
+                return false;
             double circleDistancex = Math.Abs(circle.Center.X - rect.X);
             double circleDistancey = Math.Abs(circle.Center.Y - rect.Y);
 
