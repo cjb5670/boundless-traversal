@@ -51,8 +51,11 @@ namespace Game1
             {
                 for (int j = 1; j < floorLayout.GetLength(1) - 1; j++)
                 {
+                    if (floorLayout[i, j] != null)
+                    { 
                     floorLayout[i, j].SetWallTexture(hWall, vWall);
                     floorLayout[i, j].SetDoorSprite(vDoor, hDoor);
+                    }   
                 }
             }
         }

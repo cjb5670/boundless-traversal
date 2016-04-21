@@ -158,7 +158,8 @@ namespace Game1
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
 
-            testFloor = new Floor(5, 5, 1);
+            testFloor = new Floor(3, 3, 1);
+            testFloor.floorLayout[2,2] = null;
 
 
             base.Initialize();
@@ -338,10 +339,7 @@ namespace Game1
                     {
                         if (testFloor.currentRoom.RoomExit(mainChar))
                         {
-                            testFloor.currentRoom = testFloor.enterDoor(mainChar);
-
-                            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                            testFloor.currentRoom.SpawnEnemies();
+                            testFloor.currentRoom = testFloor.enterDoor(mainChar);                            
                             int x = testFloor.currentRoom.xPos;
                             int y = testFloor.currentRoom.yPos;
 
@@ -362,8 +360,12 @@ namespace Game1
                                 testFloor.currentRoom.SetDoor("bottom");
                             }
                             testFloor.currentRoom.SetEB();
-
-
+                            //if (testFloor.currentRoom.isCleared == false)
+                            //{
+                                testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                                testFloor.currentRoom.SpawnEnemies();
+                           // }
+                            
 
                         }
 
@@ -408,9 +410,7 @@ namespace Game1
                     if (testFloor.currentRoom.RoomClear())
                     {
 
-                        /*
 
-                       */
 
                     }
 
@@ -660,8 +660,11 @@ namespace Game1
                     GameOverText = "     Ur ded Scrub";
                     spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
                     spriteBatch.Draw(RIP, RIPloc, Color.White);
-                    // Has button location
-                    Restart = new Button(buttonPosRestart, 700, 720);
+                    testFloor.currentRoom = testFloor.floorLayout[1, 1];
+                    testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                    testFloor.currentRoom.SpawnEnemies();
+                   // Has button location
+                   Restart = new Button(buttonPosRestart, 700, 720);
                     spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.White);
                     if (Restart.enterButton() == true)
                     { spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.SandyBrown); }
