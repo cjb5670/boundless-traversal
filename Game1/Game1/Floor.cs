@@ -147,7 +147,7 @@ namespace Game1
                         x--;
                     }
                 }
-                floorLayout[x, y].isCleared = true;
+                //floorLayout[x, y].isCleared = true;
                 return enterRoom();
             }
             return currentRoom;

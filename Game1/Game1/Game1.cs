@@ -786,6 +786,8 @@ namespace Game1
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             movespeed = 10;
             enemyNo = 3;
+            Initialize();
+            
 
         }
 
