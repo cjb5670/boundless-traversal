@@ -24,7 +24,9 @@ namespace Game1
         Texture2D doorWall; //The wall with an opening for a door
         Texture2D sealedVDoor; // a vertical door that you cant walk through
         Texture2D sealedHDoor; // a horizontal door that you cant walk through
-        Texture2D openDoor; //Open door
+        //Texture2D openDoor; //Open door
+        Texture2D openVDoor; //a vertical door that you CAN walk through
+        Texture2D openHDoor; // a horizontal door that you CAN walk through
         Texture2D character; //The character's sprite
         Texture2D EnemySprite; //The enemy sprite
         Texture2D menuBG; //Background for menu screens
@@ -158,7 +160,8 @@ namespace Game1
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
 
-            testFloor = new Floor(5, 5, 1);
+            testFloor = new Floor(3, 3, 1);
+            testFloor.floorLayout[2,2] = null;
 
 
             base.Initialize();
@@ -179,8 +182,10 @@ namespace Game1
             EnemySprite = Content.Load<Texture2D>("Enemy.png");
             font = Content.Load<SpriteFont>("Font");
             sword = Content.Load<Texture2D>("sword.png");
-            sealedVDoor = Content.Load<Texture2D>("vDoor.jpg");
-            sealedHDoor = Content.Load<Texture2D>("hDoor.jpg");
+            sealedVDoor = Content.Load<Texture2D>("vClosedDoor.png");
+            sealedHDoor = Content.Load<Texture2D>("hClosedDoor.png");
+            openVDoor = Content.Load<Texture2D>("vOpenDoor.png");
+            openHDoor = Content.Load<Texture2D>("hOpenDoor.png");
             MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
             Logo = Content.Load<Texture2D>("PlaceholderLogo.png");
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
@@ -338,10 +343,7 @@ namespace Game1
                     {
                         if (testFloor.currentRoom.RoomExit(mainChar))
                         {
-                            testFloor.currentRoom = testFloor.enterDoor(mainChar);
-
-                            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                            testFloor.currentRoom.SpawnEnemies();
+                            testFloor.currentRoom = testFloor.enterDoor(mainChar);                            
                             int x = testFloor.currentRoom.xPos;
                             int y = testFloor.currentRoom.yPos;
 
@@ -362,8 +364,12 @@ namespace Game1
                                 testFloor.currentRoom.SetDoor("bottom");
                             }
                             testFloor.currentRoom.SetEB();
-
-
+                            //if (testFloor.currentRoom.isCleared == false)
+                            //{
+                                testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                                testFloor.currentRoom.SpawnEnemies();
+                           // }
+                            
 
                         }
 
@@ -408,9 +414,7 @@ namespace Game1
                     if (testFloor.currentRoom.RoomClear())
                     {
 
-                        /*
 
-                       */
 
                     }
 
@@ -660,8 +664,11 @@ namespace Game1
                     GameOverText = "     Ur ded Scrub";
                     spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
                     spriteBatch.Draw(RIP, RIPloc, Color.White);
-                    // Has button location
-                    Restart = new Button(buttonPosRestart, 700, 720);
+                    testFloor.currentRoom = testFloor.floorLayout[1, 1];
+                    testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                    testFloor.currentRoom.SpawnEnemies();
+                   // Has button location
+                   Restart = new Button(buttonPosRestart, 700, 720);
                     spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.White);
                     if (Restart.enterButton() == true)
                     { spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.SandyBrown); }
@@ -779,6 +786,8 @@ namespace Game1
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             movespeed = 10;
             enemyNo = 3;
+            Initialize();
+            
 
         }
 
