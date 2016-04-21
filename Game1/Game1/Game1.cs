@@ -24,7 +24,9 @@ namespace Game1
         Texture2D doorWall; //The wall with an opening for a door
         Texture2D sealedVDoor; // a vertical door that you cant walk through
         Texture2D sealedHDoor; // a horizontal door that you cant walk through
-        Texture2D openDoor; //Open door
+        //Texture2D openDoor; //Open door
+        Texture2D openVDoor; //a vertical door that you CAN walk through
+        Texture2D openHDoor; // a horizontal door that you CAN walk through
         Texture2D character; //The character's sprite
         Texture2D EnemySprite; //The enemy sprite
         Texture2D menuBG; //Background for menu screens
@@ -180,8 +182,10 @@ namespace Game1
             EnemySprite = Content.Load<Texture2D>("Enemy.png");
             font = Content.Load<SpriteFont>("Font");
             sword = Content.Load<Texture2D>("sword.png");
-            sealedVDoor = Content.Load<Texture2D>("vDoor.jpg");
-            sealedHDoor = Content.Load<Texture2D>("hDoor.jpg");
+            sealedVDoor = Content.Load<Texture2D>("vClosedDoor.png");
+            sealedHDoor = Content.Load<Texture2D>("hClosedDoor.png");
+            openVDoor = Content.Load<Texture2D>("vOpenDoor.png");
+            openHDoor = Content.Load<Texture2D>("hOpenDoor.png");
             MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
             Logo = Content.Load<Texture2D>("PlaceholderLogo.png");
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
