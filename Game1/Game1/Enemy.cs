@@ -87,10 +87,5 @@ namespace Game1
             }          
         }
 
-        
-
-
-
-
     }
 }

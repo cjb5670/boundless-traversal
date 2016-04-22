@@ -95,25 +95,55 @@
             // healthNumericUpDown
             // 
             this.healthNumericUpDown.Location = new System.Drawing.Point(97, 143);
+            this.healthNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.healthNumericUpDown.Name = "healthNumericUpDown";
             this.healthNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.healthNumericUpDown.TabIndex = 7;
+            this.healthNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.healthNumericUpDown.ValueChanged += new System.EventHandler(this.healthNumericUpDown_ValueChanged);
             // 
             // strengthNumericUpDown
             // 
             this.strengthNumericUpDown.Location = new System.Drawing.Point(97, 75);
+            this.strengthNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.strengthNumericUpDown.Name = "strengthNumericUpDown";
             this.strengthNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.strengthNumericUpDown.TabIndex = 8;
+            this.strengthNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.strengthNumericUpDown.ValueChanged += new System.EventHandler(this.strengthNumericUpDown_ValueChanged);
             // 
             // dexterityNumericUpDown
             // 
             this.dexterityNumericUpDown.Location = new System.Drawing.Point(97, 110);
+            this.dexterityNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.dexterityNumericUpDown.Name = "dexterityNumericUpDown";
             this.dexterityNumericUpDown.Size = new System.Drawing.Size(60, 20);
             this.dexterityNumericUpDown.TabIndex = 9;
+            this.dexterityNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.dexterityNumericUpDown.ValueChanged += new System.EventHandler(this.dexterityNumericUpDown_ValueChanged);
             // 
             // submitButton
@@ -143,7 +173,7 @@
             this.pointsNumeric.Size = new System.Drawing.Size(59, 20);
             this.pointsNumeric.TabIndex = 13;
             this.pointsNumeric.Value = new decimal(new int[] {
-            5,
+            3,
             0,
             0,
             0});
