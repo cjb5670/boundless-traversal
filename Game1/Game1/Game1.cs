@@ -43,7 +43,8 @@ namespace Game1
         Texture2D ButtonBack;
         Texture2D ButtonPressed;
         Texture2D RIP;
-        Texture2D StatSetter;
+        Texture2D StatSetterup;
+		Texture2D StatSetterdown;
         Rectangle LogoLoc;
         Rectangle StatsLoc;
         Rectangle FullScreen;
@@ -68,8 +69,8 @@ namespace Game1
         int movespeed;
         float rotate;
         float rotate2;
-        MouseState ms;
-        MouseState previousms;
+		MouseState ms;
+		MouseState previousms;
         bool leftMousePress;
         bool rightMousePress;
 
@@ -78,24 +79,25 @@ namespace Game1
         Button Play;
         Button Resume;
         Button Restart;
-        Button upStr;
-        Button downStr;
-        Button upDex;
-        Button downDex;
-        Button upCon;
-        Button downCon;
-        Rectangle buttonPosSetStats;
-        Rectangle buttonPosPlay;
-        Rectangle buttonPosResume;
-        Rectangle buttonPosRestart;
-        Rectangle upStrPos;
-        Rectangle downStrPos;
-        Rectangle upDexPos;
-        Rectangle downDexPos;
-        Rectangle upConPos;
-        Rectangle downConPos;
-        StatList PlayerStats;
+        public Button upStr;
+        public Button downStr;
+		public Button upDex;
+		public Button downDex;
+		public Button upCon;
+		public Button downCon;
+		Rectangle buttonPosSetStats;
+		Rectangle buttonPosPlay;
+		Rectangle buttonPosResume;
+		Rectangle buttonPosRestart;
+		public Rectangle upStrPos;
+		public Rectangle downStrPos;
+		public Rectangle upDexPos;
+		public Rectangle downDexPos;
+		public Rectangle upConPos;
+		public Rectangle downConPos;
+		StatList PlayerStats;
         Floor testFloor;
+
         //enum for Game State
         enum GameState
         {
@@ -160,7 +162,40 @@ namespace Game1
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
 
-            testFloor = new Floor(3, 3, 1);
+			buttonPosSetStats = new Rectangle(650, 720, 280, 80);
+			SetStats = new Button(buttonPosSetStats, buttonPosSetStats.X, buttonPosSetStats.Y);
+			
+			buttonPosPlay = new Rectangle(700, 720, 150, 80);
+			Play = new Button(buttonPosPlay, buttonPosPlay.X, buttonPosPlay.Y);
+
+			buttonPosResume = new Rectangle(700, 720, 240, 80);
+			Resume = new Button(buttonPosResume, buttonPosResume.X, buttonPosResume.Y);
+			
+			buttonPosRestart = new Rectangle(700, 720, 240, 80);
+			Restart = new Button(buttonPosRestart, buttonPosRestart.X, buttonPosRestart.Y);
+
+
+
+
+			upStrPos = new Rectangle(1200, 200, 60, 60);
+			downStrPos = new Rectangle(1200, 350, 60, 60);
+			upDexPos = new Rectangle(1200, 450, 60, 60);
+			downDexPos = new Rectangle(1200, 600, 60, 60);
+			upConPos = new Rectangle(1200, 700, 60, 60);
+			downConPos = new Rectangle(1200, 850, 60, 60);
+
+			// All stat buttons
+			upStr = new Button(upStrPos, upStrPos.X, upStrPos.Y);
+			downStr = new Button(downStrPos, downStrPos.X, downStrPos.Y);
+			upDex = new Button(upDexPos, upDexPos.X, upDexPos.Y);
+			downDex = new Button(downDexPos, downDexPos.X, downDexPos.Y);
+			upCon = new Button(upConPos, upConPos.X, upConPos.Y);
+			downCon = new Button(downConPos, downDexPos.X, downConPos.Y);
+
+			
+
+
+			testFloor = new Floor(3, 3, 1);
            
 
             base.Initialize();
@@ -190,7 +225,8 @@ namespace Game1
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
             RIP = Content.Load<Texture2D>("RIP.jpg");
             ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
-            StatSetter = Content.Load<Texture2D>("UpArrow.png");
+            StatSetterup = Content.Load<Texture2D>("arrowButtonUp.png");
+			StatSetterdown = Content.Load<Texture2D>("arrowButtonDown.png");
             ButtonPressed = Content.Load<Texture2D>("Test.png");
 
             //Setting sprites
@@ -279,10 +315,8 @@ namespace Game1
             {
                 case GameState.MainMenu:
                     ResetGame();
-                    // Has button location
-                    SetStats = new Button(buttonPosSetStats, 650, 720);
-                    buttonPosSetStats = new Rectangle(SetStats.buttonX, SetStats.buttonY, 280, 80);
-                    if (ButtonPress(SetStats) == true)
+					
+					if (ButtonPress(SetStats) == true)
                     {
                         // call external tool to edit enemy stats
                         CharacterAttributes ca = new CharacterAttributes();
@@ -292,42 +326,29 @@ namespace Game1
                     }
                     break;
                 case GameState.ItemMenu:
-                    // Has button size
-                    buttonPosPlay = new Rectangle(Play.buttonX, Play.buttonY, 150, 80);
-                    previousms = ms;
-                    ms = Mouse.GetState();
-                    if (Play.enterButton() == true &&
-                        previousms.LeftButton == ButtonState.Released &&
-                        ms.LeftButton == ButtonState.Pressed &&
+					// Has button size
+                    if (ButtonPress(Play) &&
                         PlayerStats.totalStats == 0)
                     {
                         ReCheckStats();
                         state = GameState.PlayGame;
                     }
 
+					if (upStr.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+						PlayerStats.upStr();
+					else if (downStr.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+						PlayerStats.downStr();
+					else if (upDex.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+						PlayerStats.upDex();
+					else if (downDex.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+						PlayerStats.downDex();
+					else if (upCon.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+						PlayerStats.upCon();
+					else if (downCon.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+						PlayerStats.downCon();
 
 
-                    upStrPos = new Rectangle(upStr.buttonX, upStr.buttonY, 60, 60);
-                    downStrPos = new Rectangle(downStr.buttonX, downStr.buttonY, 60, 60);
-                    upDexPos = new Rectangle(upDex.buttonX, upDex.buttonY, 60, 60);
-                    downDexPos = new Rectangle(downDex.buttonX, downDex.buttonY, 60, 60);
-                    upConPos = new Rectangle(upCon.buttonX, upCon.buttonY, 60, 60);
-                    downConPos = new Rectangle(downCon.buttonX, downCon.buttonY, 60, 60);
-
-                    if (upStr.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
-                        PlayerStats.upStr();
-                    else if (downStr.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
-                        PlayerStats.downStr();
-                    else if (upCon.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
-                        PlayerStats.upCon();
-                    else if (downCon.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
-                        PlayerStats.downCon();
-                    else if (upDex.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
-                        PlayerStats.upDex();
-                    else if (downDex.enterButton() == true && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
-                        PlayerStats.downDex();
-
-                    break;
+					break;
                 case GameState.PlayGame:
                     if (mainChar.healthPoints <= 0)
                     { state = GameState.Gameover; }
@@ -439,7 +460,7 @@ namespace Game1
                     break;
                 case GameState.PauseMenu:
                     // Has button size
-                    buttonPosResume = new Rectangle(Resume.buttonX, Resume.buttonY, 240, 80);
+                    
 
                     if (ButtonPress(Resume) == true || (SingleKeyPress(Keys.P) == true))
                         state = GameState.PlayGame;
@@ -447,7 +468,7 @@ namespace Game1
 
 
                 case GameState.Gameover:
-                    buttonPosRestart = new Rectangle(Restart.buttonX, Restart.buttonY, 240, 80);
+					
                     if (ButtonPress(Restart) == true)
                         state = GameState.MainMenu;
                     break;
@@ -493,9 +514,12 @@ namespace Game1
 
                     break;
                 case GameState.ItemMenu:
-                    spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+					
 
-                    ItemMenuText = "                     Select where to allocate your " + 3 +
+					spriteBatch.Draw(MenuBack, FullScreen, Color.White);
+					
+
+					ItemMenuText = "                     Select where to allocate your " + 3 +
                         " Stats.\n      Strength ups your attack damage, Dex ups your attack speed," +
                         "\n                               and Con ups your health." +
                         "\n                               Points Left to Spend: " + PlayerStats.totalStats +
@@ -509,7 +533,7 @@ namespace Game1
                     spriteBatch.DrawString(font, ItemMenuText, new Vector2(0, 0), Color.SaddleBrown);
 
                     // Has button location
-                    Play = new Button(buttonPosPlay, 700, 720);
+                    
                     spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.White);
                     if (Play.enterButton() == true)
                     { spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
@@ -518,38 +542,32 @@ namespace Game1
                     spriteBatch.DrawString(font, "Play", new Vector2(buttonPosPlay.X + 28, buttonPosPlay.Y + 8), Color.Silver);
 
 
-                    // All stat buttons
-                    upStr = new Button(upStrPos, 1200, 200);
-                    downStr = new Button(downStrPos, 1200, 350);
-                    upDex = new Button(upDexPos, 1200, 450);
-                    downDex = new Button(downDexPos, 1200, 600);
-                    upCon = new Button(upConPos, 1200, 700);
-                    downCon = new Button(downConPos, 1200, 850);
+                    
 
                     // Button Draw Logic
-                    spriteBatch.Draw(StatSetter, upStrPos, Color.White);
+                    spriteBatch.Draw(StatSetterup, upStrPos, Color.Brown);
                     if (upStr.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, upStrPos, Color.SandyBrown);
+                        spriteBatch.Draw(StatSetterup, upStrPos, Color.SandyBrown);
 
-                    spriteBatch.Draw(StatSetter, downStrPos, Color.White);
+                    spriteBatch.Draw(StatSetterdown, downStrPos, Color.Brown);
                     if (downStr.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, downStrPos, Color.SandyBrown);
+                        spriteBatch.Draw(StatSetterdown, downStrPos, Color.SandyBrown);
 
-                    spriteBatch.Draw(StatSetter, upDexPos, Color.White);
+                    spriteBatch.Draw(StatSetterup, upDexPos, Color.Brown);
                     if (upDex.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, upDexPos, Color.SandyBrown);
+                        spriteBatch.Draw(StatSetterup, upDexPos, Color.SandyBrown);
 
-                    spriteBatch.Draw(StatSetter, downDexPos, Color.White);
+                    spriteBatch.Draw(StatSetterdown, downDexPos, Color.Brown);
                     if (downDex.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, downDexPos, Color.SandyBrown);
+                        spriteBatch.Draw(StatSetterdown, downDexPos, Color.SandyBrown);
 
-                    spriteBatch.Draw(StatSetter, upConPos, Color.White);
+                    spriteBatch.Draw(StatSetterup, upConPos, Color.Brown);
                     if (upCon.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, upConPos, Color.SandyBrown);
+                        spriteBatch.Draw(StatSetterup, upConPos, Color.SandyBrown);
 
-                    spriteBatch.Draw(StatSetter, downConPos, Color.White);
+                    spriteBatch.Draw(StatSetterdown, downConPos, Color.Brown);
                     if (downCon.enterButton() == true)
-                        spriteBatch.Draw(StatSetter, downConPos, Color.SandyBrown);
+                        spriteBatch.Draw(StatSetterdown, downConPos, Color.SandyBrown);
 
 
 
@@ -645,7 +663,7 @@ namespace Game1
                     testFloor.currentRoom.DrawAllDoors(spriteBatch);
 
                     // Has button location
-                    Resume = new Button(buttonPosResume, 700, 720);
+                    
                     spriteBatch.Draw(ButtonBack, buttonPosResume, Color.White);
 
                     if (Resume.enterButton() == true)
@@ -670,8 +688,8 @@ namespace Game1
                     testFloor.currentRoom = testFloor.floorLayout[1, 1];
                     testFloor.currentRoom.SetEnemies(EnemySprite, 3);
                     testFloor.currentRoom.SpawnEnemies();
-                   // Has button location
-                   Restart = new Button(buttonPosRestart, 700, 720);
+					// Has button location
+					
                     spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.White);
                     if (Restart.enterButton() == true)
                     { spriteBatch.Draw(ButtonBack, buttonPosRestart, Color.SandyBrown); }
@@ -740,7 +758,7 @@ namespace Game1
                     movement = new Vector2(speedmodifier, -speedmodifier);
 
                 else
-                    movement = new Vector2(0, -10);
+                    movement = new Vector2(0, -movespeed);
             }
 
             //move south
@@ -755,20 +773,20 @@ namespace Game1
                     movement = new Vector2(speedmodifier, speedmodifier);
 
                 else
-                    movement = new Vector2(0, 10);
+                    movement = new Vector2(0, movespeed);
 
             }
 
             //move west
             else if (kbState.IsKeyDown(Keys.A))
             {
-                movement = new Vector2(-10, 0);
+                movement = new Vector2(-movespeed, 0);
             }
 
             //move east
             else if (kbState.IsKeyDown(Keys.D))
             {
-                movement = new Vector2(10, 0);
+                movement = new Vector2(movespeed, 0);
             }
 
             //when player is static    
@@ -827,7 +845,9 @@ namespace Game1
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
-        }
+			movespeed = 10 + (PlayerStats.dexterity*2);
+			
+		}
 
     }
 }
