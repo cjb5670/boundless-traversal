@@ -12,7 +12,7 @@ namespace Game1
         int pauseMove = 31;
         float movespeed;
         Random msmod = new Random();
-        //Default constructor
+
         public Enemy()
         {
 
@@ -22,7 +22,8 @@ namespace Game1
         public Enemy(int x, int y, float radius)
             : base(x, y, radius)
         {
-            movespeed =msmod.Next(0, 5)*0.1f+5;
+            movespeed =msmod.Next(0, 5)*0.1f+5;       
+          
         }
 
         //Checks if the current Enemy is alive or not
