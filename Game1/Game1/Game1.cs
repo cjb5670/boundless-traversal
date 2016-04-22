@@ -179,7 +179,7 @@ namespace Game1
             //Creating Game Object sprites
             //character = Content.Load<Texture2D>("Character.png");
             character = Content.Load<Texture2D>("vikingCharacter.png");
-            EnemySprite = Content.Load<Texture2D>("rat.png");
+            EnemySprite = Content.Load<Texture2D>("ratEnemy.png");
             font = Content.Load<SpriteFont>("Font");
             sword = Content.Load<Texture2D>("sword.png");
             sealedVDoor = Content.Load<Texture2D>("vClosedDoor.png");
