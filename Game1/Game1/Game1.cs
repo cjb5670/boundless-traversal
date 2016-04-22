@@ -583,7 +583,7 @@ namespace Game1
                     //enemies
                     //collision animations (create a method for this)
                     string health = (mainChar.healthPoints).ToString();
-                    GraphicsDevice.Clear(Color.CornflowerBlue);
+                    GraphicsDevice.Clear(Color.SaddleBrown);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
 
