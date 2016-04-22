@@ -177,8 +177,9 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Creating Game Object sprites
-            character = Content.Load<Texture2D>("Character.png");
-            EnemySprite = Content.Load<Texture2D>("Enemy.png");
+            //character = Content.Load<Texture2D>("Character.png");
+            character = Content.Load<Texture2D>("vikingCharacter.png");
+            EnemySprite = Content.Load<Texture2D>("rat.png");
             font = Content.Load<SpriteFont>("Font");
             sword = Content.Load<Texture2D>("sword.png");
             sealedVDoor = Content.Load<Texture2D>("vClosedDoor.png");
