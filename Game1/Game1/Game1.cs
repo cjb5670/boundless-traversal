@@ -161,8 +161,7 @@ namespace Game1
             RIPloc = new Rectangle(800, 250, 500, 500);
 
             testFloor = new Floor(3, 3, 1);
-            testFloor.floorLayout[2,2] = null;
-
+           
 
             base.Initialize();
 
@@ -597,7 +596,11 @@ namespace Game1
 
                     //Drawing walls
                     testFloor.currentRoom.DrawWalls(spriteBatch);
-                    testFloor.currentRoom.SetDoorSprite(sealedVDoor, sealedHDoor);
+                    // testFloor.currentRoom.SetDoorSprite(sealedVDoor, sealedHDoor);
+                    if (!testFloor.currentRoom.RoomClear())
+                        testFloor.currentRoom.SetDoorSprite(sealedVDoor, sealedHDoor);
+                    else
+                        testFloor.currentRoom.SetDoorSprite(openVDoor, openHDoor);
                     testFloor.currentRoom.DrawAllDoors(spriteBatch);
 
 

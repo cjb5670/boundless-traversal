@@ -20,7 +20,7 @@ namespace Game1
 
         public Floor(int width, int height, int level)
         {
-            floorLayout = new Room[height, width];
+            floorLayout = new Room[height+2, width+2];
             createFloor();
             currentRoom = floorLayout[1, 1];
             //defaultRoom = new Room();

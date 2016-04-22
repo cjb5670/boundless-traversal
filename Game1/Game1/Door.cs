@@ -10,6 +10,7 @@ namespace Game1
     public class Door 
     {
         public Texture2D sprite;
+
         public Rectangle position;
         public Rectangle exitBox;
         public bool active=true;
@@ -23,9 +24,10 @@ namespace Game1
             exitBox = new Rectangle(0, 0, 0, 0);
                         
         }
-        public void SetSprite(Texture2D texture)
+        public void SetSprite(Texture2D textureClosed)
         {
-            sprite = texture;
+            sprite = textureClosed;
+
         }
 
         public void LeftEB()

@@ -114,10 +114,10 @@ namespace Game1
             if (bottomDoor != null)
                 DrawDoor(bottomDoor, spriteBatch, SpriteEffects.FlipVertically);
 
-        } 
-        
+        }
+
         //Setting door sprites
-        public void SetDoorSprite(Texture2D vdoor,Texture2D hdoor)
+        public void SetDoorSprite(Texture2D vdoor, Texture2D hdoor)
         {
             if (topDoor != null)
                 topDoor.SetSprite(hdoor);
@@ -132,7 +132,7 @@ namespace Game1
        //Draw a door 
        public void DrawDoor(Door door,SpriteBatch spriteBatch)
        {
-            if(!RoomClear())
+           
                 spriteBatch.Draw(door.sprite, door.position, Color.White);
 
         }
@@ -140,7 +140,7 @@ namespace Game1
         //Draw a door-overloaded
         public void DrawDoor(Door door, SpriteBatch spriteBatch, SpriteEffects spriteEffect)
         {
-            if (!RoomClear())
+            
                 spriteBatch.Draw(door.sprite,door.position, null, Color.White, 0.0f, new Vector2(0, 0), spriteEffect, 0.0f);
         }
 
