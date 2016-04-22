@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
+
 namespace Game1
 {
     /// <summary>
@@ -144,7 +146,6 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             blade = new Weapon(mainChar);
-
 
             movespeed = 10;
 
@@ -828,6 +829,7 @@ namespace Game1
             mainChar.attackDamage = 5 * PlayerStats.strength;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
         }
+
 
     }
 }

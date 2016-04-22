@@ -87,13 +87,5 @@ namespace Game1
             }          
         }
 
-        
-        public void SetStats()
-        {
-            
-        }
-
-
-
     }
 }
