@@ -103,11 +103,11 @@ namespace Game1
 
         private void clearButton_Click(object sender, EventArgs e)
         {
-            pointsNumeric.Value = 5;
-            healthNumericUpDown.Value = 0;
-            strengthNumericUpDown.Value = 0;
-            dexterityNumericUpDown.Value = 0;
-            pointsNumeric.Value = 5;
+            pointsNumeric.Value = 3;
+            healthNumericUpDown.Value = 1;
+            strengthNumericUpDown.Value = 1;
+            dexterityNumericUpDown.Value = 1;
+            pointsNumeric.Value = 3;
 
             healthNumericUpDown.Enabled = true;
             strengthNumericUpDown.Enabled = true;
@@ -214,7 +214,20 @@ namespace Game1
             previousDexterity = dexterity;
 
             // ensure pointsNumeric is set to proper number of points left after loading data
-            pointsNumeric.Value = 5 - health - strength - dexterity;
+            pointsNumeric.Value = 6 - health - strength - dexterity;
+        }
+
+        public double Health
+        {
+            get { return (double)health; }
+        }
+        public int Strength
+        {
+            get { return (int)strength; }
+        }
+        public float Dexterity
+        {
+            get { return (float)dexterity; }
         }
     }
 }
