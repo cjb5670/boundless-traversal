@@ -110,6 +110,7 @@ namespace Game1
 
             if (currentRoom.RoomClear())
             {
+                floorLayout[x, y].isCleared = true;
                 floorLayout[x, y] = currentRoom;
                 if (currentRoom.bottomDoor != null)
                 {

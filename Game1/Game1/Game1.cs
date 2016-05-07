@@ -386,11 +386,11 @@ namespace Game1
                                 testFloor.currentRoom.SetDoor("bottom");
                             }
                             testFloor.currentRoom.SetEB();
-                            //if (testFloor.currentRoom.isCleared == false)
-                            //{
+                            if (!testFloor.currentRoom.isCleared)
+                            {
                                 testFloor.currentRoom.SetEnemies(EnemySprite, 3);
                                 testFloor.currentRoom.SpawnEnemies();
-                           // }
+                            }
                             
 
                         }

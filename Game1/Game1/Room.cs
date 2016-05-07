@@ -33,7 +33,7 @@ namespace Game1
             xPos = x;
             yPos = y;
             enemies = new List<Enemy>();
-
+            isCleared = false;
 
             topDoor=null;
             rightDoor=null;
