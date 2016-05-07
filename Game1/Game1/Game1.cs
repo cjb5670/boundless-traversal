@@ -360,8 +360,15 @@ namespace Game1
                     //Function for player movement
                     CharacterMovement(mainChar);
 
-                    
-                    if (testFloor.currentRoom.RoomClear())
+                    if (testFloor.isFloorClear())
+                    {
+                        testFloor.changeFloors();
+                        testFloor.currentRoom = testFloor.enterDoor(mainChar);
+                        testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                        testFloor.currentRoom.SpawnEnemies();
+
+                    }
+                    else if (testFloor.currentRoom.RoomClear())
                     {
                         if (testFloor.currentRoom.RoomExit(mainChar))
                         {
