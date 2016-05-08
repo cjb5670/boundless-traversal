@@ -15,7 +15,7 @@ namespace Game1
     public class Game1 : Game
     {
 
-        #region variables for drawing
+        #region DrawingObjects
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -64,7 +64,7 @@ namespace Game1
 
 
         Character mainChar;
-
+        bool attackcd;
         KeyboardState kbState; //2 Keboard states for toggeling items
         KeyboardState previousKbState;
         Vector2 movement;
@@ -76,7 +76,7 @@ namespace Game1
 		MouseState previousms;
         bool leftMousePress;
         bool rightMousePress;
-
+        int cd;
         int enemyNo;
         Button SetStats;
         Button Play;
@@ -154,8 +154,8 @@ namespace Game1
             mainChar.XP = 0;
             mainChar.level = 1;
             movespeed = 10;
-
-
+            cd = 0;
+            attackcd = false;
             enemyNo = 3;
 
             //Setting walls
@@ -381,6 +381,8 @@ namespace Game1
                         testFloor.currentRoom.SpawnEnemies();
 
                     }
+
+                    #region CharCollision
                     else if (testFloor.currentRoom.RoomClear())
                     {
                         if (testFloor.currentRoom.RoomExit(mainChar))
@@ -422,39 +424,64 @@ namespace Game1
                         mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
                         mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
                     }
+                    #endregion
 
                     //Rotates the character to the mouse
+                    #region CharRotate
                     ms = Mouse.GetState();
                     float xdist = ms.X - mainChar.loc.Center.X;
                     float ydist = ms.Y - mainChar.loc.Center.Y;
                     rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
+                    #endregion
 
 
                     blade.moveWeapon(mainChar, rotate);
 
-
-                    if (ms.LeftButton == ButtonState.Pressed)
+                    if (ms.LeftButton == ButtonState.Pressed && cd == 0 )
                     {
-                        if (blade.swingtime < 16)
-                        {
-                            leftMousePress = true;
-                            foreach (Enemy e in testFloor.currentRoom.enemies)
-                            {
+                        attackcd = true;
+                    }
 
-                                if (e.playerIntersect(blade) && e.checkAlive())
+                    if (attackcd)
+                        {
+                            if (blade.swingtime < 16)
+                            {
+                                leftMousePress = true;
+                                foreach (Enemy e in testFloor.currentRoom.enemies)
                                 {
-                                    Character.charHit(mainChar, e);
+
+                                    if (e.playerIntersect(blade) && e.checkAlive())
+                                    {
+                                        Character.charHit(mainChar, e);
+
+                                    }
 
                                 }
-
+                                blade.swingtime++;
+                               
                             }
-                            blade.swingtime++;
+                            else
+                            {
+                                leftMousePress = false;
+                                cd = 60 - PlayerStats.dexterity*5;
+                                attackcd = false;
+                            }
+
                         }
-                        else { leftMousePress = false; }
+                    else
+                    {
+                        leftMousePress = false;
+                        blade.swingtime = 0;
+                        if (cd != 0)
+                        {
+                            cd--;
+                        }
                     }
-                    else { leftMousePress = false; blade.swingtime = 0; }
+
+                    
 
 
+                    #region EnemyAI
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
                     {
@@ -469,8 +496,11 @@ namespace Game1
 
                     }
 
+                    #endregion
 
                     break;
+
+
                 #endregion
 
                 #region PauseMenu
@@ -746,8 +776,7 @@ namespace Game1
             return false;
         }
 
-
-
+        
         //Controls player wasd movement
         public void CharacterMovement(Character mc)
         {
