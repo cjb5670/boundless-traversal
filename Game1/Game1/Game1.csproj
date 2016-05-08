@@ -43,12 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
-    <Compile Include="CharacterAttributes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CharacterAttributes.Designer.cs">
-      <DependentUpon>CharacterAttributes.cs</DependentUpon>
-    </Compile>
     <Compile Include="Circle.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Collectible.cs" />
@@ -166,11 +160,6 @@
     <None Include="Content\Font.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="CharacterAttributes.resx">
-      <DependentUpon>CharacterAttributes.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

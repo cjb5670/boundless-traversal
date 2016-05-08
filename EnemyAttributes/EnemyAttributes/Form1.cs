@@ -5,16 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace Game1
+namespace EnemyAttributes
 {
-    public partial class CharacterAttributes : Form
+    public partial class Form1 : Form
     {
-        // external file to save data
-        string file = "attributes.txt";
-
         // fields
         public decimal health;
         public decimal previousHealth;
@@ -29,12 +27,12 @@ namespace Game1
         string s;
         string d;
 
-        public CharacterAttributes()
+        public Form1()
         {
             InitializeComponent();
         }
 
-        private void CharacterAttributes_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             // disable pointsNumeric so player can't add extra points
             pointsNumeric.Enabled = false;
@@ -46,18 +44,17 @@ namespace Game1
             previousStrength = strength;
             dexterity = dexterityNumericUpDown.Value;
             previousDexterity = dexterity;
-
         }
 
         // change value of pointsNumeric based on healthNumeric value
-        private void healthNumericUpDown_ValueChanged(object sender, EventArgs e)
+        private void healthNumericUpDown_ValueChanged_1(object sender, EventArgs e)
         {
             health = healthNumericUpDown.Value;
-            if(health < previousHealth)
+            if (health < previousHealth)
             {
                 pointsNumeric.Value++;
             }
-            if(health > previousHealth)
+            if (health > previousHealth)
             {
                 pointsNumeric.Value--;
             }
@@ -65,7 +62,7 @@ namespace Game1
         }
 
         // change value of pointsNumeric based on strengthNumeric value
-        private void strengthNumericUpDown_ValueChanged(object sender, EventArgs e)
+        private void strengthNumericUpDown_ValueChanged_1(object sender, EventArgs e)
         {
             strength = strengthNumericUpDown.Value;
             if (strength < previousStrength)
@@ -80,7 +77,7 @@ namespace Game1
         }
 
         // change value of pointsNumeric based on dexterityNumeric value
-        private void dexterityNumericUpDown_ValueChanged(object sender, EventArgs e)
+        private void dexterityNumericUpDown_ValueChanged_1(object sender, EventArgs e)
         {
             dexterity = dexterityNumericUpDown.Value;
             if (dexterity < previousDexterity)
@@ -94,14 +91,14 @@ namespace Game1
             previousDexterity = dexterity;
         }
 
-        private void submitButton_Click(object sender, EventArgs e)
+        private void submitButton_Click_1(object sender, EventArgs e)
         {
             // write data to file and display message confirming the submission
-            WriteData(file);
+            WriteData();
             label6.Visible = true;
         }
 
-        private void clearButton_Click(object sender, EventArgs e)
+        private void clearButton_Click_1(object sender, EventArgs e)
         {
             pointsNumeric.Value = 3;
             healthNumericUpDown.Value = 1;
@@ -116,84 +113,9 @@ namespace Game1
             label6.Visible = false;
         }
 
-        // Write data to file
-        public void WriteData(String file)
+        private void loadButton_Click_1(object sender, EventArgs e)
         {
-            StreamWriter output = null;
-
-            try
-            {
-                output = new StreamWriter(file);
-                output.WriteLine(strengthNumericUpDown.Value);
-                output.WriteLine(dexterityNumericUpDown.Value);
-                output.WriteLine(healthNumericUpDown.Value);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error writing to file: " + e.Message);
-            }
-            finally
-            {
-                if (output != null)
-                    output.Close();
-            }
-        }
-
-        // read data from file
-        public void ReadData(String file)
-        {
-            StreamReader input = null;
-
-            try
-            {
-                input = new StreamReader(file);
-
-                String line = null;
-                while ((line = input.ReadLine()) != null)
-                {
-                    // count determines where the current line is stored
-                    if(count == 0)
-                    {
-                        s = line;
-                    }
-                    if(count == 1)
-                    {
-                        d = line;
-                    }
-                    if(count == 2)
-                    {
-                        h = line;
-                    }
-                    count++;
-                }
-                // reset count for next use
-                count = 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error reading file: " + e.Message);
-            }
-            finally
-            {
-                if (input != null)
-                    input.Close();
-            }
-        }
-
-        private void pointsNumeric_ValueChanged(object sender, EventArgs e)
-        {
-            // disable all numerics if pointsNumeric is 0
-            if (pointsNumeric.Value == 0)
-            {
-                healthNumericUpDown.Enabled = false;
-                strengthNumericUpDown.Enabled = false;
-                dexterityNumericUpDown.Enabled = false;
-            }
-        }
-
-        private void loadButton_Click(object sender, EventArgs e)
-        {
-            ReadData(file);
+            ReadData();
 
             // convert loaded data into decimals so it can be used by the numerics
             decimal loadHealth = System.Convert.ToDecimal(h);
@@ -217,17 +139,79 @@ namespace Game1
             pointsNumeric.Value = 6 - health - strength - dexterity;
         }
 
-        public double Health
+        private void pointsNumeric_ValueChanged_1(object sender, EventArgs e)
         {
-            get { return (double)health; }
+            // disable all numerics if pointsNumeric is 0
+            if (pointsNumeric.Value == 0)
+            {
+                healthNumericUpDown.Enabled = false;
+                strengthNumericUpDown.Enabled = false;
+                dexterityNumericUpDown.Enabled = false;
+            }
         }
-        public int Strength
+
+        // Write data to file
+        public void WriteData()
         {
-            get { return (int)strength; }
+            StreamWriter output = null;
+
+            try
+            {
+                output = new StreamWriter("../../../../attributes.txt");
+                output.WriteLine(strengthNumericUpDown.Value);
+                output.WriteLine(dexterityNumericUpDown.Value);
+                output.WriteLine(healthNumericUpDown.Value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error writing to file: " + e.Message);
+            }
+            finally
+            {
+                if (output != null)
+                    output.Close();
+            }
         }
-        public float Dexterity
+
+        // read data from file
+        public void ReadData()
         {
-            get { return (float)dexterity; }
+            StreamReader input = null;
+
+            try
+            {
+                input = new StreamReader("../../../../attributes.txt");
+
+                String line = null;
+                while ((line = input.ReadLine()) != null)
+                {
+                    // count determines where the current line is stored
+                    if (count == 0)
+                    {
+                        s = line;
+                    }
+                    if (count == 1)
+                    {
+                        d = line;
+                    }
+                    if (count == 2)
+                    {
+                        h = line;
+                    }
+                    count++;
+                }
+                // reset count for next use
+                count = 0;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error reading file: " + e.Message);
+            }
+            finally
+            {
+                if (input != null)
+                    input.Close();
+            }
         }
     }
 }
