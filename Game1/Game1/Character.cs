@@ -56,12 +56,22 @@ namespace Game1
                 defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
 
             defender.healthPoints -= attacker.attackDamage;            
-            if(defender.healthPoints<=0 && attacker.XP!=-1)
+            if(defender.healthPoints<=0 && attacker.XP!=-1) 
             {
                 attacker.XP += 10;
             }
         }
-
+        public bool CheckXP()
+        {
+            if (this.XP>=100*level)
+            {
+                level++;
+                XP = 0;
+                return true;
+                
+            }
+            return false;
+        }
 
         public static float getAngleBetween(Character c1, Character c2)
         {

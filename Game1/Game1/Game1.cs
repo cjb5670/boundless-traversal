@@ -69,7 +69,7 @@ namespace Game1
         KeyboardState previousKbState;
         Vector2 movement;
         Weapon blade;
-        int movespeed;
+        float movespeed;
         float rotate;
         float rotate2;
 		MouseState ms;
@@ -446,6 +446,7 @@ namespace Game1
                         {
                             if (blade.swingtime < 16)
                             {
+                            movespeed = 5;
                                 leftMousePress = true;
                                 foreach (Enemy e in testFloor.currentRoom.enemies)
                                 {
@@ -455,13 +456,21 @@ namespace Game1
                                         Character.charHit(mainChar, e);
 
                                     }
+                                    if(mainChar.CheckXP())
+                                     {
+                                    PlayerStats.constitution++;
+                                    PlayerStats.dexterity++;
+                                    PlayerStats.strength++;
 
                                 }
+
+                            }
                                 blade.swingtime++;
                                
                             }
                             else
                             {
+                            movespeed = 10;
                                 leftMousePress = false;
                                 cd = 60 - PlayerStats.dexterity*5;
                                 attackcd = false;
@@ -905,7 +914,7 @@ namespace Game1
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
-			movespeed = 10 + (PlayerStats.dexterity*2);
+			movespeed =(float)(10 + (PlayerStats.dexterity*1.5));
 			
 		}
 
