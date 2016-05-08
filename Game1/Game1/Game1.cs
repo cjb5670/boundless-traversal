@@ -15,7 +15,7 @@ namespace Game1
     public class Game1 : Game
     {
 
-
+        #region variables for drawing
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -58,8 +58,9 @@ namespace Game1
         string ItemMenuText;
         string PauseMenuText;
         string GameOverText;
+        #endregion
 
-        //Menu Objects
+        #region GameObjects
 
 
         Character mainChar;
@@ -99,6 +100,7 @@ namespace Game1
 		public Rectangle downConPos;
 		StatList PlayerStats;
         Floor testFloor;
+        #endregion
 
         //enum for Game State
         enum GameState
@@ -115,7 +117,7 @@ namespace Game1
         PlayerMovement direction;
 
 
-
+        //Constructor
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -135,6 +137,7 @@ namespace Game1
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
+        /// 
         protected override void Initialize()
         {
             //State initialization
@@ -148,7 +151,8 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             blade = new Weapon(mainChar);
-
+            mainChar.XP = 0;
+            mainChar.level = 1;
             movespeed = 10;
 
 
@@ -315,6 +319,7 @@ namespace Game1
             //Gameplay states
             switch (state)
             {
+                #region MainMenu
                 case GameState.MainMenu:
                     ResetGame();
 					
@@ -327,8 +332,13 @@ namespace Game1
                         state = GameState.ItemMenu;
                     }
                     break;
+                #endregion
+
+                #region ItemMenu
                 case GameState.ItemMenu:
 					// Has button size
+
+
                     if (ButtonPress(Play) &&
                         PlayerStats.totalStats == 0)
                     {
@@ -351,6 +361,9 @@ namespace Game1
 
 
 					break;
+                #endregion
+
+                #region PlayGame
                 case GameState.PlayGame:
                     if (mainChar.healthPoints <= 0)
                     { state = GameState.Gameover; }
@@ -416,6 +429,7 @@ namespace Game1
                     float ydist = ms.Y - mainChar.loc.Center.Y;
                     rotate = (float)(System.Math.Atan2(ydist, xdist) + 1.570);
 
+
                     blade.moveWeapon(mainChar, rotate);
 
 
@@ -440,12 +454,6 @@ namespace Game1
                     }
                     else { leftMousePress = false; blade.swingtime = 0; }
 
-                    if (testFloor.currentRoom.RoomClear())
-                    {
-
-
-
-                    }
 
                     //Enemy AI function
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
@@ -462,25 +470,26 @@ namespace Game1
                     }
 
 
-
-
-
-
                     break;
-                case GameState.PauseMenu:
-                    // Has button size
+                #endregion
+
+                #region PauseMenu
+                                case GameState.PauseMenu:
+                                    // Has button size
                     
 
-                    if (ButtonPress(Resume) == true || (SingleKeyPress(Keys.P) == true))
-                        state = GameState.PlayGame;
-                    break;
+                                    if (ButtonPress(Resume) == true || (SingleKeyPress(Keys.P) == true))
+                                        state = GameState.PlayGame;
+                                    break;
+                #endregion
 
-
+                #region Gameover
                 case GameState.Gameover:
 					
                     if (ButtonPress(Restart) == true)
                         state = GameState.MainMenu;
                     break;
+                    #endregion
             }
 
 
@@ -498,6 +507,7 @@ namespace Game1
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
         protected override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
@@ -505,6 +515,7 @@ namespace Game1
             //States for animations and drawing
             switch (state)
             {
+                #region Mainmenu
                 case GameState.MainMenu:
                     //menu filler art
 
@@ -522,6 +533,9 @@ namespace Game1
                     spriteBatch.DrawString(font, "Set Stats", new Vector2(buttonPosSetStats.X + 32, buttonPosSetStats.Y + 8), Color.Silver);
 
                     break;
+                #endregion
+
+                #region Itemmenu
                 case GameState.ItemMenu:
 					
 
@@ -582,6 +596,9 @@ namespace Game1
 
 
                     break;
+                #endregion
+
+                #region Playgame
                 case GameState.PlayGame:
                     //walls, doors textures
                     //floor texture
@@ -632,6 +649,9 @@ namespace Game1
 
 
                     break;
+                #endregion
+
+                #region Pausemenu
                 case GameState.PauseMenu:
 
 
@@ -686,6 +706,9 @@ namespace Game1
                     spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
 
                     break;
+                #endregion
+
+                #region Gameover
                 case GameState.Gameover:
                     //game over background texture
                     //final stats
@@ -706,12 +729,14 @@ namespace Game1
                     { spriteBatch.Draw(ButtonPressed, buttonPosRestart, Color.White); }
                     spriteBatch.DrawString(font, "Restart", new Vector2(buttonPosRestart.X + 28, buttonPosRestart.Y + 8), Color.Silver);
                     break;
+                    #endregion
             }
 
             spriteBatch.End();
             base.Draw(gameTime);
         }
 
+        #region game functionality methods
         //Prevents a key from being pressed multiple times
         public bool SingleKeyPress(Keys k)
         {
@@ -827,6 +852,7 @@ namespace Game1
         /// <param name="The rectangle to be used"></param>
         /// <param name="The Button object you want passed in"></param>
         /// <returns name="returns true if the button is clicked on"></returns>
+        /// 
         public bool ButtonPress(Button SpecificButton)
         {
             previousms = ms;
@@ -835,6 +861,7 @@ namespace Game1
             { return true; }
             return false;
         }
+
         /*
 		SetStats = new Button(buttonPosSetStats, 650, 720);
 		// Has button size
@@ -845,11 +872,6 @@ namespace Game1
 			{ state = GameState.ItemMenu; }
 			*/
 
-        public void DrawButtons()
-        {
-
-        }
-
         public void ReCheckStats()
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
@@ -858,6 +880,7 @@ namespace Game1
 			
 		}
 
-
+        #endregion
     }
+
 }

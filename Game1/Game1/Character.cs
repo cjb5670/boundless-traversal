@@ -13,6 +13,8 @@ namespace Game1
         
         public double healthPoints;
         public double attackDamage;
+        public int XP;
+        public int level;
         double moveSpeed;
         public Texture2D sprite;
         public Vector2 origin;
@@ -26,7 +28,7 @@ namespace Game1
         public Character(int x, int y, float radius)
         {
             loc = new Circle(new Vector2(x, y), radius);
-
+            XP = -1;
         }
         public void SetSprite(Texture2D text)
         {
@@ -54,7 +56,10 @@ namespace Game1
                 defender.loc.Center.Y += 100 * (float)Math.Pow(Math.Cos(rotate), 2);
 
             defender.healthPoints -= attacker.attackDamage;            
-
+            if(defender.healthPoints<=0 && attacker.XP!=-1)
+            {
+                attacker.XP += 10;
+            }
         }
 
 
