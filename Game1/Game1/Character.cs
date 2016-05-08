@@ -12,6 +12,7 @@ namespace Game1
     {
         
         public double healthPoints;
+        public double maxHP;
         public double attackDamage;
         public int XP;
         public int level;
@@ -60,6 +61,8 @@ namespace Game1
             {
                 attacker.XP += 10;
             }
+
+
         }
         public bool CheckXP()
         {

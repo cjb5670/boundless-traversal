@@ -31,6 +31,7 @@ namespace Game1
         Texture2D openHDoor; // a horizontal door that you CAN walk through
         Texture2D character; //The character's sprite
         Texture2D EnemySprite; //The enemy sprite
+        Texture2D dropSprite;//Sprite for collectible
         Texture2D menuBG; //Background for menu screens
         Texture2D sword;
         Texture2D healthBar;
@@ -150,6 +151,7 @@ namespace Game1
             mainChar = new Character(500, 500, 35);
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
+            mainChar.maxHP = mainChar.healthPoints;
             blade = new Weapon(mainChar);
             mainChar.XP = 0;
             mainChar.level = 1;
@@ -234,6 +236,7 @@ namespace Game1
             StatSetterup = Content.Load<Texture2D>("arrowButtonUp.png");
 			StatSetterdown = Content.Load<Texture2D>("arrowButtonDown.png");
             ButtonPressed = Content.Load<Texture2D>("Test.png");
+            dropSprite = Content.Load<Texture2D>("heart.png");
 
             //Setting sprites
             blade.setWeaponSprite(sword);
@@ -424,6 +427,20 @@ namespace Game1
                         mainChar.loc.Center.X = MathHelper.Clamp(mainChar.loc.Center.X, mainChar.loc.Radius + 50, 1550 - mainChar.loc.Radius);
                         mainChar.loc.Center.Y = MathHelper.Clamp(mainChar.loc.Center.Y, mainChar.loc.Radius + 50, 850 - mainChar.loc.Radius);
                     }
+
+                    foreach (Collectible drop in testFloor.currentRoom.drops)
+                    {
+                        drop.playerIntersect(mainChar);                     
+
+                    }
+
+                    for(int i = 0; i < testFloor.currentRoom.drops.Count; i++)
+                    {
+                      
+                        if(testFloor.currentRoom.drops[i].picked)
+                            testFloor.currentRoom.drops.Remove(testFloor.currentRoom.drops[i]);
+
+                    }
                     #endregion
 
                     //Rotates the character to the mouse
@@ -455,16 +472,24 @@ namespace Game1
                                     {
                                         Character.charHit(mainChar, e);
 
+                                         if (!e.checkAlive())
+                                         {
+
+                                        testFloor.currentRoom.SpawnCollectible(dropSprite, e.loc.Center.X, e.loc.Center.Y);
+                                         }
+
+                                        if (mainChar.CheckXP())
+                                         {
+                                             PlayerStats.constitution++;
+                                             PlayerStats.dexterity++;
+                                             PlayerStats.strength++;
+
+                                         }
+
                                     }
-                                    if(mainChar.CheckXP())
-                                     {
-                                    PlayerStats.constitution++;
-                                    PlayerStats.dexterity++;
-                                    PlayerStats.strength++;
+                    
 
                                 }
-
-                            }
                                 blade.swingtime++;
                                
                             }
@@ -674,7 +699,7 @@ namespace Game1
 
                     }
 
-                    spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, (100 * PlayerStats.constitution), 40), Color.Black);
+                    spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, (int)mainChar.maxHP * 2, 40), Color.Black);
                     spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
 
                     //Drawing walls
@@ -685,6 +710,12 @@ namespace Game1
                     else
                         testFloor.currentRoom.SetDoorSprite(openVDoor, openHDoor);
                     testFloor.currentRoom.DrawAllDoors(spriteBatch);
+
+                    //Drawing collectibles
+                    foreach(Collectible drop in testFloor.currentRoom.drops)
+                    {
+                        drop.Draw(spriteBatch);
+                    }
 
 
                     break;
@@ -744,6 +775,10 @@ namespace Game1
                     PauseMenuText = "         The Game is Paused \n Press 'p' or 'Resume' to Resume.";
                     spriteBatch.DrawString(font, PauseMenuText, CenterScreen, Color.SaddleBrown);
 
+                    foreach (Collectible drop in testFloor.currentRoom.drops)
+                    {
+                        drop.Draw(spriteBatch);
+                    }
                     break;
                 #endregion
 
@@ -877,6 +912,7 @@ namespace Game1
             mainChar.loc = new Circle(new Vector2(500, 500), mainChar.loc.Radius);
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
+            mainChar.maxHP = mainChar.healthPoints;
             movespeed = 10;
             enemyNo = 3;
             Initialize();
@@ -914,7 +950,8 @@ namespace Game1
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
-			movespeed =(float)(10 + (PlayerStats.dexterity*1.5));
+            mainChar.maxHP = mainChar.healthPoints;
+            movespeed =(float)(10 + (PlayerStats.dexterity*1.5));
 			
 		}
 

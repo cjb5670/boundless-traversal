@@ -26,13 +26,14 @@ namespace Game1
 
         public bool isCleared; //bool to test if all enemys have been cleared from the room
         public List<Enemy> enemies; //the list of all the enemies in the room
-
+        public List<Collectible> drops;
         //Constructor
         public Room(int x, int y)
         {
             xPos = x;
             yPos = y;
             enemies = new List<Enemy>();
+            drops = new List<Collectible>();
             isCleared = false;
 
             topDoor=null;
@@ -81,6 +82,8 @@ namespace Game1
             
 
         }
+
+
 
         //Setting wall values
         public void SetWalls()
@@ -267,6 +270,14 @@ namespace Game1
 
             double cornerDistance_sq = Math.Pow((circleDistancex - rect.Width / 2.0), 2) + Math.Pow((circleDistancey - rect.Height / 2.0), 2);
             return (cornerDistance_sq <= Math.Pow(circle.Radius, 2));
+        }
+
+        public void SpawnCollectible(Texture2D colltect,float x, float y)
+        {
+            Random rng = new Random();
+
+            if(rng.Next(4)==3)
+            drops.Add(new Collectible(colltect, x, y));
         }
     }
 }
