@@ -328,10 +328,6 @@ namespace Game1
 					
 					if (ButtonPress(SetStats) == true)
                     {
-                        // call external tool to edit enemy stats
-                        CharacterAttributes ca = new CharacterAttributes();
-                        ca.Show();
-
                         state = GameState.ItemMenu;
                     }
                     break;
