@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Game1
 {
@@ -11,7 +12,14 @@ namespace Game1
     {
         int pauseMove = 31;
         float movespeed;
-        Random msmod = new Random();
+        static Random msmod = new Random();
+
+        // fields for reading data
+        int count = 0;
+        string h;
+        string d;
+        double enemyHealth;
+        double enemyDexterity;
 
         public Enemy()
         {
@@ -22,8 +30,15 @@ namespace Game1
         public Enemy(int x, int y, float radius)
             : base(x, y, radius)
         {
-            movespeed =msmod.Next(0, 5)*0.1f+5;       
-          
+            ReadData();
+            enemyHealth = Convert.ToDouble(h);
+            enemyDexterity = Convert.ToDouble(d);
+             
+            movespeed =msmod.Next(0, 5)*.5f + 2.5f;
+            movespeed += (float)enemyDexterity - 1;
+
+            healthPoints += enemyHealth;
+
         }
 
         //Checks if the current Enemy is alive or not
@@ -88,5 +103,41 @@ namespace Game1
             }          
         }
 
+        // read data from file
+        public void ReadData()
+        {
+            StreamReader input = null;
+
+            try
+            {
+                input = new StreamReader("../../../../attributes.txt");
+
+                String line = null;
+                while ((line = input.ReadLine()) != null)
+                {
+                    // count determines where the current line is stored
+                    if (count == 0)
+                    {
+                        d = line;
+                    }
+                    if (count == 1)
+                    {
+                        h = line;
+                    }
+                    count++;
+                }
+                // reset count for next use
+                count = 0;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error reading file: " + e.Message);
+            }
+            finally
+            {
+                if (input != null)
+                    input.Close();
+            }
+        }
     }
 }

@@ -16,15 +16,12 @@ namespace EnemyAttributes
         // fields
         public decimal health;
         public decimal previousHealth;
-        public decimal strength;
-        public decimal previousStrength;
         public decimal dexterity;
         public decimal previousDexterity;
 
         // fields for reading data
         int count = 0;
         string h;
-        string s;
         string d;
 
         public Form1()
@@ -40,8 +37,6 @@ namespace EnemyAttributes
             // set initial values
             health = healthNumericUpDown.Value;
             previousHealth = health;
-            strength = strengthNumericUpDown.Value;
-            previousStrength = strength;
             dexterity = dexterityNumericUpDown.Value;
             previousDexterity = dexterity;
         }
@@ -59,21 +54,6 @@ namespace EnemyAttributes
                 pointsNumeric.Value--;
             }
             previousHealth = health;
-        }
-
-        // change value of pointsNumeric based on strengthNumeric value
-        private void strengthNumericUpDown_ValueChanged_1(object sender, EventArgs e)
-        {
-            strength = strengthNumericUpDown.Value;
-            if (strength < previousStrength)
-            {
-                pointsNumeric.Value++;
-            }
-            if (strength > previousStrength)
-            {
-                pointsNumeric.Value--;
-            }
-            previousStrength = strength;
         }
 
         // change value of pointsNumeric based on dexterityNumeric value
@@ -96,21 +76,21 @@ namespace EnemyAttributes
             // write data to file and display message confirming the submission
             WriteData();
             label6.Visible = true;
+            label7.Visible = false;
         }
 
         private void clearButton_Click_1(object sender, EventArgs e)
         {
             pointsNumeric.Value = 3;
             healthNumericUpDown.Value = 1;
-            strengthNumericUpDown.Value = 1;
             dexterityNumericUpDown.Value = 1;
             pointsNumeric.Value = 3;
 
             healthNumericUpDown.Enabled = true;
-            strengthNumericUpDown.Enabled = true;
             dexterityNumericUpDown.Enabled = true;
 
             label6.Visible = false;
+            label7.Visible = false;
         }
 
         private void loadButton_Click_1(object sender, EventArgs e)
@@ -119,24 +99,22 @@ namespace EnemyAttributes
 
             // convert loaded data into decimals so it can be used by the numerics
             decimal loadHealth = System.Convert.ToDecimal(h);
-            decimal loadStrength = System.Convert.ToDecimal(s);
             decimal loadDexterity = System.Convert.ToDecimal(d);
 
             // change numeric values
             healthNumericUpDown.Value = loadHealth;
-            strengthNumericUpDown.Value = loadStrength;
             dexterityNumericUpDown.Value = loadDexterity;
 
             // change initial values
             health = healthNumericUpDown.Value;
             previousHealth = health;
-            strength = strengthNumericUpDown.Value;
-            previousStrength = strength;
             dexterity = dexterityNumericUpDown.Value;
             previousDexterity = dexterity;
 
             // ensure pointsNumeric is set to proper number of points left after loading data
-            pointsNumeric.Value = 6 - health - strength - dexterity;
+            pointsNumeric.Value = 6 - health - dexterity;
+
+            label7.Visible = true;
         }
 
         private void pointsNumeric_ValueChanged_1(object sender, EventArgs e)
@@ -145,7 +123,6 @@ namespace EnemyAttributes
             if (pointsNumeric.Value == 0)
             {
                 healthNumericUpDown.Enabled = false;
-                strengthNumericUpDown.Enabled = false;
                 dexterityNumericUpDown.Enabled = false;
             }
         }
@@ -158,7 +135,6 @@ namespace EnemyAttributes
             try
             {
                 output = new StreamWriter("../../../../attributes.txt");
-                output.WriteLine(strengthNumericUpDown.Value);
                 output.WriteLine(dexterityNumericUpDown.Value);
                 output.WriteLine(healthNumericUpDown.Value);
             }
@@ -188,13 +164,9 @@ namespace EnemyAttributes
                     // count determines where the current line is stored
                     if (count == 0)
                     {
-                        s = line;
-                    }
-                    if (count == 1)
-                    {
                         d = line;
                     }
-                    if (count == 2)
+                    if (count == 1)
                     {
                         h = line;
                     }

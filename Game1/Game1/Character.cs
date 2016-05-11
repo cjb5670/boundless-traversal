@@ -16,7 +16,7 @@ namespace Game1
         public double attackDamage;
         public int XP;
         public int level;
-        double moveSpeed;
+        public double moveSpeed;
         public Texture2D sprite;
         public Vector2 origin;
         public Circle loc;

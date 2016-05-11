@@ -202,8 +202,7 @@ namespace Game1
 			
 
 
-			testFloor = new Floor(3, 3, 1);
-           
+			testFloor = new Floor(3, 3, 1);           
 
             base.Initialize();
 

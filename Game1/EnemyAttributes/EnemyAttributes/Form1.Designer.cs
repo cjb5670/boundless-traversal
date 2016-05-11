@@ -34,16 +34,14 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.submitButton = new System.Windows.Forms.Button();
             this.dexterityNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.strengthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.healthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pointsNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dexterityNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,24 +116,6 @@
             0});
             this.dexterityNumericUpDown.ValueChanged += new System.EventHandler(this.dexterityNumericUpDown_ValueChanged_1);
             // 
-            // strengthNumericUpDown
-            // 
-            this.strengthNumericUpDown.Location = new System.Drawing.Point(98, 76);
-            this.strengthNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.strengthNumericUpDown.Name = "strengthNumericUpDown";
-            this.strengthNumericUpDown.Size = new System.Drawing.Size(60, 20);
-            this.strengthNumericUpDown.TabIndex = 22;
-            this.strengthNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.strengthNumericUpDown.ValueChanged += new System.EventHandler(this.strengthNumericUpDown_ValueChanged_1);
-            // 
             // healthNumericUpDown
             // 
             this.healthNumericUpDown.Location = new System.Drawing.Point(98, 144);
@@ -162,15 +142,6 @@
             this.label5.Size = new System.Drawing.Size(51, 13);
             this.label5.TabIndex = 20;
             this.label5.Text = "Dexterity:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(0, 78);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 13);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Strength:";
             // 
             // label3
             // 
@@ -199,21 +170,30 @@
             this.label1.TabIndex = 16;
             this.label1.Text = "Change the difficulty of your levels by changing enemy stats!";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(23, 177);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(253, 13);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "Data loaded. Please hit submit to use these settings.";
+            this.label7.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(297, 261);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pointsNumeric);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.dexterityNumericUpDown);
-            this.Controls.Add(this.strengthNumericUpDown);
             this.Controls.Add(this.healthNumericUpDown);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -222,7 +202,6 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pointsNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dexterityNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.strengthNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -237,13 +216,12 @@
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.NumericUpDown dexterityNumericUpDown;
-        private System.Windows.Forms.NumericUpDown strengthNumericUpDown;
         private System.Windows.Forms.NumericUpDown healthNumericUpDown;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label7;
     }
 }
 
