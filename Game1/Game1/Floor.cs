@@ -18,6 +18,7 @@ namespace Game1
         int x = 1;
         int y = 1;
 
+
         public Floor(int width, int height, int level)
         {
             floorLayout = new Room[height + 2, width + 2];
@@ -107,7 +108,7 @@ namespace Game1
 
         public Room enterDoor(Character mainChar)
         {
-
+            bool intersectDoor = false;
 
             if (currentRoom.RoomClear())
             {
@@ -123,6 +124,7 @@ namespace Game1
                         mainChar.loc.Center.X = 800;
                         mainChar.loc.Center.Y = 50 + mainChar.loc.Radius;
                         y++;
+                        intersectDoor = true;
                     }
                 }
                 if (currentRoom.topDoor != null)
@@ -132,6 +134,7 @@ namespace Game1
                         mainChar.loc.Center.X = 800;
                         mainChar.loc.Center.Y = 850 - mainChar.loc.Radius;
                         y--;
+                        intersectDoor = true;
                     }
                 }
                 if (currentRoom.rightDoor != null)
@@ -141,6 +144,7 @@ namespace Game1
                         mainChar.loc.Center.X = 50 + mainChar.loc.Radius;
                         mainChar.loc.Center.Y = 450;
                         x++;
+                        intersectDoor = true;
                     }
                 }
                 if (currentRoom.leftDoor != null)
@@ -150,7 +154,18 @@ namespace Game1
                         mainChar.loc.Center.X = 1550 - mainChar.loc.Radius;
                         mainChar.loc.Center.Y = 450;
                         x--;
+                        intersectDoor = true;
                     }
+                }
+
+                if (!intersectDoor)
+                {
+                    mainChar.loc.Center.X = 800;
+                    mainChar.loc.Center.Y = 450;
+                    floorLayout[x, y].isCleared = false;
+                    x = 1;
+                    y = 1;
+                    
                 }
 
                 return enterRoom();
@@ -200,6 +215,7 @@ namespace Game1
                     }
                 }
             }
+            
         }
     }
 }
