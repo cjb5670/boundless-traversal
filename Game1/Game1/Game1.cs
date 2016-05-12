@@ -101,6 +101,8 @@ namespace Game1
 		public Rectangle downConPos;
 		StatList PlayerStats;
         Floor testFloor;
+        
+        
         #endregion
 
         //enum for Game State
@@ -172,7 +174,7 @@ namespace Game1
 			buttonPosSetStats = new Rectangle(650, 720, 280, 80);
 			SetStats = new Button(buttonPosSetStats, buttonPosSetStats.X, buttonPosSetStats.Y);
 			
-			buttonPosPlay = new Rectangle(700, 720, 150, 80);
+			buttonPosPlay = new Rectangle(700, 745, 150, 80);
 			Play = new Button(buttonPosPlay, buttonPosPlay.X, buttonPosPlay.Y);
 
 			buttonPosResume = new Rectangle(700, 720, 240, 80);
@@ -184,12 +186,12 @@ namespace Game1
 
 
 
-			upStrPos = new Rectangle(1200, 200, 60, 60);
-			downStrPos = new Rectangle(1200, 350, 60, 60);
-			upDexPos = new Rectangle(1200, 450, 60, 60);
-			downDexPos = new Rectangle(1200, 600, 60, 60);
-			upConPos = new Rectangle(1200, 700, 60, 60);
-			downConPos = new Rectangle(1200, 850, 60, 60);
+			upStrPos = new Rectangle(1080, 393, 50, 50);
+			downStrPos = new Rectangle(915, 393, 48, 48);
+			upDexPos = new Rectangle(1080, 520, 50, 50);
+			downDexPos = new Rectangle(915, 520, 48, 48);
+			upConPos = new Rectangle(1080, 647, 50, 50);
+			downConPos = new Rectangle(915, 647, 48, 48);
 
 			// All stat buttons
 			upStr = new Button(upStrPos, upStrPos.X, upStrPos.Y);
@@ -199,7 +201,7 @@ namespace Game1
 			upCon = new Button(upConPos, upConPos.X, upConPos.Y);
 			downCon = new Button(downConPos, downDexPos.X, downConPos.Y);
 
-			
+            
 
 
 			testFloor = new Floor(3, 3, 1);           
@@ -458,7 +460,7 @@ namespace Game1
                         {
                             if (blade.swingtime < 16)
                             {
-                            movespeed = 5;
+                            movespeed = 5 + (2*PlayerStats.dexterity);
                                 leftMousePress = true;
                                 foreach (Enemy e in testFloor.currentRoom.enemies)
                                 {
@@ -469,7 +471,7 @@ namespace Game1
 
                                          if (!e.checkAlive())
                                          {
-
+                                        mainChar.enemiesKilled++;
                                         testFloor.currentRoom.SpawnCollectible(dropSprite, e.loc.Center.X, e.loc.Center.Y);
                                          }
 
@@ -478,7 +480,7 @@ namespace Game1
                                              PlayerStats.constitution++;
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
-
+                                             
                                          }
 
                                     }
@@ -490,7 +492,7 @@ namespace Game1
                             }
                             else
                             {
-                            movespeed = 10;
+                            movespeed = 10 + (2*PlayerStats.dexterity);
                                 leftMousePress = false;
                                 cd = 60 - PlayerStats.dexterity*5;
                                 attackcd = false;
@@ -601,30 +603,38 @@ namespace Game1
 					spriteBatch.Draw(MenuBack, FullScreen, Color.White);
 					
 
-					ItemMenuText = "                     Select where to allocate your " + 3 +
-                        " Stats.\n      Strength ups your attack damage, Dex ups your attack speed," +
-                        "\n                               and Con ups your health." +
+					ItemMenuText = 
+                        "\n \n" +                     
+                        "                       Select where to allocate your stats!" +
+                        "\n" +
                         "\n                               Points Left to Spend: " + PlayerStats.totalStats +
-                        "\n " +
-                        "                     Strength:         " + PlayerStats.strength +
                         "\n \n" +
-                        "                     Dexterity:        " + PlayerStats.dexterity +
+                        "                       Strength(Damage):          " + PlayerStats.strength +
                         "\n \n" +
-                        "                     Constituition:    " + PlayerStats.constitution;
+                        "                       Dexterity(Speed):            " + PlayerStats.dexterity +
+                        "\n \n" +
+                        "                       Constitution(Health):       " + PlayerStats.constitution;
 
                     spriteBatch.DrawString(font, ItemMenuText, new Vector2(0, 0), Color.SaddleBrown);
 
                     // Has button location
-                    
-                    spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.White);
-                    if (Play.enterButton() == true)
-                    { spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
-                    if (Play.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
-                    { spriteBatch.Draw(ButtonPressed, buttonPosPlay, Color.White); }
+
+                    if (PlayerStats.totalStats != 0) 
+                    spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.Gray);
+
+                    else
+                    {
+                        spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.White);
+                        if (Play.enterButton() == true)
+                        { spriteBatch.Draw(ButtonBack, buttonPosPlay, Color.SandyBrown); }
+                        if (Play.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
+                        { spriteBatch.Draw(ButtonPressed, buttonPosPlay, Color.White); }
+                    }
                     spriteBatch.DrawString(font, "Play", new Vector2(buttonPosPlay.X + 28, buttonPosPlay.Y + 8), Color.Silver);
 
 
-                    
+
+
 
                     // Button Draw Logic
                     spriteBatch.Draw(StatSetterup, upStrPos, Color.Brown);
@@ -694,8 +704,13 @@ namespace Game1
 
                     }
 
+                    // Healthbar
                     spriteBatch.Draw(fullHealthBar, new Rectangle(150, 50, (int)mainChar.maxHP * 2, 40), Color.Black);
                     spriteBatch.Draw(healthBar, new Rectangle(150, 50, (int)mainChar.healthPoints * 2, 40), Color.White);
+
+                    // Other UI
+                    spriteBatch.DrawString(font, "Level " + mainChar.level, new Vector2((int)mainChar.maxHP * 2 +200 , 40), Color.Green);
+                    spriteBatch.DrawString(font, "Floor " + testFloor.floorNum, new Vector2((int)mainChar.maxHP * 2 + 400, 40), Color.Silver);
 
                     //Drawing walls
                     testFloor.currentRoom.DrawWalls(spriteBatch);
@@ -712,6 +727,13 @@ namespace Game1
                         drop.Draw(spriteBatch);
                     }
 
+                    // Informs player of levelup
+                    if (mainChar.CheckXP())
+                    {
+                        for (int i = 0; i < 60; i++)
+                        spriteBatch.DrawString(font, "Level up!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Red);
+
+                    }
 
                     break;
                 #endregion
@@ -797,6 +819,10 @@ namespace Game1
                     if (Restart.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
                     { spriteBatch.Draw(ButtonPressed, buttonPosRestart, Color.White); }
                     spriteBatch.DrawString(font, "Restart", new Vector2(buttonPosRestart.X + 28, buttonPosRestart.Y + 8), Color.Silver);
+
+
+                    // Final score == ((TestFloor.floorNum -1) * 100) + Character.enemieskilled
+                    spriteBatch.DrawString(font, "Final Score = " + (((testFloor.floorNum - 1) * 100) + mainChar.enemiesKilled), new Vector2(0,0), Color.Silver);
                     break;
                     #endregion
             }
@@ -908,7 +934,7 @@ namespace Game1
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             mainChar.maxHP = mainChar.healthPoints;
-            movespeed = 10;
+            movespeed = 10 + (2*PlayerStats.dexterity);
             enemyNo = 3;
             Initialize();
             

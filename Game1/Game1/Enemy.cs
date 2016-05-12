@@ -20,17 +20,18 @@ namespace Game1
         string d;
         double enemyHealth;
         double enemyDexterity;
+        
 
         public Enemy()
         {
-
+            
         }
 
         //main constructor
         public Enemy(int x, int y, float radius)
             : base(x, y, radius)
         {
-            ReadData();
+            //ReadData();
             enemyHealth = Convert.ToDouble(h);
             enemyDexterity = Convert.ToDouble(d);
              
@@ -44,14 +45,17 @@ namespace Game1
         //Checks if the current Enemy is alive or not
         public bool checkAlive()
         {
-            if (this.healthPoints >0)
+            if (this.healthPoints > 0)
             {
-                
+
                 return true;
             }
-                
+
             else
+            {
+                
                 return false;
+            }
         }
 
         //Checks for enemy-player intersection
@@ -104,7 +108,7 @@ namespace Game1
         }
 
         // read data from file
-        public void ReadData()
+      /*  public void ReadData()
         {
             StreamReader input = null;
 
@@ -138,6 +142,6 @@ namespace Game1
                 if (input != null)
                     input.Close();
             }
-        }
+        }*/
     }
 }

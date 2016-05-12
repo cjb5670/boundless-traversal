@@ -14,6 +14,7 @@ namespace Game1
 		public int strength;
 		public int dexterity;
 		public int constitution;
+        public int score;
 
 		public StatList()
 		{
@@ -21,6 +22,7 @@ namespace Game1
 			strength = 1;
 			dexterity = 1;
 			constitution = 1;
+            score = 0;
 		}
 
 		/// <summary>

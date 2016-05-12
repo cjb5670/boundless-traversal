@@ -18,6 +18,8 @@ namespace Game1
         int x = 1;
         int y = 1;
 
+        public int floorNum;
+
 
         public Floor(int width, int height, int level)
         {
@@ -26,6 +28,7 @@ namespace Game1
             currentRoom = floorLayout[1, 1];
             depth = level;
             //defaultRoom = new Room();
+            floorNum = 1;
 
         }
 
@@ -212,9 +215,12 @@ namespace Game1
                     if (floorLayout[i, j] != null)
                     {
                         floorLayout[i, j].isCleared = false;
+                        
                     }
                 }
             }
+            floorNum++;
+            
             
         }
     }

@@ -20,11 +20,13 @@ namespace Game1
         public Texture2D sprite;
         public Vector2 origin;
         public Circle loc;
-        
+        public int enemiesKilled = 0;
+
 
 
         public Character()
         {
+            
         }
         public Character(int x, int y, float radius)
         {
