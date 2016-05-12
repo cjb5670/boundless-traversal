@@ -47,6 +47,10 @@ namespace Game1
         Texture2D ButtonPressed;
         Texture2D RIP;
         Texture2D Medal;
+        Texture2D GoldMedal;
+        Texture2D SilverMedal;
+        Texture2D BronzeMedal;
+        Texture2D TinMedal;
         Texture2D StatSetterup;
 		Texture2D StatSetterdown;
         Rectangle LogoLoc;
@@ -176,7 +180,7 @@ namespace Game1
             LogoLoc = new Rectangle(335, 250, 1000, 115);
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
-            MedalLoc = new Rectangle(950, 150, 500, 600);
+            MedalLoc = new Rectangle(900, 150, 500, 600);
 
 			buttonPosSetStats = new Rectangle(650, 720, 280, 80);
 			SetStats = new Button(buttonPosSetStats, buttonPosSetStats.X, buttonPosSetStats.Y);
@@ -246,6 +250,10 @@ namespace Game1
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
             RIP = Content.Load<Texture2D>("RIP.jpg");
             Medal = Content.Load<Texture2D>("gold-medal.jpg");
+            GoldMedal = Content.Load<Texture2D>("medalGold.png");
+            SilverMedal = Content.Load<Texture2D>("medalSilver.png");
+            BronzeMedal = Content.Load<Texture2D>("medalBronze.png");
+            TinMedal = Content.Load<Texture2D>("medalTin.png");
             ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
             StatSetterup = Content.Load<Texture2D>("arrowButtonUp.png");
 			StatSetterdown = Content.Load<Texture2D>("arrowButtonDown.png");
@@ -844,22 +852,16 @@ namespace Game1
                     int finalScore = ((testFloor.floorNum - 1) * 100) + mainChar.enemiesKilled;
 
                     //spriteBatch.Draw(RIP, RIPloc, Color.White);
+
+                    //Reward Medals
                     if(finalScore >= 750)
-                    {
-                        spriteBatch.Draw(Medal, MedalLoc, Color.White);
-                    }
+                        spriteBatch.Draw(GoldMedal, MedalLoc, Color.White);
                     else if(finalScore >= 350)
-                    {
-                        spriteBatch.Draw(Medal, MedalLoc, Color.Silver);
-                    }
+                        spriteBatch.Draw(SilverMedal, MedalLoc, Color.White);
                     else if (finalScore >= 1)
-                    {
-                        spriteBatch.Draw(Medal, MedalLoc, Color.Brown);
-                    }
+                        spriteBatch.Draw(BronzeMedal, MedalLoc, Color.White);
                     else
-                    {
-                        spriteBatch.Draw(Medal, MedalLoc, Color.DarkSalmon);
-                    }
+                        spriteBatch.Draw(TinMedal, MedalLoc, Color.White);
 
                     testFloor.currentRoom = testFloor.floorLayout[1, 1];
                     testFloor.currentRoom.SetEnemies(EnemySprite, 3);
