@@ -35,7 +35,7 @@ namespace Game1
             enemyHealth = Convert.ToDouble(h);
             enemyDexterity = Convert.ToDouble(d);
              
-            movespeed =msmod.Next(0, 5)*.5f + 2.5f;
+            movespeed =msmod.Next(0, 5)*.5f + 5.5f;
             movespeed += (float)enemyDexterity - 1;
 
             healthPoints += enemyHealth;

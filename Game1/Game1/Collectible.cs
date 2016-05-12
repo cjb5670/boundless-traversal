@@ -33,7 +33,7 @@ namespace Game1
             if (distanceBetweenCenters <= hitbox.Radius + player.loc.Radius && player.healthPoints != player.maxHP)
             {
                 picked = true;
-                player.healthPoints += 10;
+                player.healthPoints += 1;
                 if (player.healthPoints > player.maxHP)
                     player.healthPoints = player.maxHP;
             }

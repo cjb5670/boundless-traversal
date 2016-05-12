@@ -46,12 +46,14 @@ namespace Game1
         Texture2D ButtonBack;
         Texture2D ButtonPressed;
         Texture2D RIP;
+        Texture2D Medal;
         Texture2D StatSetterup;
 		Texture2D StatSetterdown;
         Rectangle LogoLoc;
         Rectangle StatsLoc;
         Rectangle FullScreen;
         Rectangle RIPloc;
+        Rectangle MedalLoc;
         Rectangle UpArrow;
         Rectangle DownArrow;
         Vector2 CenterScreen;
@@ -83,6 +85,7 @@ namespace Game1
         Button Play;
         Button Resume;
         Button Restart;
+        Button Quit;
         public Button upStr;
         public Button downStr;
 		public Button upDex;
@@ -93,6 +96,7 @@ namespace Game1
 		Rectangle buttonPosPlay;
 		Rectangle buttonPosResume;
 		Rectangle buttonPosRestart;
+        Rectangle buttonPosQuit;
 		public Rectangle upStrPos;
 		public Rectangle downStrPos;
 		public Rectangle upDexPos;
@@ -101,6 +105,7 @@ namespace Game1
 		public Rectangle downConPos;
 		StatList PlayerStats;
         Floor testFloor;
+        int frameCountDraw;
         
         
         #endregion
@@ -161,15 +166,17 @@ namespace Game1
             cd = 0;
             attackcd = false;
             enemyNo = 3;
+            
 
             //Setting walls
 
-            // Menu Setup
+            // Menu Setup Buttons
             FullScreen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             CenterScreen = new Vector2(280, 500);
             LogoLoc = new Rectangle(335, 250, 1000, 115);
             StatsLoc = new Rectangle(335, 85, 1000, 750);
             RIPloc = new Rectangle(800, 250, 500, 500);
+            MedalLoc = new Rectangle(950, 150, 500, 600);
 
 			buttonPosSetStats = new Rectangle(650, 720, 280, 80);
 			SetStats = new Button(buttonPosSetStats, buttonPosSetStats.X, buttonPosSetStats.Y);
@@ -180,20 +187,25 @@ namespace Game1
 			buttonPosResume = new Rectangle(700, 720, 240, 80);
 			Resume = new Button(buttonPosResume, buttonPosResume.X, buttonPosResume.Y);
 			
-			buttonPosRestart = new Rectangle(700, 720, 240, 80);
-			Restart = new Button(buttonPosRestart, buttonPosRestart.X, buttonPosRestart.Y);
+			//buttonPosRestart = new Rectangle(500, 720, 240, 80);
+            buttonPosRestart = new Rectangle(350, 570, 230, 80);
+            Restart = new Button(buttonPosRestart, buttonPosRestart.X, buttonPosRestart.Y);
+
+            //buttonPosQuit = new Rectangle(900, 720, 140, 80);
+            buttonPosQuit = new Rectangle(392, 680, 140, 80);
+            Quit = new Button(buttonPosQuit, buttonPosQuit.X, buttonPosQuit.Y);
 
 
 
-
-			upStrPos = new Rectangle(1080, 393, 50, 50);
+            // All stat buttons
+            upStrPos = new Rectangle(1080, 393, 50, 50);
 			downStrPos = new Rectangle(915, 393, 48, 48);
 			upDexPos = new Rectangle(1080, 520, 50, 50);
 			downDexPos = new Rectangle(915, 520, 48, 48);
 			upConPos = new Rectangle(1080, 647, 50, 50);
 			downConPos = new Rectangle(915, 647, 48, 48);
 
-			// All stat buttons
+			
 			upStr = new Button(upStrPos, upStrPos.X, upStrPos.Y);
 			downStr = new Button(downStrPos, downStrPos.X, downStrPos.Y);
 			upDex = new Button(upDexPos, upDexPos.X, upDexPos.Y);
@@ -201,7 +213,7 @@ namespace Game1
 			upCon = new Button(upConPos, upConPos.X, upConPos.Y);
 			downCon = new Button(downConPos, downDexPos.X, downConPos.Y);
 
-            
+            frameCountDraw = 61;
 
 
 			testFloor = new Floor(3, 3, 1);           
@@ -233,6 +245,7 @@ namespace Game1
             Logo = Content.Load<Texture2D>("PlaceholderLogo.png");
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
             RIP = Content.Load<Texture2D>("RIP.jpg");
+            Medal = Content.Load<Texture2D>("gold-medal.jpg");
             ButtonBack = Content.Load<Texture2D>("buttonTemplate.png");
             StatSetterup = Content.Load<Texture2D>("arrowButtonUp.png");
 			StatSetterdown = Content.Load<Texture2D>("arrowButtonDown.png");
@@ -480,8 +493,9 @@ namespace Game1
                                              PlayerStats.constitution++;
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
-                                             
-                                         }
+                                             frameCountDraw = 0;
+
+                                    }
 
                                     }
                     
@@ -494,7 +508,7 @@ namespace Game1
                             {
                             movespeed = 10 + (2*PlayerStats.dexterity);
                                 leftMousePress = false;
-                                cd = 60 - PlayerStats.dexterity*5;
+                                cd = 40 - PlayerStats.dexterity*5;
                                 attackcd = false;
                             }
 
@@ -549,6 +563,10 @@ namespace Game1
 					
                     if (ButtonPress(Restart) == true)
                         state = GameState.MainMenu;
+
+                    if (Quit.enterButton() && previousms.LeftButton == ButtonState.Pressed && ms.LeftButton == ButtonState.Released)
+                        Exit();
+
                     break;
                     #endregion
             }
@@ -676,7 +694,14 @@ namespace Game1
                     //enemies
                     //collision animations (create a method for this)
                     string health = (mainChar.healthPoints).ToString();
-                    GraphicsDevice.Clear(Color.SaddleBrown);
+                    if (testFloor.floorNum % 4 == 0)
+                        GraphicsDevice.Clear(Color.Sienna);
+                    else if (testFloor.floorNum % 3 == 0)
+                        GraphicsDevice.Clear(Color.Maroon);
+                    else if (testFloor.floorNum % 2 == 0)
+                        GraphicsDevice.Clear(Color.IndianRed);
+                    else
+                        GraphicsDevice.Clear(Color.SaddleBrown);
 
                     spriteBatch.DrawString(font, health, new Vector2(50, 40), Color.White);
 
@@ -728,12 +753,16 @@ namespace Game1
                     }
 
                     // Informs player of levelup
-                    if (mainChar.CheckXP())
-                    {
-                        for (int i = 0; i < 60; i++)
-                        spriteBatch.DrawString(font, "Level up!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Red);
 
+                    if (frameCountDraw < 60)
+                    {
+                        spriteBatch.DrawString(font, "Level up!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Red);
+                        frameCountDraw++;
                     }
+
+
+
+
 
                     break;
                 #endregion
@@ -805,9 +834,32 @@ namespace Game1
                     //final stats
                     //buttons, back to main menu
                     spriteBatch.Draw(MenuBack, FullScreen, Color.White);
-                    GameOverText = "     Ur ded Scrub";
-                    spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
-                    spriteBatch.Draw(RIP, RIPloc, Color.White);
+                    GameOverText = "  Ur ded Scrub";
+                    //CenterScreen == new Vector2(280, 500)
+                    //spriteBatch.DrawString(font, GameOverText, CenterScreen, Color.SaddleBrown);
+                    spriteBatch.DrawString(font, GameOverText, new Vector2(280, 150), Color.SaddleBrown);
+
+
+                    int finalScore = ((testFloor.floorNum - 1) * 100) + mainChar.enemiesKilled;
+
+                    //spriteBatch.Draw(RIP, RIPloc, Color.White);
+                    if(finalScore >= 750)
+                    {
+                        spriteBatch.Draw(Medal, MedalLoc, Color.White);
+                    }
+                    else if(finalScore >= 350)
+                    {
+                        spriteBatch.Draw(Medal, MedalLoc, Color.Silver);
+                    }
+                    else if (finalScore >= 1)
+                    {
+                        spriteBatch.Draw(Medal, MedalLoc, Color.Brown);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(Medal, MedalLoc, Color.DarkSalmon);
+                    }
+
                     testFloor.currentRoom = testFloor.floorLayout[1, 1];
                     testFloor.currentRoom.SetEnemies(EnemySprite, 3);
                     testFloor.currentRoom.SpawnEnemies();
@@ -820,9 +872,17 @@ namespace Game1
                     { spriteBatch.Draw(ButtonPressed, buttonPosRestart, Color.White); }
                     spriteBatch.DrawString(font, "Restart", new Vector2(buttonPosRestart.X + 28, buttonPosRestart.Y + 8), Color.Silver);
 
+                    spriteBatch.Draw(ButtonBack, buttonPosQuit, Color.White);
+                    if (Quit.enterButton() == true)
+                    { spriteBatch.Draw(ButtonBack, buttonPosQuit, Color.SandyBrown); }
+                    if (Quit.enterButton() == true && ms.LeftButton == ButtonState.Pressed)
+                    { spriteBatch.Draw(ButtonPressed, buttonPosQuit, Color.White); }
+                    spriteBatch.DrawString(font, "Quit", new Vector2(buttonPosQuit.X + 20, buttonPosQuit.Y + 8), Color.Silver);
 
-                    // Final score == ((TestFloor.floorNum -1) * 100) + Character.enemieskilled
-                    spriteBatch.DrawString(font, "Final Score = " + (((testFloor.floorNum - 1) * 100) + mainChar.enemiesKilled), new Vector2(0,0), Color.Silver);
+
+
+                    // 750 pts is gold, 350 is silver, 1 is bronze, 0 is tin.
+                    spriteBatch.DrawString(font, "Final Score = " + finalScore, new Vector2(280, 350), Color.ForestGreen);
                     break;
                     #endregion
             }
@@ -936,6 +996,8 @@ namespace Game1
             mainChar.maxHP = mainChar.healthPoints;
             movespeed = 10 + (2*PlayerStats.dexterity);
             enemyNo = 3;
+            mainChar.enemiesKilled = 0;
+            testFloor.floorNum = 0;
             Initialize();
             
 
