@@ -155,7 +155,7 @@ namespace Game1
 
             //Game Object initialzation
             PlayerStats = new StatList();
-            mainChar = new Character(500, 500, 35);
+            mainChar = new Character(800, 100, 35);
             mainChar.attackDamage = 10;
             mainChar.healthPoints = 50 * PlayerStats.constitution;
             mainChar.maxHP = mainChar.healthPoints;
@@ -490,12 +490,13 @@ namespace Game1
 
                                         if (mainChar.CheckXP())
                                          {
-                                             PlayerStats.constitution++;
+                                             mainChar.maxHP += 10;
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
+                                             ReCheckStats();
                                              frameCountDraw = 0;
 
-                                    }
+                                         }
 
                                     }
                     
