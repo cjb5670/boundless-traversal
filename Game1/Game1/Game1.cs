@@ -316,8 +316,8 @@ namespace Game1
 
             //Setting room enemies and their textures   
             testFloor.enterRoom();
-            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-            testFloor.currentRoom.SpawnEnemies();
+            //testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+            //testFloor.currentRoom.SpawnEnemies();
             int x = testFloor.currentRoom.xPos;
             int y = testFloor.currentRoom.yPos;
 
@@ -428,8 +428,8 @@ namespace Game1
                     {
                         testFloor.changeFloors();
                         testFloor.currentRoom = testFloor.enterDoor(mainChar);
-                        testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                        testFloor.currentRoom.SpawnEnemies();
+                        //testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                       // testFloor.currentRoom.SpawnEnemies();
 
                     }
 
