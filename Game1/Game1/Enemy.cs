@@ -31,7 +31,7 @@ namespace Game1
         public Enemy(int x, int y, float radius)
             : base(x, y, radius)
         {
-            //ReadData();
+            ReadData();
             enemyHealth = Convert.ToDouble(h);
             enemyDexterity = Convert.ToDouble(d);
              
@@ -108,8 +108,9 @@ namespace Game1
         }
 
         // read data from file
-      /*  public void ReadData()
+        public void ReadData()
         {
+
             StreamReader input = null;
 
             try
@@ -142,6 +143,7 @@ namespace Game1
                 if (input != null)
                     input.Close();
             }
-        }*/
+        }
+    
     }
 }
