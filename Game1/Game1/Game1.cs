@@ -533,10 +533,11 @@ namespace Game1
                                             
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
+                                        double temphp = mainChar.healthPoints;
                                              lvlhp += 10;
                                              ReCheckStats();
-                                            
-                                             frameCountDraw = 0;
+                                        mainChar.healthPoints=temphp;
+                                        frameCountDraw = 0;
 
                                          }
 
@@ -1128,7 +1129,8 @@ namespace Game1
         public void ReCheckStats()
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
-            mainChar.maxHP = 50 * PlayerStats.constitution+lvlhp;            
+            mainChar.maxHP = 50 * PlayerStats.constitution+lvlhp;
+            mainChar.healthPoints = mainChar.maxHP;
             movespeed =(float)(10 + (PlayerStats.dexterity*1.5));
 			
 		}
