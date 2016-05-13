@@ -1093,6 +1093,7 @@ namespace Game1
             mainChar.maxHP = mainChar.healthPoints;
             movespeed = 10 + (2*PlayerStats.dexterity);
             enemyNo = 3;
+            Enemy.i = 0;
             mainChar.enemiesKilled = 0;
             testFloor.floorNum = 0;
             Initialize();

@@ -20,7 +20,7 @@ namespace Game1
         string d;
         double enemyHealth;
         double enemyDexterity;
-        static int i = 0;
+        public static int i = 0;
 
         public Enemy()
         {
