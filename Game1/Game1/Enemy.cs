@@ -20,7 +20,7 @@ namespace Game1
         string d;
         double enemyHealth;
         double enemyDexterity;
-        
+        static int i = 0;
 
         public Enemy()
         {
@@ -34,8 +34,8 @@ namespace Game1
             ReadData();
             enemyHealth = Convert.ToDouble(h);
             enemyDexterity = Convert.ToDouble(d);
-             
-            movespeed =msmod.Next(0, 5)*.5f + 5.5f;
+            i++;
+            movespeed =msmod.Next(0, 5)*.5f + 5.5f+ i/10;
             movespeed += (float)enemyDexterity - 1;
 
             healthPoints += enemyHealth;
