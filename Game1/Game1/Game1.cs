@@ -84,6 +84,7 @@ namespace Game1
         bool leftMousePress;
         bool rightMousePress;
         int cd;
+        int lvlhp;
         int enemyNo;
         Button SetStats;
         Button Play;
@@ -174,8 +175,9 @@ namespace Game1
             PlayerStats = new StatList();
             mainChar = new Character(800, 100, 35);
             mainChar.attackDamage = 10;
-            mainChar.healthPoints = 50 * PlayerStats.constitution;
-            mainChar.maxHP = mainChar.healthPoints;
+           
+            mainChar.maxHP = 50 * PlayerStats.constitution; ;
+            mainChar.healthPoints = mainChar.maxHP;
             blade = new Weapon(mainChar);
             mainChar.XP = 0;
             mainChar.level = 1;
@@ -183,7 +185,7 @@ namespace Game1
             cd = 0;
             attackcd = false;
             enemyNo = 3;
-
+            lvlhp = 0;
             //Animation Initialization
             fps = 10;
             timePerFrame = 1.0 / fps;
@@ -529,9 +531,10 @@ namespace Game1
                                             
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
+                                             lvlhp += 10;
                                              ReCheckStats();
-                                        mainChar.maxHP += 10;
-                                        frameCountDraw = 0;
+                                            
+                                             frameCountDraw = 0;
 
                                          }
 
@@ -1105,8 +1108,7 @@ namespace Game1
         public void ReCheckStats()
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
-            mainChar.healthPoints = 50 * PlayerStats.constitution;
-            mainChar.maxHP = mainChar.healthPoints;
+            mainChar.maxHP = 50 * PlayerStats.constitution+lvlhp;            
             movespeed =(float)(10 + (PlayerStats.dexterity*1.5));
 			
 		}
