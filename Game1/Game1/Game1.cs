@@ -45,7 +45,7 @@ namespace Game1
         Texture2D MenuBack;
         Texture2D ButtonBack;
         Texture2D ButtonPressed;
-        Texture2D RIP;
+        //Texture2D RIP;
         Texture2D Medal;
         Texture2D GoldMedal;
         Texture2D SilverMedal;
@@ -56,7 +56,7 @@ namespace Game1
         Rectangle LogoLoc;
         Rectangle StatsLoc;
         Rectangle FullScreen;
-        Rectangle RIPloc;
+        //Rectangle RIPloc;
         Rectangle MedalLoc;
         Rectangle UpArrow;
         Rectangle DownArrow;
@@ -110,8 +110,21 @@ namespace Game1
 		StatList PlayerStats;
         Floor testFloor;
         int frameCountDraw;
-        
-        
+        #endregion
+
+        #region Animation
+        // Animation
+        Texture2D characterAnimated;    //walking animation spritesheet
+
+        int frame;              // The current animation frame
+        double timeCounter;     // The amount of time that has passed
+        double fps;             // The speed of the animation
+        double timePerFrame;    // The amount of time (in fractional seconds) per frame
+
+        const int WalkFrameCount = 6;		// The number of frames in the animation
+        const int vikingRectOffsetY = 0;	// How far down in the image are the frames?
+        const int vikingRectHeight = 100;		// The height of a single frame
+        const int vikingRectWidth = 100;        // The width of a single frame
         #endregion
 
         //enum for Game State
@@ -170,6 +183,10 @@ namespace Game1
             cd = 0;
             attackcd = false;
             enemyNo = 3;
+
+            //Animation Initialization
+            fps = 10;
+            timePerFrame = 1.0 / fps;
             
 
             //Setting walls
@@ -179,7 +196,7 @@ namespace Game1
             CenterScreen = new Vector2(280, 500);
             LogoLoc = new Rectangle(335, 250, 1000, 115);
             StatsLoc = new Rectangle(335, 85, 1000, 750);
-            RIPloc = new Rectangle(800, 250, 500, 500);
+            //RIPloc = new Rectangle(800, 250, 500, 500);
             MedalLoc = new Rectangle(900, 150, 500, 600);
 
 			buttonPosSetStats = new Rectangle(650, 720, 280, 80);
@@ -248,7 +265,7 @@ namespace Game1
             MenuBack = Content.Load<Texture2D>("oldpaper.jpg");
             Logo = Content.Load<Texture2D>("PlaceholderLogo.png");
             ItemMenu = Content.Load<Texture2D>("PlaceholderStats.png");
-            RIP = Content.Load<Texture2D>("RIP.jpg");
+            //RIP = Content.Load<Texture2D>("RIP.jpg");
             Medal = Content.Load<Texture2D>("gold-medal.jpg");
             GoldMedal = Content.Load<Texture2D>("medalGold.png");
             SilverMedal = Content.Load<Texture2D>("medalSilver.png");
@@ -260,9 +277,15 @@ namespace Game1
             ButtonPressed = Content.Load<Texture2D>("Test.png");
             dropSprite = Content.Load<Texture2D>("heart.png");
 
+            
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
+            //mainChar.SetSprite(characterAnimated);
+
+            //Animation Content
+            characterAnimated = Content.Load<Texture2D>("walkingAnim.png");
+            //mainChar.SetSprite(characterAnimated);
 
 
 
@@ -335,6 +358,7 @@ namespace Game1
 
         protected override void Update(GameTime gameTime)
         {
+            
             //Keyboard states
             previousKbState = kbState;
             kbState = Keyboard.GetState();
@@ -390,6 +414,10 @@ namespace Game1
                     { state = GameState.Gameover; }
                     else if (SingleKeyPress(Keys.P) == true)
                     { state = GameState.PauseMenu; }
+
+
+                    //Player walking animation
+                    UpdateAnimation(gameTime);
 
                     //Function for player movement
                     CharacterMovement(mainChar);
@@ -716,7 +744,8 @@ namespace Game1
 
 
                     //Drawing Game Objects
-                    spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
+                    //spriteBatch.Draw(mainChar.getSprite(), mainChar.loc.Center, null, Color.White, rotate, mainChar.origin, 1.0f, SpriteEffects.None, 0f);
+                    DrawCharacterWalking(rotate, mainChar.origin);
 
                     //Drawing enemies
                     for (int i = 0; i < testFloor.currentRoom.enemies.Count; i++)
@@ -892,6 +921,46 @@ namespace Game1
             spriteBatch.End();
             base.Draw(gameTime);
         }
+
+        /// <summary>
+		/// Updates character's animation as necessary
+		/// </summary>
+		/// <param name="gameTime">Time information</param>
+		private void UpdateAnimation(GameTime gameTime)
+        {
+            // Handle animation timing
+            // - Add to the time counter
+            // - Check if we have enough "time" to advance the frame
+            timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            if (timeCounter >= timePerFrame)
+            {
+                frame += 1;                     // Adjust the frame
+
+                if (frame > WalkFrameCount)     // Check the bounds
+                    frame = 1;                  // Back to 1 (since 0 is the "standing" frame)
+
+                timeCounter -= timePerFrame;    // Remove the time we "used"
+            }
+        }
+
+        private void DrawCharacterWalking(float rotation, Vector2 origin)
+        {
+            spriteBatch.Draw(
+                characterAnimated,               // - The texture to draw (spritesheet)
+                mainChar.loc.Center,             // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    frame * vikingRectWidth,   //   - This rectangle specifies
+                    vikingRectOffsetY,        //	   where "inside" the spritesheet
+                    vikingRectWidth,           //     to get pixels (We don't want to
+                    vikingRectHeight),         //     draw the whole thing)
+                Color.White,                    // - The color
+                rotation,                       // - Rotation (none currently)
+                origin,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)  
+                SpriteEffects.None,             // - no effect
+                0);                             // - Layer depth (unused)
+        }
+
 
         #region game functionality methods
         //Prevents a key from being pressed multiple times
