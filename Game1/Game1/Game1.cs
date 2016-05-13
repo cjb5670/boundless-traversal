@@ -115,6 +115,7 @@ namespace Game1
         #region Animation
         // Animation
         Texture2D characterAnimated;    //walking animation spritesheet
+        Texture2D enemyAnimated;
 
         int frame;              // The current animation frame
         double timeCounter;     // The amount of time that has passed
@@ -125,6 +126,10 @@ namespace Game1
         const int vikingRectOffsetY = 0;	// How far down in the image are the frames?
         const int vikingRectHeight = 100;		// The height of a single frame
         const int vikingRectWidth = 100;        // The width of a single frame
+
+        const int ratRectOffsetY = 0;
+        const int ratRectHeight = 60;
+        const int ratRectWidth = 60;
         #endregion
 
         //enum for Game State
@@ -281,15 +286,12 @@ namespace Game1
             //Setting sprites
             blade.setWeaponSprite(sword);
             mainChar.SetSprite(character);
-            //mainChar.SetSprite(characterAnimated);
 
             //Animation Content
             characterAnimated = Content.Load<Texture2D>("walkingAnim.png");
-            //mainChar.SetSprite(characterAnimated);
+            enemyAnimated = Content.Load<Texture2D>("ratWalking.png");
 
-
-
-
+            
             //Floor = Content.Load<Texture2D>(); //Background used for each room
             wallTexture = Content.Load<Texture2D>("hWall.png"); //A wall that isnt open
             vWallTexture = Content.Load<Texture2D>("vWall.png"); //vertical wall texture (not open)
@@ -755,15 +757,15 @@ namespace Game1
 
 
                         if (enemyTemp.checkAlive())
-                            spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                            //spriteBatch.Draw(testFloor.currentRoom.enemies[i].getSprite(), testFloor.currentRoom.enemies[i].loc.Center, null, Color.White, rotate2, testFloor.currentRoom.enemies[i].origin, 1.0f, SpriteEffects.None, 0f);
+                            DrawEnemyWalking(testFloor.currentRoom.enemies[i].loc.Center, rotate2, testFloor.currentRoom.enemies[i].origin);
                     }
 
-
+                    //Drawing blade
                     if (leftMousePress)
                     {
 
                         spriteBatch.Draw(blade.getSprite(), blade.loc.Center, null, Color.White, rotate + 3.926f - 0.1047f * blade.swingtime, blade.origin, 0.65f, SpriteEffects.None, 0f);
-
 
                     }
 
@@ -962,6 +964,24 @@ namespace Game1
                 0);                             // - Layer depth (unused)
         }
 
+        private void DrawEnemyWalking(Vector2 location, float rotation, Vector2 origin)
+        {
+            spriteBatch.Draw(
+                enemyAnimated,               // - The texture to draw (spritesheet)
+                location,             // - The location to draw on the screen
+                new Rectangle(                  // - The "source" rectangle
+                    frame * ratRectWidth,   //   - This rectangle specifies
+                    ratRectOffsetY,        //	   where "inside" the spritesheet
+                    ratRectWidth,           //     to get pixels (We don't want to
+                    ratRectHeight),         //     draw the whole thing)
+                Color.White,                    // - The color
+                rotation,                       // - Rotation (none currently)
+                origin,                   // - Origin inside the image (top left)
+                1.0f,                           // - Scale (100% - no change)  
+                SpriteEffects.None,             // - no effect
+                0);                             // - Layer depth (unused)
+        }
+        
 
         #region game functionality methods
         //Prevents a key from being pressed multiple times
