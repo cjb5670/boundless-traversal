@@ -164,7 +164,7 @@ namespace Game1
                 if (!intersectDoor)
                 {
                     mainChar.loc.Center.X = 800;
-                    mainChar.loc.Center.Y = 450;
+                    mainChar.loc.Center.Y = 100;
                     floorLayout[x, y].isCleared = false;
                     x = 1;
                     y = 1;
@@ -215,7 +215,7 @@ namespace Game1
                     if (floorLayout[i, j] != null)
                     {
                         floorLayout[i, j].isCleared = false;
-                        
+                        floorLayout[i, j].drops = new List<Collectible>();
                     }
                 }
             }

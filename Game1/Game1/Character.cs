@@ -68,7 +68,7 @@ namespace Game1
         }
         public bool CheckXP()
         {
-            if (this.XP>=100*level)
+            if (this.XP>=(50*level)+(100*(level-1)))
             {
                 level++;
                 XP = 0;

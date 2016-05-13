@@ -84,6 +84,7 @@ namespace Game1
         bool leftMousePress;
         bool rightMousePress;
         int cd;
+        int lvlhp;
         int enemyNo;
         Button SetStats;
         Button Play;
@@ -179,8 +180,9 @@ namespace Game1
             PlayerStats = new StatList();
             mainChar = new Character(800, 100, 35);
             mainChar.attackDamage = 10;
-            mainChar.healthPoints = 50 * PlayerStats.constitution;
-            mainChar.maxHP = mainChar.healthPoints;
+           
+            mainChar.maxHP = 50 * PlayerStats.constitution; ;
+            mainChar.healthPoints = mainChar.maxHP;
             blade = new Weapon(mainChar);
             mainChar.XP = 0;
             mainChar.level = 1;
@@ -188,7 +190,7 @@ namespace Game1
             cd = 0;
             attackcd = false;
             enemyNo = 3;
-
+            lvlhp = 0;
             //Animation Initialization
             fps = 10;
             timePerFrame = 1.0 / fps;
@@ -316,8 +318,8 @@ namespace Game1
 
             //Setting room enemies and their textures   
             testFloor.enterRoom();
-            testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-            testFloor.currentRoom.SpawnEnemies();
+            //testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+            //testFloor.currentRoom.SpawnEnemies();
             int x = testFloor.currentRoom.xPos;
             int y = testFloor.currentRoom.yPos;
 
@@ -428,8 +430,8 @@ namespace Game1
                     {
                         testFloor.changeFloors();
                         testFloor.currentRoom = testFloor.enterDoor(mainChar);
-                        testFloor.currentRoom.SetEnemies(EnemySprite, 3);
-                        testFloor.currentRoom.SpawnEnemies();
+                        //testFloor.currentRoom.SetEnemies(EnemySprite, 3);
+                       // testFloor.currentRoom.SpawnEnemies();
 
                     }
 
@@ -528,10 +530,12 @@ namespace Game1
 
                                         if (mainChar.CheckXP())
                                          {
-                                             mainChar.maxHP += 10;
+                                            
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
+                                             lvlhp += 10;
                                              ReCheckStats();
+                                            
                                              frameCountDraw = 0;
 
                                          }
@@ -1124,8 +1128,7 @@ namespace Game1
         public void ReCheckStats()
         {
             mainChar.attackDamage = 5 * PlayerStats.strength;
-            mainChar.healthPoints = 50 * PlayerStats.constitution;
-            mainChar.maxHP = mainChar.healthPoints;
+            mainChar.maxHP = 50 * PlayerStats.constitution+lvlhp;            
             movespeed =(float)(10 + (PlayerStats.dexterity*1.5));
 			
 		}
