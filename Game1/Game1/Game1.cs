@@ -526,11 +526,12 @@ namespace Game1
 
                                         if (mainChar.CheckXP())
                                          {
-                                             mainChar.maxHP += 10;
+                                            
                                              PlayerStats.dexterity++;
                                              PlayerStats.strength++;
                                              ReCheckStats();
-                                             frameCountDraw = 0;
+                                        mainChar.maxHP += 10;
+                                        frameCountDraw = 0;
 
                                          }
 
