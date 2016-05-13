@@ -72,10 +72,10 @@ namespace Game1
         //Sets the position of the enemies
         public void SpawnEnemies()
         {
-            int x = 800;
+            int x = 550;
             foreach(Enemy roomEnemy in enemies)
             {
-                roomEnemy.loc.Center.Y = 200;
+                roomEnemy.loc.Center.Y = 450;
                 roomEnemy.loc.Center.X = x;
                 x += 200;
             }
