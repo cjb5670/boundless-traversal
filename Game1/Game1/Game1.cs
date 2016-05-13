@@ -282,7 +282,7 @@ namespace Game1
             StatSetterup = Content.Load<Texture2D>("arrowButtonUp.png");
 			StatSetterdown = Content.Load<Texture2D>("arrowButtonDown.png");
             ButtonPressed = Content.Load<Texture2D>("Test.png");
-            dropSprite = Content.Load<Texture2D>("heart.png");
+            dropSprite = Content.Load<Texture2D>("healthPot.png");
 
             
             //Setting sprites
